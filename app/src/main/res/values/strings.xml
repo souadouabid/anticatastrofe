@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">login</string>
+    <string name="User">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="Entrar">Ingresar</string>
+    <string name="Registrar">Registrar</string>
+    <string name="ajuda">helpicon</string>
+    <string name="help">Ajuda</string>
+</resources>

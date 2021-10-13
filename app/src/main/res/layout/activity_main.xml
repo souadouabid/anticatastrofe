@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/fondo"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:srcCompat="@drawable/logo"
+        android:layout_weight="50"
+
+        />
+
+    <EditText
+        android:id="@+id/editTextUser"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+
+        android:hint="@string/User"
+
+        android:layout_weight="9"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:drawablePadding="10dp"
+        android:background="@drawable/edt_style"
+        />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:inputType="textPassword"
+
+        android:hint="@string/password"
+
+        android:layout_weight="9"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:drawablePadding="10dp"
+        android:background="@drawable/edt_style"
+        />
+
+    <Button
+        android:id="@+id/buttonEntrar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+
+        android:layout_marginBottom="5dp"
+        android:layout_weight="10"
+        android:background="@drawable/btn_style"
+        android:text="@string/Entrar" />
+
+    <Button
+        android:id="@+id/buttonRegistrar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+
+        android:layout_marginBottom="5dp"
+        android:layout_weight="10"
+        android:background="@drawable/btn_style"
+        android:text="@string/Registrar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:gravity="center|bottom"
+        android:layout_weight="20"
+
+        >
+
+        <ImageButton
+            android:id="@+id/imageButtonHelp"
+            android:layout_width="45dp"
+            android:layout_height="48dp"
+            android:layout_margin="5dp"
+            tools:srcCompat="@drawable/ajut" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewAyuda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|bottom"
+        android:text="@string/help"
+        tools:text="help" />
+</LinearLayout>

@@ -6,4 +6,8 @@
     <string name="Registrar">Registrar</string>
     <string name="ajuda">helpicon</string>
     <string name="help">Ajuda</string>
+    <string name="Registre">Registrar-se</string>
+    <string name="Nombre">Nom</string>
+    <string name="Telefono">Telefon</string>
+    <string name="Direccio">Direccio</string>
 </resources>

@@ -10,4 +10,6 @@
     <string name="Nombre">Nom</string>
     <string name="Telefono">Telefon</string>
     <string name="Direccio">Direccio</string>
+    <string name="Poblacio">Poblacio</string>
+    <string name="RepeteixPassword">Repetir contraseña</string>
 </resources>

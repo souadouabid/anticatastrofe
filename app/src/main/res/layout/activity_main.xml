@@ -36,6 +36,12 @@
         android:background="@drawable/edt_style"
         />
 
+    <Button
+        android:id="@+id/mapa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mapa" />
+
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
@@ -101,4 +107,5 @@
         android:gravity="center|bottom"
         android:text="@string/help"
         tools:text="help" />
+
 </LinearLayout>

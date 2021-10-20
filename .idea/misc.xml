@@ -3,17 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable/btn_style.xml" value="0.11927083333333334" />
-        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable/edt_style.xml" value="0.11927083333333334" />
-        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable/fondo.xml" value="0.19583333333333333" />
-        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable/fondo2.xml" value="0.19583333333333333" />
-        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/layout/activity_registro.xml" value="0.22" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/login/app/src/main/res/drawable/btn_style.xml" value="0.1" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/login/app/src/main/res/drawable/edt_style.xml" value="0.1527777777777778" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/login/app/src/main/res/drawable/fondo.xml" value="0.1" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/login/app/src/main/res/layout/activity_main.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/login/app/src/main/res/layout/activity_registro.xml" value="0.1" />
+        <entry key="..\:/Users/ruben/StudioProjects/anticatastrofe/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2703125" />
+        <entry key="..\:/Users/ruben/StudioProjects/anticatastrofe/app/src/main/res/drawable/btn_style.xml" value="0.2703125" />
+        <entry key="..\:/Users/ruben/StudioProjects/anticatastrofe/app/src/main/res/layout/activity_inicio.xml" value="0.4" />
+        <entry key="..\:/Users/ruben/StudioProjects/anticatastrofe/app/src/main/res/layout/activity_inicio2.xml" value="0.11614583333333334" />
+        <entry key="..\:/Users/ruben/StudioProjects/anticatastrofe/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/Users/ruben/StudioProjects/anticatastrofe/app/src/main/res/layout/activity_registro.xml" value="0.13020833333333334" />
       </map>
     </option>
   </component>

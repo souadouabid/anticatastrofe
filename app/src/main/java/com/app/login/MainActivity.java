@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         //muestra el resultado
-                        Log.v("username: ", TextLogin.getText().toString());
-                        Log.v("contraseña: ", Textpassword.getText().toString());
+                        if (TextLogin.getText().toString().equals("user") && Textpassword.getText().toString().equals("firstuser"))
+                            startActivity(new Intent(MainActivity.this, Menuprincipal.class));
 
                     }
                 }

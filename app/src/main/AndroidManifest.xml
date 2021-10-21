@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Login">
         <activity
+            android:name=".Menuprincipal"
+            android:exported="true"
+            android:label="@string/title_activity_menuprincipal"
+            android:theme="@style/Theme.Login.NoActionBar" />
+        <activity
             android:name=".Registro"
             android:exported="true" />
         <activity

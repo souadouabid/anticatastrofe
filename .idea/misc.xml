@@ -3,12 +3,26 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable-anydpi/ic_perfil.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable/btn_style.xml" value="0.11927083333333334" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable/edt_style.xml" value="0.11927083333333334" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable/fondo.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable/fondo2.xml" value="0.19583333333333333" />
-        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable/ic_menu_camera.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/drawable/side_nav_bar.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/layout/activity_menuprincipal.xml" value="0.22" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/layout/activity_registro.xml" value="0.22" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/layout/app_bar_menuprincipal.xml" value="0.17119565217391305" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/layout/content_menuprincipal.xml" value="0.13949275362318841" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/layout/fragment_perfil.xml" value="0.15833333333333333" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/layout/fragment_principal.xml" value="0.1796875" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/layout/nav_header_menuprincipal.xml" value="0.1796875" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/menu/activity_main_drawer.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/chims/AndroidStudioProjects/app/app/src/main/res/menu/menuprincipal.xml" value="0.1796875" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/login/app/src/main/res/drawable/btn_style.xml" value="0.1" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/login/app/src/main/res/drawable/edt_style.xml" value="0.1527777777777778" />
         <entry key="..\:/Users/chims/AndroidStudioProjects/login/app/src/main/res/drawable/fondo.xml" value="0.1" />

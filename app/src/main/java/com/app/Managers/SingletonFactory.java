@@ -3,7 +3,7 @@ package com.app.Managers;
 public class SingletonFactory {
     //Atributes
     private static volatile SingletonFactory factory_instance;
-    private static volatile DataLayerManager dlm_instance;
+    //private static volatile DataLayerManager dlm_instance;
     private static volatile FrontEndManager fem_instance;
     private static volatile BackEndManager bem_instance;
 
@@ -32,10 +32,10 @@ public class SingletonFactory {
             if (bem_instance == null) bem_instance.getInstance();
             return (T) bem_instance;
         }
-        else if (name.equals("data_layer")){
+        /*else if (name.equals("data_layer")){
             if (dlm_instance == null) dlm_instance.getInstance();
             return (T) dlm_instance;
-        }
+        }*/
         return (T) null;
     }
 }

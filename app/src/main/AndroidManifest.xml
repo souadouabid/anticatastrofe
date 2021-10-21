@@ -43,7 +43,7 @@
         <activity
             android:name="com.app.inicio.Inicio"
             android:exported="false"
-            android:label="@string/title_activity_inicio"
+            android:label="@string/title_activity_menuprincipal"
             android:theme="@style/Theme.Login.NoActionBar" />
         <activity
             android:name=".Registro"

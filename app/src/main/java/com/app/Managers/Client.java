@@ -13,9 +13,6 @@ import java.net.URL;
 
 public class Client {
 
-    public static void main(String[] args) throws IOException, JSONException {
-        CreateUser("a",3,"a3","a");
-    }
 
     public static void CreateUser(String name,Integer phone_num, String email, String password) throws IOException, JSONException {
         JSONObject json = new JSONObject();
@@ -64,5 +61,10 @@ public class Client {
         String msg = conn.getResponseMessage();
         System.out.println(msg);
         return "";
+    }
+
+    public static void main(String[] args) throws IOException, JSONException {
+        CreateUser("a",3,"a3","a");
+//        getUserPassword("a");
     }
 }

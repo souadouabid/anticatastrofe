@@ -30,10 +30,10 @@ public class Registro extends AppCompatActivity {
 
 
 
-        ButtonRegistrarse.setOnClickListener(new View.OnClickListener(){
+        /*ButtonRegistrarse.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 try {
-                    /*String name = TextName.getText().toString();
+                    String name = TextName.getText().toString();
                     String email = TextEmail.getText().toString();
                     Integer phone = Integer.parseInt(TextPhone.getText().toString());
                     String password = TextPassword.getText().toString();
@@ -42,11 +42,11 @@ public class Registro extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
-                    e.printStackTrace();*/
+                    e.printStackTrace();
                     startActivity(new Intent(Registro.this, MainActivity.class));
                 }
             }
-        });
+        });*/
 
     }
 }

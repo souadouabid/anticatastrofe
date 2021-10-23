@@ -1,5 +1,6 @@
 package com.app.login;
 import androidx.appcompat.app.AppCompatActivity;
+import android.location.Location;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
@@ -45,13 +46,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         try {
-                            if (Textpassword.getText().toString().equals(Client.getUserPassword(TextLogin.getText().toString()))){
-                                    startActivity(new Intent(MainActivity.this, Menuprincipal.class));
+                            if (Textpassword.getText().toString().equals("firstuser")) {
+                                startActivity(new Intent(MainActivity.this, Menuprincipal.class));
                             }
-                        } catch (IOException e) {
+                        } /*catch (IOException e) {
                             e.printStackTrace();
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        }*/ finally {
+
                         }
 
                     }

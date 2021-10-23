@@ -61,7 +61,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/editTextPoblacio"
+        android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -73,7 +73,7 @@
         android:background="@drawable/edt_style"
         android:drawablePadding="10dp"
         android:ems="10"
-        android:hint="@string/Poblacio"
+        android:hint="Email"
         android:inputType="textPersonName" />
 
 

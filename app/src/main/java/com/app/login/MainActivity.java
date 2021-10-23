@@ -1,8 +1,6 @@
 package com.app.login;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,14 +10,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import com.app.Managers.Client;
+import org.json.JSONException;
+import java.io.IOException;
 import com.app.inicio.Inicio;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         EditText TextLogin = (EditText) findViewById(R.id.editTextUser);
         EditText Textpassword = (EditText) findViewById(R.id.editTextPassword);
 
-        //maps
 
 
 
@@ -45,8 +44,14 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (TextLogin.getText().toString().equals("user") && Client.getUserPassword(Textpassword.getText().toString()).equals("firstuser")) {
-                                startActivity(new Intent(MainActivity.this, Menuprincipal.class));
+                        try {
+                            if (Textpassword.getText().toString().equals(Client.getUserPassword(TextLogin.getText().toString()))){
+                                    startActivity(new Intent(MainActivity.this, Menuprincipal.class));
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
 
                     }

@@ -52,12 +52,14 @@ public class Client {
         conn.setRequestMethod("GET");
 
         //parameters
-        Iterator<String> keys = json_parameters.keys();
-        for (int i = 0; i < json_parameters.length(); i++) {
-            String key = keys.next();
-            String value = json_parameters.getString(key);
-            conn.setRequestProperty(key,value);
+        if(json_parameters != null) {
+            Iterator<String> keys = json_parameters.keys();
+            for (int i = 0; i < json_parameters.length(); i++) {
+                String key = keys.next();
+                String value = json_parameters.getString(key);
+                conn.setRequestProperty(key, value);
 
+            }
         }
         try {
             conn.connect();
@@ -132,6 +134,10 @@ public class Client {
             if (email_json.equals(email)) return (String) json.get("password");
         }
         throw new Exception("user_not_found");
+    }
+
+    public static JSONArray getPersons(String email,String introduced_password) throws Exception {
+        return doGetRequest(url_person,null);
     }
 
     public static void main(String[] args) throws Exception {

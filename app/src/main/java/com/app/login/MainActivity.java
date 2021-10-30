@@ -7,6 +7,8 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.app.Managers.Client;
+
 //import com.google.android.gms.location.FusedLocationProviderClient;
 //import com.google.android.gms.location.LocationServices;
 
@@ -34,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        try {
+                            System.out.println(Client.getUserPassword("a","a"));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                         try {
                             if (Textpassword.getText().toString().equals("firstuser")) {
                                 startActivity(new Intent(MainActivity.this, Menuprincipal.class));

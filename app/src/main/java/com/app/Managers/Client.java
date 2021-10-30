@@ -110,7 +110,8 @@ public class Client {
         JSONObject json_parameters = new JSONObject();
         json_parameters.put("introduced_password", introduced_password);
 
-        JSONArray jsonArray = doGetRequest(url_person,json_parameters);
+        String url = url_person + "/userPasswordMatch";
+        JSONArray jsonArray = doGetRequest(url,json_parameters);
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject json = (JSONObject) jsonArray.get(i);
             String email_json = (String) json.get("email");

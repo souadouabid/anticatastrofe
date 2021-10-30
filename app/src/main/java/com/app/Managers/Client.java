@@ -113,13 +113,11 @@ public class Client {
         String url = url_person + "/userPasswordMatch";
         JSONArray jsonArray = doGetRequest(url,json_parameters);
         for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject json = (JSONObject) jsonArray.get(i);
-            String email_json = (String) json.get("email");
-            if (email_json.equals(email)) {
-                String stored_password = (String) json.get("password");
-                return stored_password.equals(introduced_password);
-            }
+                JSONObject json = (JSONObject) jsonArray.get(i);
+                String login_success = (String) json.get("login_success");
+                return login_success.equals("true");
         }
+
         throw new Exception("user_not_found");
     }
 

@@ -26,11 +26,32 @@ public class Registro extends AppCompatActivity {
         EditText TextName = (EditText) findViewById(R.id.editTextNombre);
         EditText TextEmail = (EditText) findViewById(R.id.editTextEmail);
         EditText TextPhone = (EditText) findViewById(R.id.editTextTelefono);
-        EditText TextPassword = (EditText) findViewById(R.id.editTextPassword);
+        EditText TextPassword = (EditText) findViewById(R.id.editTextTextPassword1);
+        EditText TextPassRepetida = (EditText) findViewById(R.id.editTextTextPassword2);
+        EditText TextDireccio = (EditText) findViewById(R.id.editTextDireccion);
 
 
+        ButtonRegistrarse.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (TextName.getText().toString().isEmpty() || TextEmail.getText().toString().isEmpty() ||
+                                TextPhone.getText().toString().isEmpty() || TextPassword.getText().toString().isEmpty() ||
+                                TextDireccio.getText().toString().isEmpty() || TextPassRepetida.getText().toString().isEmpty()) {
 
-        /*ButtonRegistrarse.setOnClickListener(new View.OnClickListener(){
+                            startActivity(new Intent(Registro.this, popupCampsBuits.class));
+                        }
+                        else if (!TextPassword.getText().toString().equals(TextPassRepetida.getText().toString())){
+                            startActivity(new Intent(Registro.this, popupCampsBuits.class));
+                        }
+                        else startActivity(new Intent(Registro.this, Menuprincipal.class));
+                    }
+
+
+                }
+        );
+
+        /*
             public void onClick(View v){
                 try {
                     String name = TextName.getText().toString();

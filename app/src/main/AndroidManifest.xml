@@ -36,7 +36,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name="com.app.mapas.MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
         <activity
@@ -50,7 +50,7 @@
             android:label="@string/title_activity_menuprincipal"
             android:theme="@style/Theme.Login.NoActionBar" />
         <activity
-            android:name=".Registro"
+            android:name="com.app.register.Registro"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

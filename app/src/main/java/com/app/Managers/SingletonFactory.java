@@ -5,7 +5,7 @@ public class SingletonFactory {
     private static volatile SingletonFactory factory_instance;
     //private static volatile DataLayerManager dlm_instance;
     private static volatile FrontEndManager fem_instance;
-    private static volatile BackEndManager bem_instance;
+    //private static volatile BackEndManager bem_instance;
 
     private SingletonFactory() {
 
@@ -29,8 +29,8 @@ public class SingletonFactory {
             return (T) fem_instance;
         }
         else if (name.equals("back_end")) {
-            if (bem_instance == null) bem_instance.getInstance();
-            return (T) bem_instance;
+            //if (bem_instance == null) bem_instance.getInstance();
+            //return (T) bem_instance;
         }
         /*else if (name.equals("data_layer")){
             if (dlm_instance == null) dlm_instance.getInstance();

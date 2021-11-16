@@ -12,8 +12,7 @@ import java.net.URL;
 
 
 public class Client {
-
-
+    
     public static void CreateUser(String name,Integer phone_num, String email, String password) throws IOException, JSONException {
         try {
             JSONObject json = new JSONObject();

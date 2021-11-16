@@ -42,9 +42,18 @@ public class Registro extends AppCompatActivity {
                             startActivity(new Intent(Registro.this, popupCampsBuits.class));
                         }
                         else if (!TextPassword.getText().toString().equals(TextPassRepetida.getText().toString())){
-                            startActivity(new Intent(Registro.this, popupCampsBuits.class));
+                            startActivity(new Intent(Registro.this, popupPassword.class));
                         }
-                        else startActivity(new Intent(Registro.this, Menuprincipal.class));
+                        else {
+                            try {
+                                Client.CreateUser(TextName.getText().toString(),123456789,TextEmail.getText().toString(),TextPassword.getText().toString());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            startActivity(new Intent(Registro.this, Menuprincipal.class));
+                        }
                     }
 
 

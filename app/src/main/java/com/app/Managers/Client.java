@@ -97,6 +97,50 @@ public class Client {
         return null;
     }
 
+    private static int doDeleteRequestJSON(JSONObject object, String url) throws IOException {
+        URL u = new URL(url);
+        HttpURLConnection  conn = (HttpURLConnection) u.openConnection();
+        conn.setRequestProperty("Content-Type","application/json");
+        conn.setRequestProperty("Accept","application/json");
+        conn.setRequestMethod("DELETE");
+        try {
+            conn.connect();
+            int status = conn.getResponseCode();
+            return status;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private static int doPutRequestJSON(JSONObject change, String url) throws IOException {
+        URL u = new URL(url);
+        HttpURLConnection  conn = (HttpURLConnection) u.openConnection();
+        conn.setRequestProperty("Content-Type","application/json");
+        conn.setRequestProperty("Accept","application/json");
+        conn.setRequestMethod("PUT");
+        byte[] outputBytes = "{'value': 7.5}".getBytes("UTF-8");
+        OutputStream os = conn.getOutputStream();
+        os.write(change.toString().getBytes());
+        os.close();
+        try {
+            conn.connect();
+            int status = conn.getResponseCode();
+            return status;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public static void CreateUser(String name,Integer phone_num, String email, String password) throws IOException, JSONException {
         JSONObject json_person = new JSONObject();
         json_person.put("name", name);
@@ -112,6 +156,16 @@ public class Client {
 
         doPostRequestJson(json_person,url_person);
         doPostRequestJson(json_user, url_user);
+    }
+
+    public static boolean deleteUser(String email, String introduced_password) throws Exception {
+        boolean authorised = userPasswordMatch(email,introduced_password);
+        if (authorised) {
+            JSONObject json_user = new JSONObject();
+            json_user.put("email",email);
+            doDeleteRequestJSON(json_user,url_user);
+        }
+        return authorised;
     }
 
     public static Boolean userPasswordMatch(String email,String introduced_password) throws Exception {
@@ -197,6 +251,12 @@ public class Client {
             return coordinates;
         }
         else throw new Exception("user_not_found");
+    }
+
+    public static void createTag(String name) throws Exception {
+        JSONObject json_params = new JSONObject();
+        json_params.put("name",name);
+        doPostRequestJson(json_params,url_tag);
     }
 
     public static void main(String[] args) throws Exception {

@@ -259,6 +259,14 @@ public class Client {
         doPostRequestJson(json_params,url_tag);
     }
 
+    public static void createLandmark(float coordinate_x, float coordinate_y, String description) throws Exception {
+        JSONObject json_landmark = new JSONObject();
+        json_landmark.put("coordinate_x",coordinate_x);
+        json_landmark.put("coordinate_y",coordinate_y);
+        json_landmark.put("description",description);
+        doPostRequestJson(json_landmark,url_landmark);
+    }
+
     public static void main(String[] args) throws Exception {
         getUserPassword("a","a");
 //        CreateUser("holahola",123,"aaaaaaadsa","asdasfdfa");

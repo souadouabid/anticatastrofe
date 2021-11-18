@@ -35,19 +35,8 @@ public class Menuprincipal extends AppCompatActivity {
         binding.appBarMenuprincipal.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Cambiar vista desde una activity a un fragment:
-
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.add(R.id.nav_host_fragment_content_menuprincipal, new PerfilFragment());
-                ft.commit();
-
-                * No funciona como se qiere
-                * */
-
-                startActivity(new Intent(Menuprincipal.this, Registro.class));
-               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
+               Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
         DrawerLayout drawer = binding.drawerLayout;

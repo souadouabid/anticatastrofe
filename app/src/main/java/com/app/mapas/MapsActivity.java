@@ -5,18 +5,28 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.app.login.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -30,6 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.app.login.databinding.ActivityMapsBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -45,12 +56,17 @@ public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback {
 
+    final static String TAG = "MapsActivity";
     final String APP_ID = "6ba9413074ff7a43ed1598a11ad344e1";
     final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
 
-    final long MIN_TIME = 5000;
+
+    final long MIN_TIME =  3 * 1000;//
     final float MIN_DISTANCE = 1000;
     final int REQUEST_CODE = 101;
+
+    //la primera vez que se muestra el dialogo
+    public static boolean DIALOG_IS_SHOWING = false;
 
     String Location_Provider = LocationManager.GPS_PROVIDER;
 
@@ -58,9 +74,16 @@ public class MapsActivity extends FragmentActivity implements
     LocationListener mLocationListener;
 
     private FusedLocationProviderClient client;
-    GoogleMap mMap;
+    private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private Button mTypeBtn, mTypeBtn2;
+    private Button mTypeBtn, mTypeBtn2, mButoninfo;
+    private FloatingActionButton mButtonWeather;
+
+    //every x seconds execute task
+    Handler handler = new Handler();
+    Runnable runnable;
+    int delay =  30 * 1000;//cada x segundos se ejecutara la tarea
+    LatLng lastLocation = new LatLng(0,0);//la ultima ubicacion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +95,6 @@ public class MapsActivity extends FragmentActivity implements
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         getWeatherForCurrentLocation();
-
-
     }
 
     public void generador_marcadors(GoogleMap googleMap) {
@@ -83,6 +104,7 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     public void onMapReady(GoogleMap map) {
+        mMap = map;
         /*googleMap.addMarker(new MarkerOptions()
             .position(new LatLng(41.4144948,2.1526945))
             .title("Marker"));
@@ -96,21 +118,24 @@ public class MapsActivity extends FragmentActivity implements
                 public void onSuccess(Location location) {
                     // Got last known location. In some rare situations this can be null.
                     if (location != null) {
+
                         LatLng l = new LatLng(location.getLatitude(), location.getLongitude());
+                        lastLocation = l;
+
                         CameraPosition cameraPosition = new CameraPosition.Builder()
                                 .target(l)      // Sets the center of the map to Mountain View
-                                .zoom(14)                   // Sets the zoom
+                                .zoom(12)                   // Sets the zoom
                                 .bearing(270)                // Sets the orientation of the camera to west
                                 .tilt(10)                   // Sets the tilt of the camera to x degrees
                                 .build();                   // Creates a CameraPosition from the builder
-                        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                         String Latitude = String.valueOf(location.getLatitude());
                         String Longitude = String.valueOf(location.getLongitude());
                         RequestParams params = new RequestParams();
                         params.put("lat", Latitude);
                         params.put("lon", Longitude);
                         params.put("appid", APP_ID);
-                        requestWeather(params);
+                        requestWeather(params,false);
                     }
                 }
 
@@ -118,7 +143,16 @@ public class MapsActivity extends FragmentActivity implements
         }
         map.setOnMyLocationButtonClickListener(this);
         map.setOnMyLocationClickListener(this);
-        //a otro lado
+
+        mButtonWeather = (FloatingActionButton) findViewById(R.id.btnWeather);
+        mButtonWeather.setVisibility(View.VISIBLE);
+        mButtonWeather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callWeatherService(lastLocation,true);
+            }
+        });
+
         mTypeBtn = (Button) findViewById(R.id.btnsatelit);
         mTypeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,27 +186,49 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     protected void onResume() {
+        handler.postDelayed(runnable = new Runnable() {
+            public void run() {
+                handler.postDelayed(runnable, delay);
+
+
+
+                if(lastLocation!=null && lastLocation.latitude!=0 && lastLocation.longitude!=0 && !DIALOG_IS_SHOWING){
+                    callWeatherService(lastLocation,false);
+                }
+            }
+        }, delay);
         super.onResume();
+    }
+
+
+    private void callWeatherService(LatLng location,boolean fromButton){
+        String Latitude = String.valueOf(location.latitude);
+        String Longitude = String.valueOf(location.longitude);
+
+        RequestParams params = new RequestParams();
+        params.put("lat", Latitude);
+        params.put("lon", Longitude);
+        params.put("units", "metric");
+        params.put("appid", APP_ID);
+        requestWeather(params,fromButton);
     }
 
     private void getWeatherForCurrentLocation() {
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        mLocationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
+        mLocationListener = location -> {
 
-                String Latitude = String.valueOf(location.getLatitude());
-                String Longitude = String.valueOf(location.getLongitude());
+            LatLng l = new LatLng(location.getLatitude(), location.getLongitude());
 
-                RequestParams params = new RequestParams();
-                params.put("lat", Latitude);
-                params.put("lon", Longitude);
-                params.put("units", "metric");
-                params.put("appid", APP_ID);
-                requestWeather(params);
+            lastLocation = l;
 
-            }
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(l)      // Sets the center of the map to Mountain View
+                    .zoom(12)                   // Sets the zoom
+                    .bearing(270)                // Sets the orientation of the camera to west
+                    .tilt(10)                   // Sets the tilt of the camera to x degrees
+                    .build();                   // Creates a CameraPosition from the builder
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         };
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
@@ -182,25 +238,194 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    private void updateUI(JSONObject weather) {
-        try
-        {
-            int idWeather = weather.getJSONArray("weather").getJSONObject(0).getInt("id");
-            if(idWeather == 200 ){
+
+    //todoo
+    private int evaluateClimateConditions(int idWeather){
+        //casos solo de peligro
+        switch (idWeather){
+            //casos de perill retornar 1
+            case 500:
+            case 701:
+                return 1;
 
 
-
-            }
-        }
-
-
-        catch (JSONException e) {
-            e.printStackTrace();
-            return null;
+            default://no funcionalitat de moment
+                return 1;
         }
     }
 
-    private void requestWeather(RequestParams params) {
+    private void updateUI(JSONObject weather,boolean fromButton) {
+        try {
+            int idWeather = weather.getJSONArray("weather").getJSONObject(0).getInt("id");
+            double temp = weather.getJSONObject("main").getDouble("temp");
+            double speed = weather.getJSONObject("wind").getDouble("speed");
+
+            if(fromButton){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+                });
+
+                String msg = "El clima Actual:";
+                msg+= "\nVelocidad del viento es: " +String.valueOf(speed)+" Km/h";
+                msg+= "\nTemperatura es: "+temp+" Cº";
+
+                builder.setMessage(msg)
+                        .setTitle("Clima actual");
+
+                AlertDialog dialog = builder.create();
+
+                dialog.show();
+                return;
+            }
+
+            if((idWeather == 200 || idWeather == 201 || idWeather == 202 || idWeather == 210 ||
+                    idWeather == 211 || idWeather == 212 || idWeather == 221  ||
+                    idWeather == 230 || idWeather == 231 || idWeather == 232)
+                    && !MapsActivity.DIALOG_IS_SHOWING){
+                    mostrarTempesta();
+
+            }
+
+            if((idWeather == 502 || idWeather == 503 || idWeather == 504 || idWeather == 521 ||
+                    idWeather == 522 )  && !MapsActivity.DIALOG_IS_SHOWING){
+                plujaForta();
+
+            }
+            if((idWeather == 602 || idWeather == 611 || idWeather == 613 || idWeather == 621 ||
+                    idWeather == 622 )  && !MapsActivity.DIALOG_IS_SHOWING){
+                mostraNeuForta();
+
+            }
+            if((idWeather == 781 )&& !MapsActivity.DIALOG_IS_SHOWING) {
+                mostraTornado();
+
+            }
+
+
+            /*
+            Log.d("mapsActivity", "entro al if");
+
+            LayoutInflater inflater = (LayoutInflater)
+                    getSystemService(LAYOUT_INFLATER_SERVICE);
+            View popupView = inflater.inflate(R.layout.thunder_popup, null);
+
+            // create the popup window
+            int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            final PopupWindow popupWindow = new PopupWindow(popupView, width, height);
+
+            popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+            popupView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    popupWindow.dismiss();
+                    return true;
+                }
+            });
+
+             */
+
+
+        } catch (JSONException e) {
+            Log.e("mapsActivity", e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    private void mostrarTempesta() {
+        MapsActivity.DIALOG_IS_SHOWING = true;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+            MapsActivity.DIALOG_IS_SHOWING = false;
+
+        });
+
+        builder.setMessage("ALERTA TEMPESTA IMNINET!!")
+                .setTitle("ALERTA");
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+
+    }
+
+    private void plujaForta() {
+        MapsActivity.DIALOG_IS_SHOWING = true;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+            MapsActivity.DIALOG_IS_SHOWING = false;
+
+        });
+
+        builder.setMessage("ALERTA PLUJA FORTA IMNINET!!")
+                .setTitle("ALERTA");
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+
+
+    }
+
+    private void mostraNeuForta() {
+        MapsActivity.DIALOG_IS_SHOWING = true;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+            MapsActivity.DIALOG_IS_SHOWING = false;
+
+        });
+
+        builder.setMessage("ALERTA NEVADES PERILLOSES IMNINETS!!")
+                .setTitle("ALERTA");
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+
+
+    }
+
+    private void mostraTornado() {
+        MapsActivity.DIALOG_IS_SHOWING = true;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+            MapsActivity.DIALOG_IS_SHOWING = false;
+
+        });
+
+        builder.setMessage("TORNADO INMINENT! BUSQUI REFUGI")
+                .setTitle("ALERTA");
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+
+    }
+
+    private void mostraVent() {
+
+    }
+
+    private void mostrTemperaturaSotaZero() {
+
+    }
+
+    private void requestWeather(RequestParams params,boolean fromButton) {
         AsyncHttpClient client = new AsyncHttpClient();
 
         client.get(WEATHER_URL, params, new JsonHttpResponseHandler() {
@@ -208,7 +433,7 @@ public class MapsActivity extends FragmentActivity implements
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("WEATHER", response.toString());
 
-                updateUI(response);
+                updateUI(response,fromButton);
                 super.onSuccess(statusCode, headers, response);
             }
 
@@ -230,9 +455,12 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     protected void onPause() {
+        handler.removeCallbacks(runnable);
         super.onPause();
         if (mLocationManager != null) {
             mLocationManager.removeUpdates(mLocationListener);
         }
     }
+
+
 }

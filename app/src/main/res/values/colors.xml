@@ -8,5 +8,7 @@
     <color name="cian">#17BDFE</color>
     <color name="azul">#FF6200EE</color>
     <color name="black">#FF000000</color>
+    <color name="amarillo_claro">#FDFB77</color>
+    <color name="azul_claro">#71FCF4</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

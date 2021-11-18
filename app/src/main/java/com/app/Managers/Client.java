@@ -19,13 +19,13 @@ import java.util.Vector;
 
 public class Client {
 
-    static String url_person = "http://10.4.41.38:8080/person";
-    static String url_user = "http://10.4.41.38:8080/user";
-    static String url_tag = "http://10.4.41.38:8080/tag";
-    static String url_notification = "http://10.4.41.38:8080/notification";
-    static String url_landmark = "http://10.4.41.38:8080/landmark";
-    static String url_admin = "http://10.4.41.38:8080/admin";
-    static String url_additional_info = "http://10.4.41.38:8080/additional_info";
+    private static String url_person = "http://10.4.41.38:8080/person";
+    private static String url_user = "http://10.4.41.38:8080/user";
+    private static String url_tag = "http://10.4.41.38:8080/tag";
+    private static String url_notification = "http://10.4.41.38:8080/notification";
+    private static String url_landmark = "http://10.4.41.38:8080/landmark";
+    private static String url_admin = "http://10.4.41.38:8080/admin";
+    private static String url_additional_info = "http://10.4.41.38:8080/additional_info";
 
     private static int doPostRequestJson(JSONObject json, String url) throws IOException {
         URL u = new URL(url);
@@ -42,17 +42,17 @@ public class Client {
 
         os.close();
         try {
-            conn.connect();
-            int status = conn.getResponseCode();
-            return status;
+              conn.connect();
+              int status = conn.getResponseCode();
+              return status;
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
+          } catch (IOException e) {
+              e.printStackTrace();
+          } catch (RuntimeException e) {
+              e.printStackTrace();
+          }
+          return 0;
+      }
 
     private static JSONArray doGetRequest(String url, JSONObject json_parameters) throws IOException, JSONException {
         URL u = new URL(url);

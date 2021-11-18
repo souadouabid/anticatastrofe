@@ -22,9 +22,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Login">
         <activity
-            android:name=".popupCampsBuits"
+            android:name=".popupPassword"
             android:theme="@style/AppTheme.TemaPopup"
             android:exported="true" />
+        <activity
+            android:name=".popupCampsBuits"
+            android:exported="true"
+            android:theme="@style/AppTheme.TemaPopup" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

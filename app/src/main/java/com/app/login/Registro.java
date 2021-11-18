@@ -45,13 +45,13 @@ public class Registro extends AppCompatActivity {
                             startActivity(new Intent(Registro.this, popupPassword.class));
                         }
                         else {
-                            try {
+                           /* try {
                                 Client.CreateUser(TextName.getText().toString(),123456789,TextEmail.getText().toString(),TextPassword.getText().toString());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                            }
+                            }*/
                             startActivity(new Intent(Registro.this, Menuprincipal.class));
                         }
                     }

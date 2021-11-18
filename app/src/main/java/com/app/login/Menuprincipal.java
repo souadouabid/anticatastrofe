@@ -35,8 +35,10 @@ public class Menuprincipal extends AppCompatActivity {
         binding.appBarMenuprincipal.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(Menuprincipal.this, Notificacions.class));
+                /*
                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                        .setAction("Action", null).show();*/
             }
         });
         DrawerLayout drawer = binding.drawerLayout;

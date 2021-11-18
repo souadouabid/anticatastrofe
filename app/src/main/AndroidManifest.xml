@@ -22,9 +22,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Login">
         <activity
-            android:name=".popupPassword"
-            android:theme="@style/AppTheme.TemaPopup"
+            android:name=".Notificacions"
+            android:theme="@style/AppTheme"
             android:exported="true" />
+        <activity
+            android:name=".popupPassword"
+            android:exported="true"
+            android:theme="@style/AppTheme.TemaPopup" />
         <activity
             android:name=".popupCampsBuits"
             android:exported="true"

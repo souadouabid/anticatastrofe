@@ -207,12 +207,13 @@ public class Client {
         json_parameters.put("last_coordinate_x",coordinate_x);
         json_parameters.put("last_coordinate_y",coordinate_y);
         json_parameters.put("last_coordinate_z",coordinate_z);
-        JSONArray jsonArray = doGetRequest(url_person,json_parameters);
-        for (int i = 0; i < jsonArray.length(); i++) {
+        json_parameters.put("email",email);
+        int status = doPutRequestJSON(json_parameters,url_person);
+        /*for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject json = (JSONObject) jsonArray.get(i);
             String email_json = (String) json.get("email");
             if (email_json.equals(email)) ;
-        }
+        }*/
     }
 
     public static Vector<Float> getUserLocation(String email) throws Exception {
@@ -259,16 +260,27 @@ public class Client {
         doPostRequestJson(json_params,url_tag);
     }
 
-    public static void createLandmark(float coordinate_x, float coordinate_y, String description) throws Exception {
+    public static void createLandmark(float coordinate_x, float coordinate_y, String description, String email) throws Exception {
         JSONObject json_landmark = new JSONObject();
         json_landmark.put("coordinate_x",coordinate_x);
         json_landmark.put("coordinate_y",coordinate_y);
         json_landmark.put("description",description);
+        json_landmark.put("creator_email",email);
         doPostRequestJson(json_landmark,url_landmark);
     }
 
+    public static JSONArray getAllLandmarks() throws Exception {
+        return doGetRequest(url_landmark,null);
+    }
+
+    public static JSONArray getUserLandmarks(String email) throws Exception {
+        JSONObject json_params = new JSONObject();
+        json_params.put("email",email);
+        return doGetRequest(url_landmark,json_params);
+    }
+
     public static void main(String[] args) throws Exception {
-        getUserPassword("a","a");
-//        CreateUser("holahola",123,"aaaaaaadsa","asdasfdfa");
+        //getUserPassword("a","a");
+        //CreateUser("holahola",123,"aaaaaaadsa","asdasfdfa");
     }
 }

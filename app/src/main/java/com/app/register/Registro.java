@@ -1,4 +1,4 @@
-package com.app.login;
+package com.app.register;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,8 @@ import android.widget.EditText;
 import com.app.Managers.Client;
 import org.json.JSONException;
 import java.io.IOException;
+
+import com.app.login.R;
 
 public class Registro extends AppCompatActivity {
 

@@ -23,7 +23,6 @@
         android:layout_height="0dp"
         android:ems="10"
         android:inputType="textPersonName"
-
         android:hint="@string/User"
 
         android:layout_weight="9"
@@ -41,7 +40,6 @@
         android:layout_height="0dp"
         android:ems="10"
         android:inputType="textPassword"
-
         android:hint="@string/password"
 
         android:layout_weight="9"

@@ -16,11 +16,27 @@
         android:layout_height="wrap_content"
         android:text="satellit"
         android:id="@+id/btnsatelit" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="híbrid"
         android:id="@+id/bthibrid" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnWeather"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:contentDescription="Obtener el clima"
+        android:src="@android:drawable/ic_lock_silent_mode_off"
+        />
+
+
+
 
 </RelativeLayout>
 

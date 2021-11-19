@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,8 +37,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.app.login.databinding.ActivityMapsBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,6 +53,9 @@ import com.loopj.android.http.RequestParams;
 import cz.msebera.android.httpclient.Header;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MapsActivity extends FragmentActivity implements
@@ -81,6 +87,9 @@ public class MapsActivity extends FragmentActivity implements
     private Button mTypeBtn, mTypeBtn2, mButoninfo, activaEtiq, showEtiq, hideEtiq;
     private FloatingActionButton mButtonWeather;
     private boolean activaMarkers;
+    private JSONArray landmarks;
+    private final List<Marker> mMarker = new ArrayList<Marker>();
+    private Integer numMarkers;
 
     //every x seconds execute task
     Handler handler = new Handler();
@@ -98,6 +107,9 @@ public class MapsActivity extends FragmentActivity implements
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         getWeatherForCurrentLocation();
+
+
+
     }
 
     public void generador_marcadors(GoogleMap googleMap) {
@@ -112,6 +124,67 @@ public class MapsActivity extends FragmentActivity implements
             .position(new LatLng(41.4144948,2.1526945))
             .title("Marker"));
         */
+
+
+
+        try {
+            landmarks = Client.getAllLandmarks();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject land = null;
+        numMarkers = landmarks.length();
+
+        for(int i = 0; i < numMarkers; ++i){
+            try {
+                land = landmarks.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            double lat = 0;
+            double lon = 0;
+            String title = null;
+            String desc = null;
+            try {
+                lat = land.getDouble("coordinate_x");
+                System.out.println(lat);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            };
+            try {
+                lon = land.getDouble("coordinate_y");
+                System.out.println(lon);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            };
+            try {
+                title = land.getString("tag");
+                System.out.println(title);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                desc = land.getString("description");
+                System.out.println(desc);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(lat,lon))
+                    .title(title)
+                    .snippet(desc)
+                    .visible(false));
+
+            mMarker.add(marker);
+        }
+
+
+
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
@@ -201,6 +274,11 @@ public class MapsActivity extends FragmentActivity implements
             @Override
             public void onClick(View v) {
                 // .setVisible(true a tots els markers)
+                for(int i = 0; i < numMarkers; ++i){
+                    Marker marker = mMarker.get(i);
+                    marker.setVisible(true);
+                }
+
                 showEtiq.setVisibility(View.INVISIBLE);
                 hideEtiq.setVisibility(View.VISIBLE);
             }
@@ -211,6 +289,10 @@ public class MapsActivity extends FragmentActivity implements
             @Override
             public void onClick(View v) {
                 // .setVisible(false a tots els markers)
+                for(int i = 0; i < numMarkers; ++i){
+                    Marker marker = mMarker.get(i);
+                    marker.setVisible(false);
+                }
                 showEtiq.setVisibility(View.VISIBLE);
                 hideEtiq.setVisibility(View.INVISIBLE);
             }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/azul_claro"
     android:orientation="vertical"
-    tools:context=".Registro">
+    tools:context="com.app.register.Registro">
     <Space
         android:layout_width="match_parent"
         android:layout_height="183dp"

@@ -1,6 +1,8 @@
 package com.app.Managers;
 
 
+import android.os.StrictMode;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +16,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Vector;
 
 
@@ -147,13 +150,19 @@ public class Client {
         json_person.put("phone_num", phone_num);
         json_person.put("email", email);
         json_person.put("password", password);
+        json_person.put("token","");
+        JSONObject aux = new JSONObject();
+        json_person.put("landmark",aux);
 
         JSONObject json_user = new JSONObject(); //no funciona el user pero person si
         json_user.put("email", email);
         json_user.put("last_coordinate_x", 0.0);
         json_user.put("last_coordinate_y", 0.0);
         json_user.put("last_coordinate_z", 0.0);
+        json_user.put("person",json_person);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         doPostRequestJson(json_person,url_person);
         doPostRequestJson(json_user, url_user);
     }
@@ -163,6 +172,8 @@ public class Client {
         if (authorised) {
             JSONObject json_user = new JSONObject();
             json_user.put("email",email);
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
             doDeleteRequestJSON(json_user,url_user);
         }
         return authorised;
@@ -173,6 +184,8 @@ public class Client {
         json_parameters.put("introduced_password", introduced_password);
 
         String url = url_person + "/userPasswordMatch";
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         JSONArray jsonArray = doGetRequest(url,json_parameters);
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject json = (JSONObject) jsonArray.get(i);
@@ -188,7 +201,8 @@ public class Client {
         JSONObject json_parameters = new JSONObject();
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         json_parameters.put("introduced_password", digest.digest(introduced_password.getBytes(StandardCharsets.UTF_8)));
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         JSONArray jsonArray = doGetRequest(url_person,json_parameters);
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject json = (JSONObject) jsonArray.get(i);
@@ -198,17 +212,31 @@ public class Client {
         throw new Exception("user_not_found");
     }
 
-    public static JSONArray getPerson(String email,String introduced_password) throws Exception {
+    public static JSONArray getPersons() throws Exception {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         return doGetRequest(url_person,null);
+    }
+
+    public static JSONObject getPerson(String email) throws Exception {
+        JSONArray persons = getPersons();
+        for (int i = 0; i < persons.length(); i++) {
+            JSONObject json = (JSONObject) persons.get(i);
+            String email_json = (String) json.get("email");
+            if (email_json.equals(email)) return json;
+        }
+        throw new Exception("user_not_found");
     }
 
     public static void setUserLocation(String email, float coordinate_x, float coordinate_y, float coordinate_z) throws Exception {
         JSONObject json_parameters = new JSONObject();
+        json_parameters.put("email",email);
         json_parameters.put("last_coordinate_x",coordinate_x);
         json_parameters.put("last_coordinate_y",coordinate_y);
         json_parameters.put("last_coordinate_z",coordinate_z);
-        json_parameters.put("email",email);
-        int status = doPutRequestJSON(json_parameters,url_person);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        int status = doPutRequestJSON(json_parameters,url_user);
         /*for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject json = (JSONObject) jsonArray.get(i);
             String email_json = (String) json.get("email");
@@ -218,6 +246,8 @@ public class Client {
 
     public static Vector<Float> getUserLocation(String email) throws Exception {
         JSONObject json_parameters = new JSONObject();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         JSONArray jsonArray = doGetRequest(url_person,json_parameters);
         JSONObject user = new JSONObject();
         boolean found = false;
@@ -254,29 +284,81 @@ public class Client {
         else throw new Exception("user_not_found");
     }
 
-    public static void createTag(String name) throws Exception {
+    public static void createTag(String name, String description) throws Exception {
         JSONObject json_params = new JSONObject();
         json_params.put("name",name);
+        json_params.put("description",description);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         doPostRequestJson(json_params,url_tag);
     }
 
-    public static void createLandmark(float coordinate_x, float coordinate_y, String description, String email) throws Exception {
+    public static void createLandmark(float coordinate_x, float coordinate_y, String description, String email, String tag_name) throws Exception {
+        Random rand = new Random();
         JSONObject json_landmark = new JSONObject();
+        int id = rand.nextInt(1000000);
+        json_landmark.put("id",id);
         json_landmark.put("coordinate_x",coordinate_x);
         json_landmark.put("coordinate_y",coordinate_y);
         json_landmark.put("description",description);
-        json_landmark.put("creator_email",email);
-        doPostRequestJson(json_landmark,url_landmark);
+        JSONObject creator = getPerson(email);
+        json_landmark.put("creator",creator);
+        JSONObject json_tag = new JSONObject();
+        json_tag.put("name",tag_name);
+        json_tag.put("description",description);
+        json_landmark.put("tag",json_tag);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        if (doPostRequestJson(json_landmark,url_landmark) == 424) {
+            createTag(tag_name,description);
+            json_tag.put("name",tag_name);
+            json_tag.put("description",description);
+            json_landmark.put("tag",json_tag);
+            doPostRequestJson(json_landmark,url_landmark);
+        }
     }
 
     public static JSONArray getAllLandmarks() throws Exception {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         return doGetRequest(url_landmark,null);
     }
 
     public static JSONArray getUserLandmarks(String email) throws Exception {
         JSONObject json_params = new JSONObject();
         json_params.put("email",email);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         return doGetRequest(url_landmark,json_params);
+    }
+
+    public static void createNotification(String description,String email) throws Exception {
+
+    }
+
+    public static JSONArray getUserNotifications(String email) throws Exception {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        JSONArray notifications = doGetRequest(url_notification,null);
+        JSONArray user_notifications = new JSONArray();
+        for (int i = 0; i < notifications.length(); ++i) {
+            JSONObject noti = (JSONObject) notifications.get(i);
+            String email_json = (String) noti.get("email");
+            if (email_json.equals(email)) {
+                user_notifications.put(noti);
+            }
+        }
+        return user_notifications;
+    }
+
+    public static boolean deleteUserNotification(String email, int id) throws Exception {
+        JSONObject json_params = new JSONObject();
+        json_params.put("id",id);
+        json_params.put("email",email);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        doDeleteRequestJSON(json_params,url_notification);
+        return true;
     }
 
     public static void main(String[] args) throws Exception {

@@ -76,8 +76,9 @@ public class MapsActivity extends FragmentActivity implements
     private FusedLocationProviderClient client;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private Button mTypeBtn, mTypeBtn2, mButoninfo;
+    private Button mTypeBtn, mTypeBtn2, mButoninfo, activaEtiq, showEtiq, hideEtiq;
     private FloatingActionButton mButtonWeather;
+    private boolean activaMarkers;
 
     //every x seconds execute task
     Handler handler = new Handler();
@@ -169,6 +170,35 @@ public class MapsActivity extends FragmentActivity implements
                 map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                 mTypeBtn2.setVisibility(View.INVISIBLE);
                 mTypeBtn.setVisibility(View.VISIBLE);
+            }
+        });
+
+
+        activaEtiq = (Button) findViewById(R.id.activaEtiq);
+        activaEtiq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activaMarkers = true;
+            }
+        });
+
+        showEtiq = (Button) findViewById(R.id.showEtiq);
+        showEtiq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // .setVisible(true a tots els markers)
+                showEtiq.setVisibility(View.INVISIBLE);
+                hideEtiq.setVisibility(View.VISIBLE);
+            }
+        });
+
+        hideEtiq = (Button) findViewById(R.id.hideEtiq);
+        hideEtiq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // .setVisible(false a tots els markers)
+                showEtiq.setVisibility(View.VISIBLE);
+                hideEtiq.setVisibility(View.INVISIBLE);
             }
         });
 

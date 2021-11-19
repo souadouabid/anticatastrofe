@@ -11,17 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.MapsActivity" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="satellit"
-        android:id="@+id/btnsatelit" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="híbrid"
-        android:id="@+id/bthibrid" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnWeather"
@@ -35,8 +24,52 @@
         android:src="@android:drawable/ic_lock_silent_mode_off"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnsatelit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Satèlit" />
+
+        <Button
+            android:id="@+id/activaEtiqfals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crea Etiquetes" />
+        <Button
+            android:id="@+id/hideEtiq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amaga Etiquetes" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Híbrid"
+            android:id="@+id/bthibrid" />
+        <Button
+            android:id="@+id/activaEtiq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crea Etiquetes" />
+
+        <Button
+            android:id="@+id/showEtiq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ensenya Etiquetes" />
+    </LinearLayout>
+
 
 
 
 </RelativeLayout>
-

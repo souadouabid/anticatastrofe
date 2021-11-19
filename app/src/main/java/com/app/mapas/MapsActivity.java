@@ -27,6 +27,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.app.Managers.Client;
 import com.app.login.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -144,6 +145,20 @@ public class MapsActivity extends FragmentActivity implements
         }
         map.setOnMyLocationButtonClickListener(this);
         map.setOnMyLocationClickListener(this);
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if (activaMarkers) {
+                    int id = (int)(Math.random()*100000);
+                    id *= 10;
+                    try {
+                        Client.createLandmarkPep(id, (float)latLng.latitude, (float)latLng.longitude,"titol_prova pepe", "desc_provap pepepep");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
         mButtonWeather = (FloatingActionButton) findViewById(R.id.btnWeather);
         mButtonWeather.setVisibility(View.VISIBLE);

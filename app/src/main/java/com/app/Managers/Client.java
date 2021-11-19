@@ -318,6 +318,34 @@ public class Client {
         }
     }
 
+    public static void createLandmarkPep(int id, float coordinate_x, float coordinate_y, String title,String desc ) throws Exception {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        JSONObject json_landmark = new JSONObject();
+        JSONObject json_landmark_creator = new JSONObject();
+        JSONObject json_landmark_tag = new JSONObject();
+
+        json_landmark_creator.put("email", "string");
+        json_landmark_creator.put("name", "string");
+        json_landmark_creator.put("phone_num", 0);
+        json_landmark_creator.put("password", "string");
+        json_landmark_creator.put("token", "string");
+        json_landmark_creator.put("landmark", JSONObject.NULL);
+
+        json_landmark_tag.put("name", title);
+        json_landmark_tag.put("description",desc);
+        createTag(title, desc);
+
+        json_landmark.put("id", id);
+        json_landmark.put("coordinate_x",coordinate_x);
+        json_landmark.put("coordinate_y",coordinate_y);
+        json_landmark.put("description", desc);
+        json_landmark.put("creator",json_landmark_creator);
+        json_landmark.put("tag",json_landmark_tag);
+        doPostRequestJson(json_landmark,url_landmark);
+
+    }
+
     public static JSONArray getAllLandmarks() throws Exception {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

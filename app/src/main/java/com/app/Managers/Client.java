@@ -16,7 +16,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Iterator;
 import java.util.Vector;
-import java.util.*;
 
 
 
@@ -73,7 +72,6 @@ public class Client {
                 String key = keys.next();
                 String value = json_parameters.getString(key);
                 conn.setRequestProperty(key, value);
-                System.out.println(conn);
             }
         }
         try {

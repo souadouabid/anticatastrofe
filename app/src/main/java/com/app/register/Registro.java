@@ -13,7 +13,10 @@ import com.app.Managers.Client;
 import org.json.JSONException;
 import java.io.IOException;
 
+import com.app.login.Menuprincipal;
 import com.app.login.R;
+import com.app.login.popupCampsBuits;
+import com.app.login.popupPassword;
 
 public class Registro extends AppCompatActivity {
 

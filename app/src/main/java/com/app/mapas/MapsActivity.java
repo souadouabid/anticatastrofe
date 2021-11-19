@@ -8,6 +8,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -149,13 +150,11 @@ public class MapsActivity extends FragmentActivity implements
             @Override
             public void onMapClick(LatLng latLng) {
                 if (activaMarkers) {
-                    int id = (int)(Math.random()*100000);
-                    id *= 10;
-                    try {
-                        Client.createLandmarkPep(id, (float)latLng.latitude, (float)latLng.longitude,"titol_prova pepe", "desc_provap pepepep");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+
+                    Intent i = new Intent(MapsActivity.this, MarkerActivity.class);
+                    i.putExtra("lat",(float)latLng.latitude);
+                    i.putExtra("long",(float)latLng.longitude);
+                    startActivity(i);
                 }
             }
         });

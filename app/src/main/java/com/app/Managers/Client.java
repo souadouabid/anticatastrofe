@@ -1,5 +1,6 @@
 package com.app.Managers;
 
+import android.os.StrictMode;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +16,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Iterator;
 import java.util.Vector;
+import java.util.*;
+
 
 
 public class Client {
@@ -28,6 +31,8 @@ public class Client {
     private static String url_additional_info = "http://10.4.41.38:8080/additional_info";
 
     private static int doPostRequestJson(JSONObject json, String url) throws IOException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         URL u = new URL(url);
         HttpURLConnection  conn = (HttpURLConnection) u.openConnection();
         conn.setDoOutput(true);
@@ -55,6 +60,8 @@ public class Client {
       }
 
     private static JSONArray doGetRequest(String url, JSONObject json_parameters) throws IOException, JSONException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         URL u = new URL(url);
         HttpURLConnection conn = (HttpURLConnection) u.openConnection();
         conn.setRequestMethod("GET");
@@ -66,7 +73,7 @@ public class Client {
                 String key = keys.next();
                 String value = json_parameters.getString(key);
                 conn.setRequestProperty(key, value);
-
+                System.out.println(conn);
             }
         }
         try {
@@ -142,12 +149,16 @@ public class Client {
     }
 
     public static void CreateUser(String name,Integer phone_num, String email, String password) throws IOException, JSONException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String token = "String";
         JSONObject json_person = new JSONObject();
         json_person.put("name", name);
         json_person.put("phone_num", phone_num);
         json_person.put("email", email);
         json_person.put("password", password);
-
+        json_person.put("token", token);
+        json_person.put("landmark", JSONObject.NULL);
         JSONObject json_user = new JSONObject(); //no funciona el user pero person si
         json_user.put("email", email);
         json_user.put("last_coordinate_x", 0.0);
@@ -170,8 +181,8 @@ public class Client {
 
     public static Boolean userPasswordMatch(String email,String introduced_password) throws Exception {
         JSONObject json_parameters = new JSONObject();
+        json_parameters.put("email", email);
         json_parameters.put("introduced_password", introduced_password);
-
         String url = url_person + "/userPasswordMatch";
         JSONArray jsonArray = doGetRequest(url,json_parameters);
         for (int i = 0; i < jsonArray.length(); i++) {

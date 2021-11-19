@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +14,10 @@ import com.app.Managers.Client;
 import org.json.JSONException;
 import java.io.IOException;
 
+import com.app.login.Menuprincipal;
 import com.app.login.R;
+import com.app.login.popupCampsBuits;
+import com.app.login.popupPassword;
 
 public class Registro extends AppCompatActivity {
 
@@ -37,6 +41,7 @@ public class Registro extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         if (TextName.getText().toString().isEmpty() || TextEmail.getText().toString().isEmpty() ||
                                 TextPhone.getText().toString().isEmpty() || TextPassword.getText().toString().isEmpty() ||
                                 TextDireccio.getText().toString().isEmpty() || TextPassRepetida.getText().toString().isEmpty()) {
@@ -48,7 +53,11 @@ public class Registro extends AppCompatActivity {
                         }
                         else {
                             try {
-                                Client.CreateUser(TextName.getText().toString(),123456789,TextEmail.getText().toString(),TextPassword.getText().toString());
+
+                                Integer phone = Integer.parseInt(TextPhone.getText().toString());
+                                System.out.println(phone);
+                                System.out.println("--------chivato--------");
+                                Client.CreateUser(TextName.getText().toString(),phone,TextEmail.getText().toString(),TextPassword.getText().toString());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (JSONException e) {

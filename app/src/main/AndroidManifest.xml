@@ -20,6 +20,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Login">
         <activity
             android:name=".popupPassword"
@@ -50,11 +51,11 @@
             android:exported="true"
             android:label="@string/title_activity_menuprincipal"
             android:theme="@style/Theme.Login.NoActionBar" />
-        <activity
+        <!--<activity
             android:name="com.app.inicio.Inicio"
             android:exported="false"
             android:label="@string/title_activity_menuprincipal"
-            android:theme="@style/Theme.Login.NoActionBar" />
+            android:theme="@style/Theme.Login.NoActionBar" /> -->
         <activity
             android:name="com.app.register.Registro"
             android:exported="true" />

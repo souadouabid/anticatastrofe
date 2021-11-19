@@ -12,7 +12,7 @@ import com.app.Managers.Client;
 import com.app.register.Registro;
 import org.json.JSONException;
 import java.io.IOException;
-import com.app.inicio.Inicio;
+//import com.app.inicio.Inicio;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,15 +42,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         try {
-                            if (Textpassword.getText().toString().equals("firstuser")) {
+                            if (Textpassword.getText().toString().equals("firstuser")){
+                            //if (Client.userPasswordMatch(TextLogin.getText().toString(), Textpassword.getText().toString())) {
                                 startActivity(new Intent(MainActivity.this, Menuprincipal.class));
                             }
-                        } /*catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/ finally {
-
                         }
 
                     }

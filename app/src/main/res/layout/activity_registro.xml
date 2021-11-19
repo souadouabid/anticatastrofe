@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo2"
+    android:background="@color/azul_claro"
     android:orientation="vertical"
     tools:context="com.app.register.Registro">
     <Space
@@ -61,7 +61,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/editTextPoblacio"
+        android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -73,12 +73,12 @@
         android:background="@drawable/edt_style"
         android:drawablePadding="10dp"
         android:ems="10"
-        android:hint="@string/Poblacio"
+        android:hint="Email"
         android:inputType="textPersonName" />
 
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/editTextTextPassword1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -113,7 +113,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:gravity="center|bottom"
         android:orientation="horizontal"
 

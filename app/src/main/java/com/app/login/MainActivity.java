@@ -42,14 +42,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         try {
-                            if (Textpassword.getText().toString().equals("firstuser")) {
+                            if (Client.userPasswordMatch(TextLogin.getText().toString(),Textpassword.getText().toString())){
+                            //if (Textpassword.getText().toString().equals("firstuser")) {
                                 startActivity(new Intent(MainActivity.this, Menuprincipal.class));
                             }
-                        } /*catch (IOException e) {
+                            else {
+
+                            }
+                        } catch (Exception e) {
                             e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/ finally {
+                        } finally {
 
                         }
 

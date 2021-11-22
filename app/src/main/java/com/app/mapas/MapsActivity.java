@@ -37,6 +37,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -146,6 +147,7 @@ public class MapsActivity extends FragmentActivity implements
             double lon = 0;
             String title = null;
             String desc = null;
+            Integer id = 0;
             try {
                 lat = land.getDouble("coordinate_x");
                 System.out.println(lat);
@@ -173,11 +175,22 @@ public class MapsActivity extends FragmentActivity implements
                 e.printStackTrace();
             }
 
+            try {
+                id = land.getInt("id");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Float color = (((float)id % 10) * 60) % 360;
+
             Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(lat,lon))
                     .title(title)
                     .snippet(desc)
-                    .visible(false));
+                    .visible(false)
+                    .icon(BitmapDescriptorFactory.defaultMarker(color))
+
+            );
 
             mMarker.add(marker);
         }

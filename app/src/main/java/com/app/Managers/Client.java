@@ -59,6 +59,59 @@ public class Client {
           return 0;
       }
 
+    private static String GetPasswordMatchRequest(String url, String email, String password) throws IOException, JSONException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        URL u = new URL("http://10.4.41.38:8080/person/userPasswordMatch?email="+email+"&introduced_password="+password);
+        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+        conn.setRequestMethod("GET");
+
+        //conn.setRequestProperty("email",email);
+        //conn.setRequestProperty("introduced_password", password);
+        try {
+            conn.connect();
+            int status = conn.getResponseCode();
+
+            switch (status) {
+                case 200:
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line+"\n");
+                    }
+                    br.close();
+                    System.out.println(sb);
+                    System.out.println(sb.substring(0,17));
+                    Integer length = sb.length();
+                    String aux = sb.substring(18,length-3);
+                    return aux;
+                case 404:
+                    BufferedReader br2 = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    System.out.println(br2);
+                    StringBuilder sb2 = new StringBuilder();
+                    String line2;
+                    while ((line2 = br2.readLine()) != null) {
+                        sb2.append(line2+"\n");
+                    }
+                    br2.close();
+                    System.out.println(sb2);
+                    System.out.println(sb2.substring(0,17));
+                    Integer length2 = sb2.length();
+                    String aux2 = sb2.substring(18,length2-3);
+                    return aux2;
+            }
+
+        } catch (IOException e) {
+            System.out.println("hola");
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     private static JSONArray doGetRequest(String url, JSONObject json_parameters) throws IOException, JSONException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -189,14 +242,13 @@ public class Client {
         String url = url_person + "/userPasswordMatch";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        JSONArray jsonArray = doGetRequest(url,json_parameters);
-        for (int i = 0; i < jsonArray.length(); i++) {
+        String result = GetPasswordMatchRequest(url,email, introduced_password);
+        /*for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject json = (JSONObject) jsonArray.get(i);
             String login_success = (String) json.get("login_success");
             return login_success.equals("true");
-        }
-
-        throw new Exception("user_not_found");
+        }*/
+        return result.equals("true");
     }
 
     public static String getUserPassword(String email,String introduced_password) throws Exception {

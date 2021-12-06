@@ -78,37 +78,19 @@ public class Client {
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {
-                        sb.append(line+"\n");
+                        sb.append(line + "\n");
                     }
                     br.close();
-                    System.out.println(sb);
-                    System.out.println(sb.substring(0,17));
                     Integer length = sb.length();
-                    String aux = sb.substring(18,length-3);
+                    String aux = sb.substring(18, length - 3);
                     return aux;
-                case 404:
-                    BufferedReader br2 = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    System.out.println(br2);
-                    StringBuilder sb2 = new StringBuilder();
-                    String line2;
-                    while ((line2 = br2.readLine()) != null) {
-                        sb2.append(line2+"\n");
-                    }
-                    br2.close();
-                    System.out.println(sb2);
-                    System.out.println(sb2.substring(0,17));
-                    Integer length2 = sb2.length();
-                    String aux2 = sb2.substring(18,length2-3);
-                    return aux2;
             }
 
         } catch (IOException e) {
-            System.out.println("hola");
-            e.printStackTrace();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
+            return "false";
         }
-        return null;
+
+        return "false";
     }
 
 
@@ -243,11 +225,8 @@ public class Client {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         String result = GetPasswordMatchRequest(url,email, introduced_password);
-        /*for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject json = (JSONObject) jsonArray.get(i);
-            String login_success = (String) json.get("login_success");
-            return login_success.equals("true");
-        }*/
+
+
         return result.equals("true");
     }
 
@@ -447,5 +426,6 @@ public class Client {
     public static void main(String[] args) throws Exception {
         //getUserPassword("a","a");
         //CreateUser("holahola",123,"aaaaaaadsa","asdasfdfa");
+        getPerson("abc");
     }
 }

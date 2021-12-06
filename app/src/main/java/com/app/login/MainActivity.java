@@ -16,6 +16,7 @@ import com.app.inicio.Inicio;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -43,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         try {
                             if (Client.userPasswordMatch(TextLogin.getText().toString(),Textpassword.getText().toString())){
-                            //if (Textpassword.getText().toString().equals("firstuser")) {
                                 startActivity(new Intent(MainActivity.this, Menuprincipal.class));
                             }
                             else {
-
+                                Snackbar mySnackbar = Snackbar.make(view, "Wrong email or password", 1600);
+                                mySnackbar.show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

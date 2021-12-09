@@ -20,6 +20,14 @@ public class CustomAdapter extends BaseAdapter {
         this.lst = lst;
     }
 
+    public List<Notificacion> getLst() {
+        return lst;
+    }
+
+    public void setLst(List<Notificacion> lst) {
+        this.lst = lst;
+    }
+
     @Override
     public int getCount() {
         return lst.size();

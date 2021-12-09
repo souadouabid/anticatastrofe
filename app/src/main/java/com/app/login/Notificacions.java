@@ -3,6 +3,9 @@ package com.app.login;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -47,16 +50,37 @@ public class Notificacions extends AppCompatActivity {
                 /*Comprovacion ver si pasan los datos correctamente entre activities*/
                 Log.i("TAG", "email = "+ email);
                 /**/
-                try {
-                    Client.deleteUserNotification(email, n.id);
-                    lst.remove(i);
-                    adapter.setLst(lst);
-                    adapter.notifyDataSetChanged();
+                AlertDialog.Builder builder = new AlertDialog.Builder(Notificacions.this);
+                builder.setCancelable(true);
+                builder.setTitle("Confirmació");
+                builder.setMessage("¡¿Segur que vols eliminar la notificació?!");
+                builder.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    Client.deleteUserNotification(email, n.id);
+                                    lst.remove(i);
+                                    adapter.setLst(lst);
+                                    adapter.notifyDataSetChanged();
 
-                    Toast.makeText(getBaseContext(), "notication deleted", Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                                    Toast.makeText(getBaseContext(), "notication deleted",
+                                            Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
             }
         });
     }

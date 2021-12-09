@@ -1,5 +1,8 @@
 package com.app.login;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -89,19 +92,35 @@ public class PerfilFragment extends Fragment {
         buttonBaixa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    Client.deleteUser(correo, pass);
-                    Intent intent2 = new Intent();
-                    intent2.setClass(getActivity(), MainActivity.class);
-                    getActivity().startActivity(intent2);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setCancelable(true);
+                    builder.setTitle("Confirmació");
+                    builder.setMessage("¡¿Segur que vols donar-te de baixa?!");
+                    builder.setPositiveButton("Confirm",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    try {
+                                        Client.deleteUser(correo, pass);
+                                        Intent intent2 = new Intent();
+                                        intent2.setClass(getActivity(), MainActivity.class);
+                                        getActivity().startActivity(intent2);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
 
+                                }
+                            });
+                        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
             }
         });
-
-
         return view;
     }
 }

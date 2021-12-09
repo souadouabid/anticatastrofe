@@ -1,17 +1,22 @@
 package com.app.login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.app.Managers.Client;
 import com.app.mapas.MapsActivity;
+
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +30,7 @@ public class PerfilFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private Button buttonLogOut;
+    private Button buttonLogOut, buttonBaixa;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -67,7 +72,7 @@ public class PerfilFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
-
+        buttonBaixa = view.findViewById(R.id.buttonBaixa);
         buttonLogOut = view.findViewById(R.id.buttonLogOut);
         buttonLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +82,25 @@ public class PerfilFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
+        SharedPreferences prefs = getActivity().getSharedPreferences("Preferences", 0);
+        String correo = prefs.getString("email", "");
+        String pass = prefs.getString("pass", "");
+        Log.i("TAG", "email = "+ correo + " pass = " + pass);
+        buttonBaixa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Client.deleteUser(correo, pass);
+                    Intent intent2 = new Intent();
+                    intent2.setClass(getActivity(), MainActivity.class);
+                    getActivity().startActivity(intent2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
 
         return view;
     }

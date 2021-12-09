@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,7 +60,14 @@ public class Registro extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            startActivity(new Intent(Registro.this, Menuprincipal.class));
+                           Bundle informa = new Bundle();
+                           informa.putString("email", TextEmail.getText().toString());
+                           informa.putString("pass", TextPassword.getText().toString());
+
+                           Intent i = new Intent(Registro.this, Menuprincipal.class);
+                           i.putExtras(informa);
+                           startActivity(i);
+                           //startActivity(new Intent(Registro.this, Menuprincipal.class));
                         }
                     }
 

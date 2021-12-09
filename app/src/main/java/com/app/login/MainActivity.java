@@ -44,7 +44,14 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         try {
                             if (Client.userPasswordMatch(TextLogin.getText().toString(),Textpassword.getText().toString())){
-                                startActivity(new Intent(MainActivity.this, Menuprincipal.class));
+                                Bundle informa = new Bundle();
+                                informa.putString("email", TextLogin.getText().toString());
+                                informa.putString("pass", Textpassword.getText().toString());
+
+                                Intent i = new Intent(MainActivity.this, Menuprincipal.class);
+                                i.putExtras(informa);
+                                startActivity(i);
+                               // startActivity(new Intent(MainActivity.this, Menuprincipal.class));
                             }
                             else {
                                 Snackbar mySnackbar = Snackbar.make(view, "Wrong email or password", 1600);

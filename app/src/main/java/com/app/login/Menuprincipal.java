@@ -1,7 +1,10 @@
 package com.app.login;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 
@@ -23,13 +26,22 @@ public class Menuprincipal extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMenuprincipalBinding binding;
-
+    private String email, pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle informacion = this.getIntent().getExtras();
+        email = informacion.getString("email");
+        pass = informacion.getString("pass");
 
         binding = ActivityMenuprincipalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        SharedPreferences prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("email", email);
+        editor.putString("pass", pass);
+        editor.commit();
 
         setSupportActionBar(binding.appBarMenuprincipal.toolbar);
         binding.appBarMenuprincipal.fab.setOnClickListener(new View.OnClickListener() {
@@ -39,6 +51,7 @@ public class Menuprincipal extends AppCompatActivity {
                 /*
                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
+                Log.i("TAG", "email = "+ email + " pass = " + pass);
             }
         });
         DrawerLayout drawer = binding.drawerLayout;

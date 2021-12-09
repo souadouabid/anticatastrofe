@@ -14,15 +14,17 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnWeather"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="30dp"
         android:contentDescription="Obtener el clima"
-        android:src="@android:drawable/ic_lock_silent_mode_off"
-        />
+        android:src="@drawable/thunderstorm_free_png_image"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Crea Etiquetes" />
+
         <Button
             android:id="@+id/hideEtiq"
             android:layout_width="wrap_content"
@@ -68,6 +71,17 @@
             android:layout_height="wrap_content"
             android:text="Ensenya Etiquetes" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/bresidencia"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#588326"
+        android:text="Mostrar temps residencia"
+        android:translationX="30px"
+        android:translationY="1750px"
+        map:icon="@drawable/ic_home" />
 
 
 

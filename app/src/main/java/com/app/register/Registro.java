@@ -62,8 +62,11 @@ public class Registro extends AppCompatActivity {
                         }
                         else {
                             try {
+                                String name = TextName.getText().toString();
                                 Integer phone = Integer.parseInt(TextPhone.getText().toString());
-                                Client.CreateUser(TextName.getText().toString(), phone, TextEmail.getText().toString(), TextPassword.getText().toString());
+                                String email = TextEmail.getText().toString();
+                                String password= TextPassword.getText().toString();
+                                Client.CreateUser(name, phone, email, password);
 
                             } catch (IOException e) {
                                 e.printStackTrace();

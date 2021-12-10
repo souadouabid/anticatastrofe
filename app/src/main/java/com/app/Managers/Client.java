@@ -188,15 +188,15 @@ public class Client {
         json_person.put("name", name);
         json_person.put("phone_num", phone_num);
         json_person.put("email", email);
-        json_person.put("password", password);
-        json_person.put("token","String");
-        json_person.put("landmark",JSONObject.NULL);
 
         JSONObject json_user = new JSONObject(); //no funciona el user pero person si
         json_user.put("email", email);
         json_user.put("last_coordinate_x", 0.0);
         json_user.put("last_coordinate_y", 0.0);
-        json_user.put("last_coordinate_z", 0.0);
+        json_user.put("phone_num", phone_num);
+        json_user.put("name", name);
+        json_user.put("password", password);
+        json_user.put("token","String");
         json_user.put("person",json_person);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

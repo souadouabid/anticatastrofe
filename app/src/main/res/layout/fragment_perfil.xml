@@ -13,7 +13,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="346dp" />
+            android:layout_height="486dp" />
 
         <Button
             android:id="@+id/buttonLogOut"
@@ -24,6 +24,15 @@
 
             android:layout_height="wrap_content"
             android:text="Log Out" />
+        <Button
+            android:id="@+id/buttonBaixa"
+            android:layout_width="120dp"
+            android:layout_marginLeft="146dp"
+            android:background="@android:color/transparent"
+            android:textColor="@color/black"
+
+            android:layout_height="wrap_content"
+            android:text="@string/DonarsedeBaixa" />
 
 
     </LinearLayout>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,7 +34,6 @@ public class Registro extends AppCompatActivity {
         EditText TextPhone = (EditText) findViewById(R.id.editTextTelefono);
         EditText TextPassword = (EditText) findViewById(R.id.editTextTextPassword1);
         EditText TextPassRepetida = (EditText) findViewById(R.id.editTextTextPassword2);
-        EditText TextDireccio = (EditText) findViewById(R.id.editTextDireccion);
 
 
         ButtonRegistrarse.setOnClickListener(
@@ -41,8 +41,8 @@ public class Registro extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         if (TextName.getText().toString().isEmpty() || TextEmail.getText().toString().isEmpty() ||
-                                TextPhone.getText().toString().isEmpty() || TextPassword.getText().toString().isEmpty() ||
-                                TextDireccio.getText().toString().isEmpty() || TextPassRepetida.getText().toString().isEmpty()) {
+                                TextPhone.getText().toString().isEmpty() || TextPassword.getText().toString().isEmpty()
+                                || TextPassRepetida.getText().toString().isEmpty()) {
 
                             startActivity(new Intent(Registro.this, popupCampsBuits.class));
                         }
@@ -59,7 +59,14 @@ public class Registro extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            startActivity(new Intent(Registro.this, Menuprincipal.class));
+                           Bundle informa = new Bundle();
+                           informa.putString("email", TextEmail.getText().toString());
+                           informa.putString("pass", TextPassword.getText().toString());
+
+                           Intent i = new Intent(Registro.this, Menuprincipal.class);
+                           i.putExtras(informa);
+                           startActivity(i);
+                           //startActivity(new Intent(Registro.this, Menuprincipal.class));
                         }
                     }
 

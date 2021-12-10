@@ -70,10 +70,10 @@ public class PrincipalFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_principal, container, false);
-        Button b = (Button) v.findViewById(R.id.buttonmapa);
+        Button mapa = (Button) v.findViewById(R.id.buttonmapa);
         Button llamada = (Button) v.findViewById(R.id.buttonllamada);
 
-        b.setOnClickListener(new View.OnClickListener() {
+        mapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
@@ -81,7 +81,6 @@ public class PrincipalFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
-
         llamada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

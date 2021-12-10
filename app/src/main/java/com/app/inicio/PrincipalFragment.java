@@ -1,8 +1,12 @@
 package com.app.inicio;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -12,6 +16,7 @@ import android.widget.Button;
 
 import com.app.mapas.MapsActivity;
 import com.app.login.R;
+import com.app.register.Registro;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,12 +71,24 @@ public class PrincipalFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_principal, container, false);
         Button b = (Button) v.findViewById(R.id.buttonmapa);
+        Button llamada = (Button) v.findViewById(R.id.buttonllamada);
+
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), MapsActivity.class);
                 getActivity().startActivity(intent);
+            }
+        });
+
+        llamada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*numero de nuestro admin :v */
+                Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+                dialIntent.setData(Uri.parse("tel:" + "123456789"));
+                startActivity(dialIntent);
             }
         });
         return v;

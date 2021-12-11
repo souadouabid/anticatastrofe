@@ -51,55 +51,47 @@ public class Registro extends AppCompatActivity {
                         else if (!TextPassword.getText().toString().equals(TextPassRepetida.getText().toString())) {
                             startActivity(new Intent(Registro.this, popupPassword.class));
                         }
-                        else if ((Validators.validateEmail(TextEmail.getText().toString()))) {
+                        else if ((!Validators.validateEmail(TextEmail.getText().toString()))) {
                             Snackbar mySnackbar = Snackbar.make(view, "Wrong email format", 1600);
                             mySnackbar.show();
                         }
 
-                        else if (Validators.validatePhone(TextPhone.getText().toString())) {
+                        else if (!Validators.validatePhone(TextPhone.getText().toString())) {
                             Snackbar mySnackbar = Snackbar.make(view, "Wrong phone format", 1600);
                             mySnackbar.show();
                         }
+                        /*else if (Validators.userExists(TextEmail.getText().toString())) {
+                            Snackbar mySnackbar = Snackbar.make(view, "Email already in use", 1600);
+                            mySnackbar.show();
+                        }*/
                         else {
                             try {
+                                String name = TextName.getText().toString();
                                 Integer phone = Integer.parseInt(TextPhone.getText().toString());
-                                Client.CreateUser(TextName.getText().toString(), phone, TextEmail.getText().toString(), TextPassword.getText().toString());
+                                String email = TextEmail.getText().toString();
+                                String password= TextPassword.getText().toString();
+                                int aux = Client.CreateUser(name, phone, email, password);
+                                if (aux == 208) {
+                                    throw new Exception("user_already_registered");
+                                }
+                                Bundle informa = new Bundle();
+                                informa.putString("email", TextEmail.getText().toString());
+                                informa.putString("pass", TextPassword.getText().toString());
 
+                                Intent i = new Intent(Registro.this, Menuprincipal.class);
+                                i.putExtras(informa);
+                                startActivity(i);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                            } catch (Exception e) {
+                                Snackbar mySnackbar = Snackbar.make(view, "Email already in use", 1600);
+                                mySnackbar.show();
                             }
-                            Bundle informa = new Bundle();
-                            informa.putString("email", TextEmail.getText().toString());
-                            informa.putString("pass", TextPassword.getText().toString());
-
-                            Intent i = new Intent(Registro.this, Menuprincipal.class);
-                            i.putExtras(informa);
-                            startActivity(i);
-                            //startActivity(new Intent(Registro.this, Menuprincipal.class));
                         }
                     }
                 }
         );
-
-        /*
-            public void onClick(View v){
-                try {
-                    String name = TextName.getText().toString();
-                    String email = TextEmail.getText().toString();
-                    Integer phone = Integer.parseInt(TextPhone.getText().toString());
-                    String password = TextPassword.getText().toString();
-
-                    Client.CreateUser(name, phone, email, password);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    startActivity(new Intent(Registro.this, MainActivity.class));
-                }
-            }
-        });*/
-
     }
 }

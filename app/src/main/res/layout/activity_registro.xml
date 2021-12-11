@@ -7,9 +7,10 @@
     android:background="@color/azul_claro"
     android:orientation="vertical"
     tools:context="com.app.register.Registro">
+
     <Space
         android:layout_width="match_parent"
-        android:layout_height="183dp"
+        android:layout_height="127dp"
         android:rotation="90" />
 
     <EditText
@@ -42,22 +43,6 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="@string/Telefono"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/editTextDireccion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-
-        android:layout_marginRight="15dp"
-
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/edt_style"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:hint="@string/Direccio"
         android:inputType="textPersonName" />
 
     <EditText

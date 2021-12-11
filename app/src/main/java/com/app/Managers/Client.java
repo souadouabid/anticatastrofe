@@ -78,37 +78,19 @@ public class Client {
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {
-                        sb.append(line+"\n");
+                        sb.append(line + "\n");
                     }
                     br.close();
-                    System.out.println(sb);
-                    System.out.println(sb.substring(0,17));
                     Integer length = sb.length();
-                    String aux = sb.substring(18,length-3);
+                    String aux = sb.substring(18, length - 3);
                     return aux;
-                case 404:
-                    BufferedReader br2 = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    System.out.println(br2);
-                    StringBuilder sb2 = new StringBuilder();
-                    String line2;
-                    while ((line2 = br2.readLine()) != null) {
-                        sb2.append(line2+"\n");
-                    }
-                    br2.close();
-                    System.out.println(sb2);
-                    System.out.println(sb2.substring(0,17));
-                    Integer length2 = sb2.length();
-                    String aux2 = sb2.substring(18,length2-3);
-                    return aux2;
             }
 
         } catch (IOException e) {
-            System.out.println("hola");
-            e.printStackTrace();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
+            return "false";
         }
-        return null;
+
+        return "false";
     }
 
 
@@ -206,15 +188,15 @@ public class Client {
         json_person.put("name", name);
         json_person.put("phone_num", phone_num);
         json_person.put("email", email);
-        json_person.put("password", password);
-        json_person.put("token","String");
-        json_person.put("landmark",JSONObject.NULL);
 
         JSONObject json_user = new JSONObject(); //no funciona el user pero person si
         json_user.put("email", email);
         json_user.put("last_coordinate_x", 0.0);
         json_user.put("last_coordinate_y", 0.0);
-        json_user.put("last_coordinate_z", 0.0);
+        json_user.put("phone_num", phone_num);
+        json_user.put("name", name);
+        json_user.put("password", password);
+        json_user.put("token","String");
         json_user.put("person",json_person);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -243,11 +225,8 @@ public class Client {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         String result = GetPasswordMatchRequest(url,email, introduced_password);
-        /*for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject json = (JSONObject) jsonArray.get(i);
-            String login_success = (String) json.get("login_success");
-            return login_success.equals("true");
-        }*/
+
+
         return result.equals("true");
     }
 
@@ -447,5 +426,6 @@ public class Client {
     public static void main(String[] args) throws Exception {
         //getUserPassword("a","a");
         //CreateUser("holahola",123,"aaaaaaadsa","asdasfdfa");
+        getPerson("abc");
     }
 }

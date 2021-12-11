@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +12,12 @@ import com.app.Managers.Client;
 import org.json.JSONException;
 import java.io.IOException;
 
+import com.app.Managers.Validators;
 import com.app.login.Menuprincipal;
 import com.app.login.R;
 import com.app.login.popupCampsBuits;
 import com.app.login.popupPassword;
+import com.google.android.material.snackbar.Snackbar;
 
 public class Registro extends AppCompatActivity {
 
@@ -33,37 +34,55 @@ public class Registro extends AppCompatActivity {
         EditText TextPhone = (EditText) findViewById(R.id.editTextTelefono);
         EditText TextPassword = (EditText) findViewById(R.id.editTextTextPassword1);
         EditText TextPassRepetida = (EditText) findViewById(R.id.editTextTextPassword2);
-        EditText TextDireccio = (EditText) findViewById(R.id.editTextDireccion);
 
 
         ButtonRegistrarse.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+
                         if (TextName.getText().toString().isEmpty() || TextEmail.getText().toString().isEmpty() ||
-                                TextPhone.getText().toString().isEmpty() || TextPassword.getText().toString().isEmpty() ||
-                                TextDireccio.getText().toString().isEmpty() || TextPassRepetida.getText().toString().isEmpty()) {
+                                TextPhone.getText().toString().isEmpty() || TextPassword.getText().toString().isEmpty()
+                                || TextPassRepetida.getText().toString().isEmpty()) {
 
                             startActivity(new Intent(Registro.this, popupCampsBuits.class));
                         }
-                        else if (!TextPassword.getText().toString().equals(TextPassRepetida.getText().toString())){
+                        else if (!TextPassword.getText().toString().equals(TextPassRepetida.getText().toString())) {
                             startActivity(new Intent(Registro.this, popupPassword.class));
                         }
-                        else {
-                           try {
+                        else if ((Validators.validateEmail(TextEmail.getText().toString()))) {
+                            Snackbar mySnackbar = Snackbar.make(view, "Wrong email format", 1600);
+                            mySnackbar.show();
+                        }
 
-                               Integer phone = Integer.parseInt(TextPhone.getText().toString());
-                                Client.CreateUser(TextName.getText().toString(),phone,TextEmail.getText().toString(),TextPassword.getText().toString());
+                        else if (Validators.validatePhone(TextPhone.getText().toString())) {
+                            Snackbar mySnackbar = Snackbar.make(view, "Wrong phone format", 1600);
+                            mySnackbar.show();
+                        }
+                        else {
+                            try {
+                                String name = TextName.getText().toString();
+                                Integer phone = Integer.parseInt(TextPhone.getText().toString());
+                                String email = TextEmail.getText().toString();
+                                String password= TextPassword.getText().toString();
+                                Client.CreateUser(name, phone, email, password);
+
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            startActivity(new Intent(Registro.this, Menuprincipal.class));
+                            Bundle informa = new Bundle();
+                            informa.putString("email", TextEmail.getText().toString());
+                            informa.putString("pass", TextPassword.getText().toString());
+
+                            Intent i = new Intent(Registro.this, Menuprincipal.class);
+                            i.putExtras(informa);
+                            startActivity(i);
+                            //startActivity(new Intent(Registro.this, Menuprincipal.class));
                         }
                     }
-
-
                 }
         );
 

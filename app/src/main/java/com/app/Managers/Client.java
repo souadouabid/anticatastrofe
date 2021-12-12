@@ -215,13 +215,13 @@ public class Client {
         return authorised;
     }
 
+    //GET /user
     public static JSONArray getUsers() throws IOException, JSONException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         return doGetRequest(url_user,null);
     }
 
-    //GET /user
     public static JSONObject getUser(String email) throws Exception {
         JSONArray users = getUsers();
         for (int i = 0; i < users.length(); ++i) {
@@ -243,6 +243,7 @@ public class Client {
         doPutRequestJSON(params,url_user);
     }
 
+    //GET /person/userPasswordMatch
     public static Boolean userPasswordMatch(String email,String introduced_password) throws Exception {
         JSONObject json_parameters = new JSONObject();
         json_parameters.put("email", email);
@@ -314,6 +315,16 @@ public class Client {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         return doGetRequest(url_tag,null);
+    }
+
+    public static JSONObject getTag(String tag) throws IOException, JSONException {
+        JSONArray tags = getTags();
+        for (int i = 0; i < tags.length(); i++) {
+            JSONObject json = (JSONObject) tags.get(i);
+            String email_json = (String) json.get("name");
+            if (email_json.equals(tag)) return json;
+        }
+        throw new JSONException("tag_not_found");
     }
 
     //DELETE /tag
@@ -391,6 +402,7 @@ public class Client {
         }
     }
 
+    //DELETE /landmark
     public static void deleteLandmark(int id) throws IOException, JSONException {
         JSONObject params = new JSONObject();
         params.put("landmark_id",id);

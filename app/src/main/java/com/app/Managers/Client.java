@@ -187,7 +187,7 @@ public class Client {
     }
 
     //POST /user
-    public static void CreateUser(String name,Integer phone_num, String email, String password) throws IOException, JSONException, NoSuchAlgorithmException {
+    public static int CreateUser(String name,Integer phone_num, String email, String password) throws IOException, JSONException, NoSuchAlgorithmException {
         JSONObject json_user = new JSONObject();
         json_user.put("email", email);
         json_user.put("last_coordinate_x", 0.0);
@@ -199,7 +199,7 @@ public class Client {
         json_user.put("token",digest.digest((email+name).getBytes(StandardCharsets.UTF_8)));
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        doPostRequestJson(json_user, url_user);
+        return doPostRequestJson(json_user, url_user);
     }
 
     //DELETE /user

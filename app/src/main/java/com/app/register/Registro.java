@@ -60,49 +60,38 @@ public class Registro extends AppCompatActivity {
                             Snackbar mySnackbar = Snackbar.make(view, "Wrong phone format", 1600);
                             mySnackbar.show();
                         }
+                        /*else if (Validators.userExists(TextEmail.getText().toString())) {
+                            Snackbar mySnackbar = Snackbar.make(view, "Email already in use", 1600);
+                            mySnackbar.show();
+                        }*/
                         else {
                             try {
                                 String name = TextName.getText().toString();
                                 Integer phone = Integer.parseInt(TextPhone.getText().toString());
                                 String email = TextEmail.getText().toString();
                                 String password= TextPassword.getText().toString();
-                                Client.CreateUser(name, phone, email, password);
+                                int aux = Client.CreateUser(name, phone, email, password);
+                                if (aux == 208) {
+                                    throw new Exception("user_already_registered");
+                                }
+                                Bundle informa = new Bundle();
+                                informa.putString("email", TextEmail.getText().toString());
+                                informa.putString("pass", TextPassword.getText().toString());
 
+                                Intent i = new Intent(Registro.this, Menuprincipal.class);
+                                i.putExtras(informa);
+                                startActivity(i);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                            } catch (Exception e) {
+                                Snackbar mySnackbar = Snackbar.make(view, "Email already in use", 1600);
+                                mySnackbar.show();
                             }
-                            Bundle informa = new Bundle();
-                            informa.putString("email", TextEmail.getText().toString());
-                            informa.putString("pass", TextPassword.getText().toString());
-
-                            Intent i = new Intent(Registro.this, Menuprincipal.class);
-                            i.putExtras(informa);
-                            startActivity(i);
-                            //startActivity(new Intent(Registro.this, Menuprincipal.class));
                         }
                     }
                 }
         );
-
-        /*
-            public void onClick(View v){
-                try {
-                    String name = TextName.getText().toString();
-                    String email = TextEmail.getText().toString();
-                    Integer phone = Integer.parseInt(TextPhone.getText().toString());
-                    String password = TextPassword.getText().toString();
-
-                    Client.CreateUser(name, phone, email, password);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    startActivity(new Intent(Registro.this, MainActivity.class));
-                }
-            }
-        });*/
-
     }
 }

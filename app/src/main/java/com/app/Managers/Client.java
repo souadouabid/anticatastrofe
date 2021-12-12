@@ -47,17 +47,17 @@ public class Client {
 
         os.close();
         try {
-              conn.connect();
-              int status = conn.getResponseCode();
-              return status;
+            conn.connect();
+            int status = conn.getResponseCode();
+            return status;
 
-          } catch (IOException e) {
-              e.printStackTrace();
-          } catch (RuntimeException e) {
-              e.printStackTrace();
-          }
-          return 0;
-      }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     private static String GetPasswordMatchRequest(String url, String email, String password) throws IOException, JSONException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -183,7 +183,7 @@ public class Client {
         return 0;
     }
 
-    public static void CreateUser(String name,Integer phone_num, String email, String password) throws IOException, JSONException {
+    public static Integer CreateUser(String name,Integer phone_num, String email, String password) throws IOException, JSONException {
         JSONObject json_person = new JSONObject();
         json_person.put("name", name);
         json_person.put("phone_num", phone_num);
@@ -202,7 +202,7 @@ public class Client {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         doPostRequestJson(json_person,url_person);
-        doPostRequestJson(json_user, url_user);
+        return doPostRequestJson(json_user, url_user);
     }
 
     public static boolean deleteUser(String email, String introduced_password) throws Exception {
@@ -249,7 +249,7 @@ public class Client {
     public static JSONArray getPersons() throws Exception {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        return doGetRequest(url_person,null);
+        return doGetRequest(url_person+"/persons",null);
     }
 
     public static JSONObject getPerson(String email) throws Exception {

@@ -196,7 +196,7 @@ public class Client {
         json_user.put("phone_num",phone_num);
         json_user.put("password",password);
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        json_user.put("token",digest.digest((email+name).getBytes(StandardCharsets.UTF_8)));
+        json_user.put("token",digest.digest((email+name).getBytes(StandardCharsets.UTF_8)).toString());
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         return doPostRequestJson(json_user, url_user);
@@ -250,9 +250,10 @@ public class Client {
         String url = url_person + "/userPasswordMatch";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String result = GetPasswordMatchRequest(url,email, introduced_password);
-
-
+        //String result = GetPasswordMatchRequest(url,email, introduced_password);
+        JSONArray res_array = doGetRequest(url,json_parameters);
+        JSONObject res_json = (JSONObject) res_array.get(0);
+        String result = (String) res_json.get("login_success");
         return result.equals("true");
     }
 

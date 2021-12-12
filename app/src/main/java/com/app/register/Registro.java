@@ -51,12 +51,12 @@ public class Registro extends AppCompatActivity {
                         else if (!TextPassword.getText().toString().equals(TextPassRepetida.getText().toString())) {
                             startActivity(new Intent(Registro.this, popupPassword.class));
                         }
-                        else if ((!Validators.validateEmail(TextEmail.getText().toString()))) {
+                        else if ((Validators.validateEmail(TextEmail.getText().toString()))) {
                             Snackbar mySnackbar = Snackbar.make(view, "Wrong email format", 1600);
                             mySnackbar.show();
                         }
 
-                        else if (!Validators.validatePhone(TextPhone.getText().toString())) {
+                        else if (Validators.validatePhone(TextPhone.getText().toString())) {
                             Snackbar mySnackbar = Snackbar.make(view, "Wrong phone format", 1600);
                             mySnackbar.show();
                         }

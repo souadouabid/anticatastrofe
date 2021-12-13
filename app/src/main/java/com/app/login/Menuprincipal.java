@@ -8,11 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 
+import com.app.register.Registro;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -47,7 +47,12 @@ public class Menuprincipal extends AppCompatActivity {
         binding.appBarMenuprincipal.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Menuprincipal.this, Notificacions.class));
+                Bundle informa = new Bundle();
+                informa.putString("email", email);
+                Intent in = new Intent(Menuprincipal.this, Notificacions.class);
+                in.putExtras(informa);
+                startActivity(in);
+                //startActivity(new Intent(Menuprincipal.this, Notificacions.class));
                 /*
                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/

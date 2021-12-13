@@ -16,6 +16,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
@@ -100,20 +101,25 @@ public class Client {
     private static JSONArray doGetRequest(String url, JSONObject json_parameters) throws IOException, JSONException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        URL u = new URL(url);
-        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-        conn.setRequestMethod("GET");
-
-        //parameters
+        StringBuilder query = new StringBuilder("?");
         if(json_parameters != null) {
             Iterator<String> keys = json_parameters.keys();
             for (int i = 0; i < json_parameters.length(); i++) {
                 String key = keys.next();
                 String value = json_parameters.getString(key);
-                conn.setRequestProperty(key, value);
-
+                query.append(String.format("%1$s=%2$s", key, value));
+                if (i < json_parameters.length()-1) query.append("&");
+                //conn.setRequestProperty(key, value);
             }
         }
+        URL u;
+        if (json_parameters != null) u = new URL(url + query);
+        else u = new URL(url);
+        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+        conn.setRequestMethod("GET");
+
+        //parameters
+
         try {
             conn.connect();
             int status = conn.getResponseCode();
@@ -122,14 +128,22 @@ public class Client {
                 case 200:
                 case 201:
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
+                    StringBuilder sb = new StringBuilder("[");
                     String line;
                     while ((line = br.readLine()) != null) {
                         sb.append(line+"\n");
                     }
                     br.close();
-                    JSONArray jsonArray =  new JSONArray(sb.toString());
+                    sb.append("]");
+                    String version = sb.toString();
+                    JSONArray jsonArray =  new JSONArray(version);
                     return jsonArray;
+                default:
+                    JSONArray jsonArray1 = new JSONArray();
+                    JSONObject obj = new JSONObject();
+                    obj.put("login_success","false"); //No hauria de ser aixi, pero es una tirita
+                    jsonArray1.put(obj);
+                    return jsonArray1;
             }
 
         } catch (IOException e) {
@@ -142,11 +156,24 @@ public class Client {
         return null;
     }
 
-    private static int doDeleteRequestJSON(JSONObject object, String url) throws IOException {
-        URL u = new URL(url);
+    private static int doDeleteRequestJSON(JSONObject object, String url) throws IOException, JSONException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        StringBuilder query = new StringBuilder("?");
+        if(object != null) {
+            Iterator<String> keys = object.keys();
+            for (int i = 0; i < object.length(); i++) {
+                String key = keys.next();
+                String value = object.getString(key);
+                query.append(String.format("%1$s=%2$s", key, value));
+                if (i < object.length()-1) query.append("&");
+                //conn.setRequestProperty(key, value);
+            }
+        }
+        URL u;
+        if (object != null) u = new URL(url + query);
+        else u = new URL(url);
         HttpURLConnection  conn = (HttpURLConnection) u.openConnection();
-        conn.setRequestProperty("Content-Type","application/json");
-        conn.setRequestProperty("Accept","application/json");
         conn.setRequestMethod("DELETE");
         try {
             conn.connect();
@@ -163,6 +190,8 @@ public class Client {
     }
 
     private static int doPutRequestJSON(JSONObject change, String url) throws IOException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         URL u = new URL(url);
         HttpURLConnection  conn = (HttpURLConnection) u.openConnection();
         conn.setRequestProperty("Content-Type","application/json");
@@ -196,7 +225,7 @@ public class Client {
         json_user.put("phone_num",phone_num);
         json_user.put("password",password);
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        json_user.put("token",digest.digest((email+name).getBytes(StandardCharsets.UTF_8)).toString());
+        json_user.put("token", Arrays.toString(digest.digest((email + name).getBytes(StandardCharsets.UTF_8))));
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         return doPostRequestJson(json_user, url_user);
@@ -301,10 +330,11 @@ public class Client {
     }
 
     //POST /tag
-    public static void createTag(String name, String description) throws Exception {
+    public static void createTag(String name, String description, int color) throws Exception {
         JSONObject json_params = new JSONObject();
         json_params.put("name",name);
         json_params.put("description",description);
+        json_params.put("color", color);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         doPostRequestJson(json_params,url_tag);
@@ -412,32 +442,25 @@ public class Client {
     }
 
     //Ja no s'hauria de necessitar
-    public static void createLandmarkPep(int id, float coordinate_x, float coordinate_y, String title,String desc ) throws Exception {
+    public static void createLandmarkPep(int id, float coordinate_x, float coordinate_y, String title, String desc, String email ) throws Exception {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
         JSONObject json_landmark = new JSONObject();
-        JSONObject json_landmark_creator = new JSONObject();
-        JSONObject json_landmark_tag = new JSONObject();
+        JSONObject json_landmark_tag = getTag(email);
 
-        json_landmark_creator.put("email", "string");
-        json_landmark_creator.put("name", "string");
-        json_landmark_creator.put("phone_num", 0);
-        json_landmark_creator.put("password", "string");
-        json_landmark_creator.put("token", "string");
-        json_landmark_creator.put("landmark", JSONObject.NULL);
-
-        json_landmark_tag.put("name", title);
-        json_landmark_tag.put("description",desc);
-        createTag(title, desc);
+        if (json_landmark_tag.length() == 0) {
+            createTag(email, "adreça d'interès", 0);
+        }
 
         json_landmark.put("id", id);
         json_landmark.put("coordinate_x",coordinate_x);
         json_landmark.put("coordinate_y",coordinate_y);
+        json_landmark.put("tag_name",email);
+        json_landmark.put("creator_email",email);
+        json_landmark.put("title", title);
         json_landmark.put("description", desc);
-        json_landmark.put("creator",json_landmark_creator);
-        json_landmark.put("tag",json_landmark_tag);
         doPostRequestJson(json_landmark,url_landmark);
-
     }
 
     //GET /message
@@ -612,6 +635,31 @@ public class Client {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         doPostRequestJson(info,url_additional_info);
+    }
+
+    public static JSONArray getUserNotifications(String email) throws Exception {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        JSONArray notifications = doGetRequest(url_notification,null);
+        JSONArray user_notifications = new JSONArray();
+        for (int i = 0; i < notifications.length(); ++i) {
+            JSONObject noti = (JSONObject) notifications.get(i);
+            String email_json = (String) noti.get("email");
+            if (email_json.equals(email)) {
+                user_notifications.put(noti);
+            }
+        }
+        return user_notifications;
+    }
+
+    public static boolean deleteUserNotification(String email, int id) throws Exception {
+        JSONObject json_params = new JSONObject();
+        json_params.put("id",id);
+        json_params.put("email",email);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        doDeleteRequestJSON(json_params,url_notification);
+        return true;
     }
 
     public static void deleteAdditionalInfo(String email) throws IOException, JSONException {

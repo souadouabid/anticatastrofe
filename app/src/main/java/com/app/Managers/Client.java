@@ -261,6 +261,22 @@ public class Client {
         }
         throw new Exception("user_not_found");
     }
+    public static JSONArray getTags() throws IOException, JSONException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        return doGetRequest(url_tag,null);
+    }
+
+    public static JSONObject getTag(String tag) throws IOException, JSONException {
+        JSONArray tags = getTags();
+        for (int i = 0; i < tags.length(); i++) {
+            JSONObject json = (JSONObject) tags.get(i);
+            String email_json = (String) json.get("name");
+            if (email_json.equals(tag)) return json;
+        }
+        return new JSONObject();
+    }
+
 
     public static void setUserLocation(String email, float coordinate_x, float coordinate_y, float coordinate_z) throws Exception {
         JSONObject json_parameters = new JSONObject();
@@ -318,10 +334,11 @@ public class Client {
         else throw new Exception("user_not_found");
     }
 
-    public static void createTag(String name, String description) throws Exception {
+    public static void createTag(String name, String description, int color) throws Exception {
         JSONObject json_params = new JSONObject();
         json_params.put("name",name);
         json_params.put("description",description);
+        json_params.put("color", color);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         doPostRequestJson(json_params,url_tag);
@@ -344,7 +361,7 @@ public class Client {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         if (doPostRequestJson(json_landmark,url_landmark) == 424) {
-            createTag(tag_name,description);
+            createTag(tag_name,description, 0);
             json_tag.put("name",tag_name);
             json_tag.put("description",description);
             json_landmark.put("tag",json_tag);
@@ -352,32 +369,25 @@ public class Client {
         }
     }
 
-    public static void createLandmarkPep(int id, float coordinate_x, float coordinate_y, String title,String desc ) throws Exception {
+    public static void createLandmarkPep(int id, float coordinate_x, float coordinate_y, String title, String desc, String email ) throws Exception {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
         JSONObject json_landmark = new JSONObject();
-        JSONObject json_landmark_creator = new JSONObject();
-        JSONObject json_landmark_tag = new JSONObject();
+        JSONObject json_landmark_tag = getTag(email);
 
-        json_landmark_creator.put("email", "string");
-        json_landmark_creator.put("name", "string");
-        json_landmark_creator.put("phone_num", 0);
-        json_landmark_creator.put("password", "string");
-        json_landmark_creator.put("token", "string");
-        json_landmark_creator.put("landmark", JSONObject.NULL);
-
-        json_landmark_tag.put("name", title);
-        json_landmark_tag.put("description",desc);
-        createTag(title, desc);
+        if (json_landmark_tag.length() == 0) {
+            createTag(email, "adreça d'interès", 0);
+        }
 
         json_landmark.put("id", id);
         json_landmark.put("coordinate_x",coordinate_x);
         json_landmark.put("coordinate_y",coordinate_y);
+        json_landmark.put("tag_name",email);
+        json_landmark.put("creator_email",email);
+        json_landmark.put("title", title);
         json_landmark.put("description", desc);
-        json_landmark.put("creator",json_landmark_creator);
-        json_landmark.put("tag",json_landmark_tag);
         doPostRequestJson(json_landmark,url_landmark);
-
     }
 
     public static JSONArray getAllLandmarks() throws Exception {

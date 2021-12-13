@@ -1,5 +1,8 @@
 package com.app.login;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
@@ -47,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
                                 Bundle informa = new Bundle();
                                 informa.putString("email", TextLogin.getText().toString());
                                 informa.putString("pass", Textpassword.getText().toString());
+
+                                SharedPreferences sp=getSharedPreferences("key", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor ed=sp.edit();
+                                ed.putString("email", TextLogin.getText().toString());
+                                ed.commit();
 
                                 Intent i = new Intent(MainActivity.this, Menuprincipal.class);
                                 i.putExtras(informa);

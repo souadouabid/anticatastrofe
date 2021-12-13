@@ -1,5 +1,8 @@
 package com.app.mapas;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
@@ -35,7 +38,7 @@ public class MarkerActivity extends AppCompatActivity {
     private Float latitude;
     private Float longitude;
     private Integer id_m;
-
+    private String email;
     private Spinner spinner;
     private static final String[] paths = {"Red", "Yellow", "Green", "Cian", "Blue", "Pink"};
 
@@ -56,10 +59,8 @@ public class MarkerActivity extends AppCompatActivity {
                         + "Long : " + longitude,
                 Toast.LENGTH_LONG).show();
 
-        System.out.println(id_m);
         id_m = (int)(Math.random()*100000);
         id_m *= 10;
-        System.out.println(id_m);
         Button ButtonCreaEtiq = (Button) findViewById(R.id.btn_crea_etiq);
         Button ButtonCancel = (Button) findViewById(R.id.btn_cancel);
 
@@ -107,9 +108,11 @@ public class MarkerActivity extends AppCompatActivity {
                     String desc = TextDescripcio.getText().toString();
 
                     try {
-                        System.out.println(id_m);
+                        SharedPreferences sp=getSharedPreferences("key", Context.MODE_PRIVATE);
+                        email = sp.getString("email", "android@gmail.com");
 
-                        Client.createLandmarkPep(id_m, latitude, longitude, titol, desc);
+                        Client.createLandmarkPep(id_m, latitude, longitude, titol, desc, email);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -143,7 +146,6 @@ public class MarkerActivity extends AppCompatActivity {
                 break;
             case 4:
                 id_m += 4;
-                System.out.println(id_m);
 
                 break;
             case 5:

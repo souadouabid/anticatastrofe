@@ -13,10 +13,7 @@
             android:id="@+id/perfilFragment"
             android:icon="@drawable/ic_perfil"
             android:title="@string/menu_perfil" />
-        <item
-            android:id="@+id/DonarseDeBaixa"
-            
-            android:title="@string/DonarsedeBaixa" />
+
 
     </group>
 </menu>

@@ -126,10 +126,6 @@ public class MapsActivity extends FragmentActivity implements
 
     public void onMapReady(GoogleMap map) {
         mMap = map;
-        /*googleMap.addMarker(new MarkerOptions()
-            .position(new LatLng(41.4144948,2.1526945))
-            .title("Marker"));
-        */
 
         agafartempscasa = false;
 
@@ -360,15 +356,58 @@ public class MapsActivity extends FragmentActivity implements
             return "Pluja Forta";
 
         }
+        if( id == 501 || id == 511 || id == 520 ||
+                id == 531 ) {
+            return "Pluja Moderada";
+
+        }
         if(id == 602 || id == 611 || id == 613 || id == 621 ||
                 id == 622 ) {
             return "Neu Forta";
+
+        }
+        if(id == 600 || id == 601 || id == 612 || id == 615 ||
+                id == 616 || id == 620 ) {
+            return "Neu Moderada";
 
         }
         if((id == 781 )) {
             return "Tornado";
 
         }
+        if((id == 800 )) {
+            return "Cel clar, no hi ha perill";
+
+        }
+        if(id == 801 || id == 802
+        ) {
+            return "Pocs Nuvols";
+
+        }
+        if(id == 803
+        ) {
+            return "Nuvols moderats";
+
+        }
+        if(id == 804
+        ) {
+            return "Molts nuvols";
+
+        }
+        if(id == 300 || id == 301 || id == 302 || id == 310 ||
+                id == 311 || id == 312 || id == 313  ||
+                id == 314 || id == 321 || id == 500 )
+        {
+            return "Pluja Suau";
+
+        }
+        if(id == 701 || id == 711 || id == 721 || id == 731 || id == 741
+                 ) {
+            return "Boira";
+
+        }
+
+
         return "No hi ha perill";
     }
 

@@ -33,4 +33,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="DonarsedeBaixa">Donar-se de baixa</string>
+    <string name="selecciona_etiquetes">Selecciona etiquetes</string>
+    <string name="selecciona_etiquetes2">Selecciona etiquetes2</string>
+    <string name="selecciona_etiquetes1">Selecciona Etiquetes1</string>
 </resources>

@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -46,6 +48,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.app.login.databinding.ActivityMapsBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -92,6 +95,12 @@ public class MapsActivity extends FragmentActivity implements
     private final List<Marker> mMarker = new ArrayList<Marker>();
     private Integer numMarkers;
 
+    MaterialCardView selectCard;
+    TextView tvMarkers;
+    boolean [] selectedMarkers;
+    ArrayList<Integer> markerList = new ArrayList<>();
+    String[] markerArray = {"Antenes", "Refugis", "Personals"};
+
     //every x seconds execute task
     Handler handler = new Handler();
     Runnable runnable;
@@ -109,7 +118,9 @@ public class MapsActivity extends FragmentActivity implements
         mapFragment.getMapAsync(this);
         getWeatherForCurrentLocation();
 
-
+        selectCard = findViewById(R.id.selectCard);
+        tvMarkers = findViewById(R.id.tvMarkers);
+        selectedMarkers = new boolean[markerArray.length];
 
     }
 
@@ -195,7 +206,8 @@ public class MapsActivity extends FragmentActivity implements
                         .position(new LatLng(lat, lon))
                         .title(title)
                         .snippet(desc)
-                        .visible(true)
+                        .visible(false)
+                        .alpha(0.9999f)
                         .icon((BitmapDescriptorFactory.fromResource(R.drawable.antena)))
 
                 );
@@ -213,7 +225,8 @@ public class MapsActivity extends FragmentActivity implements
                         .position(new LatLng(lat,lon))
                         .title(title)
                         .snippet(desc)
-                        .visible(true)
+                        .visible(false)
+                        .alpha(0.9998f)
                         .icon((BitmapDescriptorFactory.fromResource(R.drawable.refugi)))
                 );
                 marcat = true;
@@ -225,7 +238,8 @@ public class MapsActivity extends FragmentActivity implements
                     .position(new LatLng(lat,lon))
                     .title(title)
                     .snippet(desc)
-                    .visible(true)
+                    .visible(false)
+                    .alpha(0.9997f)
                     .icon(BitmapDescriptorFactory.defaultMarker(color))
                 );
                 marcat = true;
@@ -322,8 +336,100 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
 
-        showEtiq = (Button) findViewById(R.id.showEtiq);
+
+        selectCard.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  // .setVisible(true a tots els markers)
+                  showMarkersDialog();
+              }
+        });
+
+    }
+
+    private void showMarkersDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+
+        builder.setTitle("Selecciona Etiquetes");
+        builder.setCancelable(false);
+
+        builder.setMultiChoiceItems(markerArray, selectedMarkers, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                if (isChecked){
+                    markerList.add(which);
+                }else{
+                    markerList.remove(which);
+                }
+            }
+        }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                StringBuilder stringBuilder = new StringBuilder();
+                for(int i = 0; i < markerList.size(); ++i){
+                    stringBuilder.append(markerArray[markerList.get(i)]);
+
+                    if (i != markerList.size() -1) {
+                        stringBuilder.append(", ");
+                    }
+                    tvMarkers.setText(stringBuilder.toString());
+                }
+            }
+
+        }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setNeutralButton("Clear all", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for(int i = 0; i < selectedMarkers.length; ++i){
+                    selectedMarkers[i]=false;
+                    markerList.clear();
+                    tvMarkers.setText("");
+                }
+            }
+        });
+        builder.show();
+
+
+
+     /*   showEtiq = (Button) findViewById(R.id.showEtiq);
         showEtiq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // .setVisible(true a tots els markers)
+                for(int i = 0; i < numMarkers; ++i){
+                    Marker marker = mMarker.get(i);
+                    if (marker.getAlpha() == 0.9999f || marker.getAlpha() == 0.9998f) {
+                        marker.setVisible(true);
+                    }
+                }
+
+                showEtiq.setVisibility(View.INVISIBLE);
+                hideEtiq.setVisibility(View.VISIBLE);
+            }
+        });
+
+        hideEtiq = (Button) findViewById(R.id.hideEtiq);
+        hideEtiq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // .setVisible(false a tots els markers)
+                for(int i = 0; i < numMarkers; ++i){
+                    Marker marker = mMarker.get(i);
+                    if (marker.getAlpha() == 0.9999f || marker.getAlpha() == 0.9998f) {
+                        marker.setVisible(false);
+                    }                }
+                showEtiq.setVisibility(View.VISIBLE);
+                hideEtiq.setVisibility(View.INVISIBLE);
+            }
+        }); */
+/*
+        showEtiqAntena = (Button) findViewById(R.id.showEtiqAntena);
+        showEtiqAntena.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // .setVisible(true a tots els markers)
@@ -332,8 +438,8 @@ public class MapsActivity extends FragmentActivity implements
                     marker.setVisible(true);
                 }
 
-                showEtiq.setVisibility(View.INVISIBLE);
-                hideEtiq.setVisibility(View.VISIBLE);
+                showEtiqAntena.setVisibility(View.INVISIBLE);
+                hideEtiqAntena.setVisibility(View.VISIBLE);
             }
         });
 
@@ -350,8 +456,10 @@ public class MapsActivity extends FragmentActivity implements
                 hideEtiq.setVisibility(View.INVISIBLE);
             }
         });
+        */
 
     }
+
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -643,3 +751,4 @@ public class MapsActivity extends FragmentActivity implements
 
 
 }
+

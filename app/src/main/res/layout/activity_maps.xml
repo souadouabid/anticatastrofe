@@ -34,18 +34,16 @@
             android:id="@+id/btnsatelit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Satèlit" />
+            android:text="Satèlit"
+            android:backgroundTint="@color/purple_500"
+            android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/activaEtiqfals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Crea Etiquetes" />
-        <Button
-            android:id="@+id/hideEtiq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Amaga Etiquetes" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -54,24 +52,49 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/bthibrid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Híbrid"
-            android:id="@+id/bthibrid" />
+            android:backgroundTint="@color/purple_500"
+            android:textColor="@color/white" />
+
         <Button
             android:id="@+id/activaEtiq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crea Etiquetes" />
+            android:backgroundTint="@color/purple_500"
+            android:text="Crea Etiquetes"
+            android:textColor="@color/white" />
 
-        <Button
-            android:id="@+id/showEtiq"
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/selectCard"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/selecciona_etiquetes"
+            android:visibility="visible"
+            map:cardBackgroundColor="@color/purple_500"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tvMarkers"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="6dp"
+                android:hint="VEURE ETIQUETES"
+                android:text="VEURE ETIQUETES"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ensenya Etiquetes" />
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true" />
     </LinearLayout>
-
-
 
 
 </RelativeLayout>

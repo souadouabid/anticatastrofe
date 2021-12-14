@@ -135,6 +135,7 @@ public class MapsActivity extends FragmentActivity implements
         mMap = map;
 
         agafartempscasa = false;
+        System.out.println("ola1");
 
         try {
             landmarks = Client.getAllLandmarks();
@@ -142,10 +143,11 @@ public class MapsActivity extends FragmentActivity implements
             e.printStackTrace();
         }
         JSONObject land = null;
+        System.out.println("2");
         numMarkers = landmarks.length();
 
         for(int i = 0; i < numMarkers; ++i){
-            try {
+            try {        System.out.println("33");
                 land = landmarks.getJSONObject(i);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -158,11 +160,22 @@ public class MapsActivity extends FragmentActivity implements
             Integer id = 0;
             String tag = null;
             String email = null;
+            System.out.println("44");
+
             try {
+                System.out.println("55");
+                System.out.println(land);
+
+                assert land != null;
+                System.out.println("66");
+
                 lat = land.getDouble("coordinate_x");
+                System.out.println("77");
+
             } catch (JSONException e) {
                 e.printStackTrace();
             };
+            System.out.println("88");
 
             try {
                 lon = land.getDouble("coordinate_y");
@@ -207,7 +220,7 @@ public class MapsActivity extends FragmentActivity implements
             System.out.println("ola");
 
             if (tag.equals("antena")) {
-                System.out.println("ola1");
+                System.out.println("ola1antena");
 
                 Marker mark = mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(lat, lon))

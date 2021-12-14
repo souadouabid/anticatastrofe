@@ -375,6 +375,18 @@ public class MapsActivity extends FragmentActivity implements
                     }
                     tvMarkers.setText(stringBuilder.toString());
                 }
+
+                for(int i = 0; i < numMarkers; ++i){
+                    Marker marker = mMarker.get(i);
+                    if ((marker.getAlpha() == 0.9999f && selectedMarkers[0])
+                            || (marker.getAlpha() == 0.9998f && selectedMarkers[1])
+                            || (marker.getAlpha() == 0.9997f && selectedMarkers[2])) {
+                        marker.setVisible(true);
+                    } else{
+                        marker.setVisible(false);
+                    }
+                }
+
             }
 
         }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {

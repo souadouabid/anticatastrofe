@@ -334,13 +334,9 @@ public class MapsActivity extends FragmentActivity implements
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(arg0);
                     mMap.animateCamera(CameraUpdateFactory.newLatLng(arg0));
-                    String tempsres;
-                    tempsres = "LOLOlO";
                     markerOptions.title("Temps Residencia:");
-                    // SHA AGUT DE CREAR DUES FUNCIONS DE crides a lapi, perque la gestio amb
-                    // globals no es podia gestionar correctament
                     callWeatherService(arg0, false, true);
-                    markerOptions.snippet( String.valueOf(idWeathercasa2));
+                    markerOptions.snippet( evaluarIdWeather(idWeathercasa2));
 
                     Marker marker = mMap.addMarker(markerOptions);
                     marker.showInfoWindow();
@@ -350,6 +346,32 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
     }
+    private String evaluarIdWeather(int id){
+        if(id == 200 || id == 201 || id == 202 || id == 210 ||
+                id == 211 || id == 212 || id == 221  ||
+                id == 230 || id == 231 || id == 232)
+                {
+            return "Tempesta";
+
+        }
+
+        if(id == 502 || id == 503 || id == 504 || id == 521 ||
+                id == 522 ) {
+            return "Pluja Forta";
+
+        }
+        if(id == 602 || id == 611 || id == 613 || id == 621 ||
+                id == 622 ) {
+            return "Neu Forta";
+
+        }
+        if((id == 781 )) {
+            return "Tornado";
+
+        }
+        return "No hi ha perill";
+    }
+
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -416,20 +438,6 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
-    //todoo
-    private int evaluateClimateConditions(int idWeather){
-        //casos solo de peligro
-        switch (idWeather){
-            //casos de perill retornar 1
-            case 500:
-            case 701:
-                return 1;
-
-
-            default://no funcionalitat de moment
-                return 1;
-        }
-    }
 
     private void updateUI(JSONObject weather,boolean fromButton, boolean fromResidencia) {
         try {

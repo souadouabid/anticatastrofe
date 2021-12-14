@@ -97,8 +97,7 @@ public class Client {
         return "false";
     }
 
-
-    private static JSONArray doGetRequest(String url, JSONObject json_parameters) throws IOException, JSONException {
+    private static JSONArray doSpecialGetRequest(String url, JSONObject json_parameters) throws IOException, JSONException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         StringBuilder query = new StringBuilder("?");
@@ -137,6 +136,62 @@ public class Client {
                     sb.append("]");
                     String version = sb.toString();
                     JSONArray jsonArray =  new JSONArray(version);
+                    return jsonArray;
+                default:
+                    JSONArray jsonArray1 = new JSONArray();
+                    JSONObject obj = new JSONObject();
+                    obj.put("login_success","false"); //No hauria de ser aixi, pero es una tirita
+                    jsonArray1.put(obj);
+                    return jsonArray1;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static JSONArray doGetRequest(String url, JSONObject json_parameters) throws IOException, JSONException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        StringBuilder query = new StringBuilder("?");
+        if(json_parameters != null) {
+            Iterator<String> keys = json_parameters.keys();
+            for (int i = 0; i < json_parameters.length(); i++) {
+                String key = keys.next();
+                String value = json_parameters.getString(key);
+                query.append(String.format("%1$s=%2$s", key, value));
+                if (i < json_parameters.length()-1) query.append("&");
+                //conn.setRequestProperty(key, value);
+            }
+        }
+        URL u;
+        if (json_parameters != null) u = new URL(url + query);
+        else u = new URL(url);
+        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+        conn.setRequestMethod("GET");
+
+        //parameters
+
+        try {
+            conn.connect();
+            int status = conn.getResponseCode();
+
+            switch (status) {
+                case 200:
+                case 201:
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line+"\n");
+                    }
+                    br.close();
+                    JSONArray jsonArray =  new JSONArray(sb.toString());
                     return jsonArray;
                 default:
                     JSONArray jsonArray1 = new JSONArray();
@@ -281,10 +336,13 @@ public class Client {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         //String result = GetPasswordMatchRequest(url,email, introduced_password);
-        JSONArray res_array = doGetRequest(url,json_parameters);
-        JSONObject res_json = (JSONObject) res_array.get(0);
-        String result = (String) res_json.get("login_success");
-        return result.equals("true");
+        JSONArray res_array = doSpecialGetRequest(url,json_parameters);
+        if (res_array.length() > 0) {
+            JSONObject res_json = (JSONObject) res_array.get(0);
+            String result = (String) res_json.get("login_success");
+            return result.equals("true");
+        }
+        throw new JSONException("Bad credentials");
     }
 
     //GET /person/persons
@@ -321,7 +379,7 @@ public class Client {
         query.put("introduced_password",password);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        JSONArray out = doGetRequest(url_person+"/getToken",query);
+        JSONArray out = doSpecialGetRequest(url_person+"/getToken",query);
         if (out.length() > 0) {
             JSONObject token_json = (JSONObject) out.get(0);
             return (String) token_json.get("token");

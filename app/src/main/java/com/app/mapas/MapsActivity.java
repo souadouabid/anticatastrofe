@@ -113,20 +113,10 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    public void generador_marcadors(GoogleMap googleMap) {
-        mMap = googleMap;
-        final LatLng punto1 = new LatLng(41.4144948, 2.1526945);
-        mMap.addMarker(new MarkerOptions().position(punto1).title("Barcelona"));
-    }
+
 
     public void onMapReady(GoogleMap map) {
         mMap = map;
-        /*googleMap.addMarker(new MarkerOptions()
-            .position(new LatLng(41.4144948,2.1526945))
-            .title("Marker"));
-        */
-
-
 
         try {
             landmarks = Client.getAllLandmarks();
@@ -148,29 +138,28 @@ public class MapsActivity extends FragmentActivity implements
             String title = null;
             String desc = null;
             Integer id = 0;
+            String tag = null;
+            String email = null;
             try {
                 lat = land.getDouble("coordinate_x");
-                System.out.println(lat);
             } catch (JSONException e) {
                 e.printStackTrace();
             };
+
             try {
                 lon = land.getDouble("coordinate_y");
-                System.out.println(lon);
             } catch (JSONException e) {
                 e.printStackTrace();
             };
-            try {
-                title = land.getString("tag");
-                System.out.println(title);
 
+            try {
+                title = land.getString("title");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             try {
                 desc = land.getString("description");
-                System.out.println(desc);
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -181,18 +170,69 @@ public class MapsActivity extends FragmentActivity implements
                 e.printStackTrace();
             }
 
-            Float color = (((float)id % 10) * 60) % 360;
+            try {
+                tag = land.getString("tag");
+                System.out.println(tag);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-            Marker marker = mMap.addMarker(new MarkerOptions()
+            try {
+                email = land.getString("creator_email");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Float color = (((float)id % 10) * 60) % 360;
+            Boolean marcat = false;
+            assert tag != null;
+            System.out.println("ola");
+
+            if (tag.equals("antena")) {
+                System.out.println("ola1");
+
+                Marker mark = mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(lat, lon))
+                        .title(title)
+                        .snippet(desc)
+                        .visible(true)
+                        .icon((BitmapDescriptorFactory.fromResource(R.drawable.antena)))
+
+                );
+                System.out.println("ola2");
+
+                marcat = true;
+                mMarker.add(mark);
+                System.out.println("ola3");
+
+            }
+
+
+            if (!marcat & tag.equals("refugi")){
+                Marker mark = mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(lat,lon))
+                        .title(title)
+                        .snippet(desc)
+                        .visible(true)
+                        .icon((BitmapDescriptorFactory.fromResource(R.drawable.refugi)))
+                );
+                marcat = true;
+                mMarker.add(mark);
+            }
+
+            if (!marcat & tag.equals(email)){
+                Marker mark = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(lat,lon))
                     .title(title)
                     .snippet(desc)
-                    .visible(false)
+                    .visible(true)
                     .icon(BitmapDescriptorFactory.defaultMarker(color))
+                );
+                marcat = true;
+                mMarker.add(mark);
+            }
 
-            );
 
-            mMarker.add(marker);
         }
 
 

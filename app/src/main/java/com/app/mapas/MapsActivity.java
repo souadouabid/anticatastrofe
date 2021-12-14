@@ -85,12 +85,17 @@ public class MapsActivity extends FragmentActivity implements
     private FusedLocationProviderClient client;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private Button mTypeBtn, mTypeBtn2, mButoninfo, activaEtiq, showEtiq, hideEtiq;
+    private Button mTypeBtn, mTypeBtn2, mButoninfo, activaEtiq, showEtiq, hideEtiq, tres;
     private FloatingActionButton mButtonWeather;
     private boolean activaMarkers;
     private JSONArray landmarks;
     private final List<Marker> mMarker = new ArrayList<Marker>();
     private Integer numMarkers;
+    private boolean agafartempscasa;
+    String idWeathercasa;
+    int idWeathercasa2;
+    private double tempcasa;
+    private double speedcasa;
 
     //every x seconds execute task
     Handler handler = new Handler();
@@ -126,7 +131,7 @@ public class MapsActivity extends FragmentActivity implements
             .title("Marker"));
         */
 
-
+        agafartempscasa = false;
 
         try {
             landmarks = Client.getAllLandmarks();
@@ -136,7 +141,7 @@ public class MapsActivity extends FragmentActivity implements
         JSONObject land = null;
         numMarkers = landmarks.length();
 
-        for(int i = 0; i < numMarkers; ++i){
+      /*  for(int i = 0; i < numMarkers; ++i){
             try {
                 land = landmarks.getJSONObject(i);
             } catch (JSONException e) {
@@ -194,7 +199,7 @@ public class MapsActivity extends FragmentActivity implements
 
             mMarker.add(marker);
         }
-
+*/
 
 
 
@@ -224,7 +229,7 @@ public class MapsActivity extends FragmentActivity implements
                         params.put("lat", Latitude);
                         params.put("lon", Longitude);
                         params.put("appid", APP_ID);
-                        requestWeather(params,false);
+                        requestWeather(params,false, false);
                     }
                 }
 
@@ -250,7 +255,7 @@ public class MapsActivity extends FragmentActivity implements
         mButtonWeather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callWeatherService(lastLocation,true);
+                callWeatherService(lastLocation,true, false);
             }
         });
 
@@ -273,6 +278,13 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
 
+        tres = (Button) findViewById(R.id.bresidencia);
+        tres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                agafartresidencia();
+            }
+        });
 
         activaEtiq = (Button) findViewById(R.id.activaEtiq);
         activaEtiq.setOnClickListener(new View.OnClickListener() {
@@ -312,6 +324,32 @@ public class MapsActivity extends FragmentActivity implements
         });
 
     }
+    public void agafartresidencia(){
+        agafartempscasa = true;
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng arg0) {
+                if (agafartempscasa) {
+                    mMap.clear();
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(arg0);
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(arg0));
+                    String tempsres;
+                    tempsres = "LOLOlO";
+                    markerOptions.title("Temps Residencia:");
+                    // SHA AGUT DE CREAR DUES FUNCIONS DE crides a lapi, perque la gestio amb
+                    // globals no es podia gestionar correctament
+                    callWeatherService(arg0, false, true);
+                    markerOptions.snippet( String.valueOf(idWeathercasa2));
+
+                    Marker marker = mMap.addMarker(markerOptions);
+                    marker.showInfoWindow();
+
+                    agafartempscasa = false;
+                }
+            }
+        });
+    }
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -332,7 +370,7 @@ public class MapsActivity extends FragmentActivity implements
 
 
                 if(lastLocation!=null && lastLocation.latitude!=0 && lastLocation.longitude!=0 && !DIALOG_IS_SHOWING){
-                    callWeatherService(lastLocation,false);
+                    callWeatherService(lastLocation,false, false);
                 }
             }
         }, delay);
@@ -340,7 +378,7 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
-    private void callWeatherService(LatLng location,boolean fromButton){
+    private void callWeatherService(LatLng location,boolean fromButton,  boolean fromResidencia){
         String Latitude = String.valueOf(location.latitude);
         String Longitude = String.valueOf(location.longitude);
 
@@ -349,7 +387,7 @@ public class MapsActivity extends FragmentActivity implements
         params.put("lon", Longitude);
         params.put("units", "metric");
         params.put("appid", APP_ID);
-        requestWeather(params,fromButton);
+        requestWeather(params,fromButton, fromResidencia);
     }
 
     private void getWeatherForCurrentLocation() {
@@ -393,7 +431,7 @@ public class MapsActivity extends FragmentActivity implements
         }
     }
 
-    private void updateUI(JSONObject weather,boolean fromButton) {
+    private void updateUI(JSONObject weather,boolean fromButton, boolean fromResidencia) {
         try {
             int idWeather = weather.getJSONArray("weather").getJSONObject(0).getInt("id");
             double temp = weather.getJSONObject("main").getDouble("temp");
@@ -418,7 +456,11 @@ public class MapsActivity extends FragmentActivity implements
                 dialog.show();
                 return;
             }
+            if(fromResidencia){
+                idWeathercasa2 = idWeather;
+                return;
 
+            }
             if((idWeather == 200 || idWeather == 201 || idWeather == 202 || idWeather == 210 ||
                     idWeather == 211 || idWeather == 212 || idWeather == 221  ||
                     idWeather == 230 || idWeather == 231 || idWeather == 232)
@@ -564,7 +606,7 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    private void requestWeather(RequestParams params,boolean fromButton) {
+    private void requestWeather(RequestParams params,boolean fromButton,  boolean fromResidencia) {
         AsyncHttpClient client = new AsyncHttpClient();
 
         client.get(WEATHER_URL, params, new JsonHttpResponseHandler() {
@@ -572,7 +614,7 @@ public class MapsActivity extends FragmentActivity implements
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("WEATHER", response.toString());
 
-                updateUI(response,fromButton);
+                updateUI(response,fromButton, fromResidencia);
                 super.onSuccess(statusCode, headers, response);
             }
 

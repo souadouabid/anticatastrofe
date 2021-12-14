@@ -79,7 +79,7 @@
         android:background="#588326"
         android:text="Mostrar temps residencia"
         android:translationX="30px"
-        android:translationY="1200px"
+        android:translationY="1500px"
         map:icon="@drawable/ic_home" />
 
 

@@ -102,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements
     Handler handler = new Handler();
     Runnable runnable;
     int delay =  30 * 1000;//cada x segundos se ejecutara la tarea
-    LatLng lastLocation = new LatLng(0,0);//la ultima ubicacion
+    LatLng lastLocation;//la ultima ubicacion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -547,8 +547,9 @@ public class MapsActivity extends FragmentActivity implements
             if(fromButton || fromResidencia ){
 
                 idWeathercasa2 = idWeather3;
-                crearmarkercasa(idWeather3);
-                Log.d("weather4",String.valueOf(idWeathercasa2));
+                if(fromResidencia){
+                    crearmarkercasa(idWeather3);
+                }
 
                 String clima = evaluarIdWeather(idWeather3);
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);

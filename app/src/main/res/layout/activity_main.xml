@@ -95,5 +95,5 @@
         android:layout_height="wrap_content"
         android:gravity="center|bottom"
         android:text="@string/help"
-        tools:text="help" />
+        tools:text="@string/help" />
 </LinearLayout>

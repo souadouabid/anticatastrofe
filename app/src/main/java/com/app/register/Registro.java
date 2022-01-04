@@ -52,18 +52,15 @@ public class Registro extends AppCompatActivity {
                             startActivity(new Intent(Registro.this, popupPassword.class));
                         }
                         else if ((Validators.validateEmail(TextEmail.getText().toString()))) {
-                            Snackbar mySnackbar = Snackbar.make(view, "Wrong email format", 1600);
+                            Snackbar mySnackbar = Snackbar.make(view, R.string.fromat_mail, 1600);
                             mySnackbar.show();
                         }
 
                         else if (Validators.validatePhone(TextPhone.getText().toString())) {
-                            Snackbar mySnackbar = Snackbar.make(view, "Wrong phone format", 1600);
+                            Snackbar mySnackbar = Snackbar.make(view, R.string.tlf_format, 1600);
                             mySnackbar.show();
                         }
-                        /*else if (Validators.userExists(TextEmail.getText().toString())) {
-                            Snackbar mySnackbar = Snackbar.make(view, "Email already in use", 1600);
-                            mySnackbar.show();
-                        }*/
+
                         else {
                             try {
                                 String name = TextName.getText().toString();
@@ -86,7 +83,7 @@ public class Registro extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             } catch (Exception e) {
-                                Snackbar mySnackbar = Snackbar.make(view, "Email already in use", 1600);
+                                Snackbar mySnackbar = Snackbar.make(view, R.string.email_usat, 1600);
                                 mySnackbar.show();
                             }
                         }

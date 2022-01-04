@@ -58,7 +58,7 @@
         android:background="@drawable/edt_style"
         android:drawablePadding="10dp"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textPersonName" />
 
 

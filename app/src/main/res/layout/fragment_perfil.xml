@@ -14,7 +14,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="486dp" />
+            android:layout_height="304dp" />
 
         <Button
             android:id="@+id/buttonEditProfile"

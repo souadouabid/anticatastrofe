@@ -22,7 +22,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="348dp"
         android:layout_marginBottom="17dp"
-        android:contentDescription="Obtener el clima"
+        android:contentDescription="@string/obtindre_clima"
         android:src="@android:drawable/ic_lock_silent_mode_off"
         android:visibility="invisible" />
 
@@ -34,18 +34,18 @@
             android:id="@+id/btnsatelit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Satèlit" />
+            android:text="@string/satelit" />
 
         <Button
             android:id="@+id/activaEtiqfals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crea Etiquetes" />
+            android:text="@string/crear_etiquetes" />
         <Button
             android:id="@+id/hideEtiq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Amaga Etiquetes" />
+            android:text="@string/amaga_etiquetes" />
     </LinearLayout>
 
     <LinearLayout
@@ -62,13 +62,13 @@
             android:id="@+id/activaEtiq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crea Etiquetes" />
+            android:text="@string/crear_etiquetes" />
 
         <Button
             android:id="@+id/showEtiq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ensenya Etiquetes" />
+            android:text="@string/ensenya_etiquetes" />
     </LinearLayout>
 
 

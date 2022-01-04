@@ -22,7 +22,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="20dp"
-            android:text="Notificacions" />
+            android:text="@string/notificacions" />
     </LinearLayout>
 
     <ListView

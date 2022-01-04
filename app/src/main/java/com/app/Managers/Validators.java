@@ -29,4 +29,18 @@ public class Validators {
             return true;
         }
     }
+
+    public static boolean validateCP (String CP) {
+        //retorna el contrari per tema de les funcions al Registro.java
+        //retorna false si esta be el numero i retorna true si esta malament el numero
+        int num;
+        try {
+            num = Integer.parseInt(CP);
+            if(9 == CP.length()) return false;
+            else return true;
+
+        } catch (NumberFormatException e) {
+            return true;
+        }
+    }
 }

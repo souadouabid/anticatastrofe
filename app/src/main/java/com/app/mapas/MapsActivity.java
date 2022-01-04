@@ -85,18 +85,24 @@ public class MapsActivity extends FragmentActivity implements
     private FusedLocationProviderClient client;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private Button mTypeBtn, mTypeBtn2, mButoninfo, activaEtiq, showEtiq, hideEtiq;
+    private Button mTypeBtn, mTypeBtn2, mButoninfo, activaEtiq, showEtiq, hideEtiq, tres;
     private FloatingActionButton mButtonWeather;
     private boolean activaMarkers;
     private JSONArray landmarks;
     private final List<Marker> mMarker = new ArrayList<Marker>();
     private Integer numMarkers;
+    private boolean agafartempscasa;
+    String idWeathercasa;
+    int idWeathercasa2;
+    private double tempcasa;
+    private double speedcasa;
+    LatLng co;
 
     //every x seconds execute task
     Handler handler = new Handler();
     Runnable runnable;
     int delay =  30 * 1000;//cada x segundos se ejecutara la tarea
-    LatLng lastLocation = new LatLng(0,0);//la ultima ubicacion
+    LatLng lastLocation;//la ultima ubicacion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,20 +119,11 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    public void generador_marcadors(GoogleMap googleMap) {
-        mMap = googleMap;
-        final LatLng punto1 = new LatLng(41.4144948, 2.1526945);
-        mMap.addMarker(new MarkerOptions().position(punto1).title("Barcelona"));
-    }
 
     public void onMapReady(GoogleMap map) {
         mMap = map;
-        /*googleMap.addMarker(new MarkerOptions()
-            .position(new LatLng(41.4144948,2.1526945))
-            .title("Marker"));
-        */
 
-
+        agafartempscasa = false;
 
         try {
             landmarks = Client.getAllLandmarks();
@@ -136,7 +133,7 @@ public class MapsActivity extends FragmentActivity implements
         JSONObject land = null;
         numMarkers = landmarks.length();
 
-        for(int i = 0; i < numMarkers; ++i){
+      /*  for(int i = 0; i < numMarkers; ++i){
             try {
                 land = landmarks.getJSONObject(i);
             } catch (JSONException e) {
@@ -194,9 +191,7 @@ public class MapsActivity extends FragmentActivity implements
 
             mMarker.add(marker);
         }
-
-
-
+*/
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -224,7 +219,7 @@ public class MapsActivity extends FragmentActivity implements
                         params.put("lat", Latitude);
                         params.put("lon", Longitude);
                         params.put("appid", APP_ID);
-                        requestWeather(params,false);
+                        requestWeather(params,false, false);
                     }
                 }
 
@@ -250,7 +245,7 @@ public class MapsActivity extends FragmentActivity implements
         mButtonWeather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callWeatherService(lastLocation,true);
+                callWeatherService(lastLocation,true, false);
             }
         });
 
@@ -273,6 +268,13 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
 
+        tres = (Button) findViewById(R.id.bresidencia);
+        tres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                agafartresidencia();
+            }
+        });
 
         activaEtiq = (Button) findViewById(R.id.activaEtiq);
         activaEtiq.setOnClickListener(new View.OnClickListener() {
@@ -312,6 +314,103 @@ public class MapsActivity extends FragmentActivity implements
         });
 
     }
+    public void agafartresidencia(){
+        agafartempscasa = true;
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng arg0) {
+                co = arg0;
+                if (agafartempscasa) {
+                    mMap.clear();
+                    callWeatherService(arg0, false, true);
+
+
+                    agafartempscasa = false;
+                }
+            }
+        });
+    }
+    private void crearmarkercasa(int id){
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(co);
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(co));
+        markerOptions.title("Temps Residencia:");
+
+        markerOptions.snippet( evaluarIdWeather(id));
+
+        Marker marker = mMap.addMarker(markerOptions);
+        marker.showInfoWindow();
+
+    }
+    private String evaluarIdWeather(int id){
+        if(id == 200 || id == 201 || id == 202 || id == 210 ||
+                id == 211 || id == 212 || id == 221  ||
+                id == 230 || id == 231 || id == 232)
+                {
+            return "Tempesta";
+
+        }
+
+        if(id == 502 || id == 503 || id == 504 || id == 521 ||
+                id == 522 ) {
+            return "Pluja Forta";
+
+        }
+        if( id == 501 || id == 511 || id == 520 ||
+                id == 531 ) {
+            return "Pluja Moderada";
+
+        }
+        if(id == 602 || id == 611 || id == 613 || id == 621 ||
+                id == 622 ) {
+            return "Neu Forta";
+
+        }
+        if(id == 600 || id == 601 || id == 612 || id == 615 ||
+                id == 616 || id == 620 ) {
+            return "Neu Moderada";
+
+        }
+        if((id == 781 )) {
+            return "Tornado";
+
+        }
+        if((id == 800 )) {
+            return "Cel clar, no hi ha perill";
+
+        }
+        if(id == 801 || id == 802
+        ) {
+            return "Pocs Nuvols";
+
+        }
+        if(id == 803
+        ) {
+            return "Nuvols moderats";
+
+        }
+        if(id == 804
+        ) {
+            return "Molts nuvols";
+
+        }
+        if(id == 300 || id == 301 || id == 302 || id == 310 ||
+                id == 311 || id == 312 || id == 313  ||
+                id == 314 || id == 321 || id == 500 )
+        {
+            return "Pluja Suau";
+
+        }
+        if(id == 701 || id == 711 || id == 721 || id == 731 || id == 741
+                 ) {
+            return "Boira";
+
+        }
+
+
+        return "No hi ha perill";
+    }
+
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -332,7 +431,7 @@ public class MapsActivity extends FragmentActivity implements
 
 
                 if(lastLocation!=null && lastLocation.latitude!=0 && lastLocation.longitude!=0 && !DIALOG_IS_SHOWING){
-                    callWeatherService(lastLocation,false);
+                    callWeatherService(lastLocation,false, false);
                 }
             }
         }, delay);
@@ -340,7 +439,7 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
-    private void callWeatherService(LatLng location,boolean fromButton){
+    private void callWeatherService(LatLng location,boolean fromButton,  boolean fromResidencia){
         String Latitude = String.valueOf(location.latitude);
         String Longitude = String.valueOf(location.longitude);
 
@@ -349,7 +448,7 @@ public class MapsActivity extends FragmentActivity implements
         params.put("lon", Longitude);
         params.put("units", "metric");
         params.put("appid", APP_ID);
-        requestWeather(params,fromButton);
+        requestWeather(params,fromButton, fromResidencia);
     }
 
     private void getWeatherForCurrentLocation() {
@@ -378,46 +477,10 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
-    //todoo
-    private int evaluateClimateConditions(int idWeather){
-        //casos solo de peligro
-        switch (idWeather){
-            //casos de perill retornar 1
-            case 500:
-            case 701:
-                return 1;
 
-
-            default://no funcionalitat de moment
-                return 1;
-        }
-    }
-
-    private void updateUI(JSONObject weather,boolean fromButton) {
+    private void updateUI(JSONObject weather,boolean fromButton, boolean fromResidencia) {
         try {
             int idWeather = weather.getJSONArray("weather").getJSONObject(0).getInt("id");
-            double temp = weather.getJSONObject("main").getDouble("temp");
-            double speed = weather.getJSONObject("wind").getDouble("speed");
-
-            if(fromButton){
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-                builder.setPositiveButton("Aceptar", (dialog, which) -> {
-
-                });
-
-                String msg = "El clima Actual:";
-                msg+= "\nVelocidad del viento es: " +String.valueOf(speed)+" Km/h";
-                msg+= "\nTemperatura es: "+temp+" Cº";
-
-                builder.setMessage(msg)
-                        .setTitle("Clima actual");
-
-                AlertDialog dialog = builder.create();
-
-                dialog.show();
-                return;
-            }
 
             if((idWeather == 200 || idWeather == 201 || idWeather == 202 || idWeather == 210 ||
                     idWeather == 211 || idWeather == 212 || idWeather == 221  ||
@@ -473,6 +536,55 @@ public class MapsActivity extends FragmentActivity implements
             e.printStackTrace();
         }
     }
+    private void updateUIbuttonresidencia(JSONObject weather,boolean fromButton, boolean fromResidencia) {
+
+        try {
+            int idWeather3 = weather.getJSONArray("weather").getJSONObject(0).getInt("id");
+            double temp = weather.getJSONObject("main").getDouble("temp");
+            double speed = weather.getJSONObject("wind").getDouble("speed");
+
+            String b1;
+            if(fromButton || fromResidencia ){
+
+                idWeathercasa2 = idWeather3;
+                if(fromResidencia){
+                    crearmarkercasa(idWeather3);
+                }
+
+                String clima = evaluarIdWeather(idWeather3);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+                });
+                if(fromButton){
+                    b1 = "El clima Actual de la seva posició és: ";
+                }
+                else {
+                    b1 = "El clima Actual de la seva residencia és: ";
+                }
+
+                String msg = clima ;
+                msg+= "\nVelocidad del viento es: " +String.valueOf(speed)+" Km/h";
+                msg+= "\nTemperatura es: "+temp+" Cº";
+
+                builder.setMessage(msg)
+                        .setTitle(b1);
+
+                AlertDialog dialog = builder.create();
+
+                dialog.show();
+                return;
+            }
+
+
+
+        } catch (JSONException e) {
+            Log.e("mapsActivity", e.toString());
+            e.printStackTrace();
+        }
+    }
+
 
     private void mostrarTempesta() {
         MapsActivity.DIALOG_IS_SHOWING = true;
@@ -564,26 +676,30 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    private void requestWeather(RequestParams params,boolean fromButton) {
+    private void requestWeather(RequestParams params,boolean fromButton,  boolean fromResidencia) {
         AsyncHttpClient client = new AsyncHttpClient();
 
         client.get(WEATHER_URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("WEATHER", response.toString());
-
-                updateUI(response,fromButton);
+                Log.d("WEATHER3", response.toString());
+                if(fromButton || fromResidencia) {
+                    updateUIbuttonresidencia(response, fromButton, fromResidencia);
+                }
+                else {
+                    updateUI(response, fromButton, fromResidencia);
+                }
                 super.onSuccess(statusCode, headers, response);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d("WEATHER", responseString);
+                Log.d("WEATHER1", responseString);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("WEATHER", errorResponse.toString());
+                Log.d("WEATHER2", errorResponse.toString());
 
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }

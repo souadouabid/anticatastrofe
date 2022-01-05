@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -18,12 +17,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,7 +53,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MapsActivity extends FragmentActivity implements
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
@@ -69,12 +63,10 @@ public class MapsActivity extends FragmentActivity implements
     final String APP_ID = "6ba9413074ff7a43ed1598a11ad344e1";
     final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
 
-
     final long MIN_TIME =  3 * 1000;//
     final float MIN_DISTANCE = 1000;
     final int REQUEST_CODE = 101;
 
-    //la primera vez que se muestra el dialogo
     public static boolean DIALOG_IS_SHOWING = false;
 
     String Location_Provider = LocationManager.GPS_PROVIDER;
@@ -85,24 +77,20 @@ public class MapsActivity extends FragmentActivity implements
     private FusedLocationProviderClient client;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private Button mTypeBtn, mTypeBtn2, mButoninfo, activaEtiq, showEtiq, hideEtiq, tres;
+    private Button mTypeBtn, mTypeBtn2, activaEtiq, showEtiq, hideEtiq, tres;
     private FloatingActionButton mButtonWeather;
     private boolean activaMarkers;
     private JSONArray landmarks;
     private final List<Marker> mMarker = new ArrayList<Marker>();
     private Integer numMarkers;
     private boolean agafartempscasa;
-    String idWeathercasa;
     int idWeathercasa2;
-    private double tempcasa;
-    private double speedcasa;
     LatLng co;
 
-    //every x seconds execute task
     Handler handler = new Handler();
     Runnable runnable;
-    int delay =  30 * 1000;//cada x segundos se ejecutara la tarea
-    LatLng lastLocation;//la ultima ubicacion
+    int delay =  30 * 1000;
+    LatLng lastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,16 +103,12 @@ public class MapsActivity extends FragmentActivity implements
         mapFragment.getMapAsync(this);
         getWeatherForCurrentLocation();
 
-
-
     }
 
 
     public void onMapReady(GoogleMap map) {
         mMap = map;
-
         agafartempscasa = false;
-
         try {
             landmarks = Client.getAllLandmarks();
         } catch (Exception e) {
@@ -192,11 +176,8 @@ public class MapsActivity extends FragmentActivity implements
             mMarker.add(marker);
         }
 */
-
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
-
             client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
@@ -406,11 +387,8 @@ public class MapsActivity extends FragmentActivity implements
             return "Boira";
 
         }
-
-
-        return "No hi ha perill";
+        return "No hi ha Perill";
     }
-
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -427,9 +405,7 @@ public class MapsActivity extends FragmentActivity implements
         handler.postDelayed(runnable = new Runnable() {
             public void run() {
                 handler.postDelayed(runnable, delay);
-
-
-
+                // cada 30 segons es crida a comprovar el temps
                 if(lastLocation!=null && lastLocation.latitude!=0 && lastLocation.longitude!=0 && !DIALOG_IS_SHOWING){
                     callWeatherService(lastLocation,false, false);
                 }
@@ -437,7 +413,6 @@ public class MapsActivity extends FragmentActivity implements
         }, delay);
         super.onResume();
     }
-
 
     private void callWeatherService(LatLng location,boolean fromButton,  boolean fromResidencia){
         String Latitude = String.valueOf(location.latitude);
@@ -477,11 +452,9 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
-
     private void updateUI(JSONObject weather,boolean fromButton, boolean fromResidencia) {
         try {
             int idWeather = weather.getJSONArray("weather").getJSONObject(0).getInt("id");
-
             if((idWeather == 200 || idWeather == 201 || idWeather == 202 || idWeather == 210 ||
                     idWeather == 211 || idWeather == 212 || idWeather == 221  ||
                     idWeather == 230 || idWeather == 231 || idWeather == 232)
@@ -504,31 +477,6 @@ public class MapsActivity extends FragmentActivity implements
                 mostraTornado();
 
             }
-
-
-            /*
-            Log.d("mapsActivity", "entro al if");
-
-            LayoutInflater inflater = (LayoutInflater)
-                    getSystemService(LAYOUT_INFLATER_SERVICE);
-            View popupView = inflater.inflate(R.layout.thunder_popup, null);
-
-            // create the popup window
-            int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-            final PopupWindow popupWindow = new PopupWindow(popupView, width, height);
-
-            popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-
-            popupView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    popupWindow.dismiss();
-                    return true;
-                }
-            });
-
-             */
 
 
         } catch (JSONException e) {
@@ -668,13 +616,6 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    private void mostraVent() {
-
-    }
-
-    private void mostrTemperaturaSotaZero() {
-
-    }
 
     private void requestWeather(RequestParams params,boolean fromButton,  boolean fromResidencia) {
         AsyncHttpClient client = new AsyncHttpClient();

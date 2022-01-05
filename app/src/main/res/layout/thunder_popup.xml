@@ -23,7 +23,7 @@
         android:layout_marginTop="120dp"
         android:layout_marginEnd="120dp"
         android:layout_marginBottom="120dp"
-        android:text="ALERTA PER TEMPESTA"
+        android:text="@string/alerta_per_tempesta"
         android:textSize="30sp"
         android:textStyle="bold|italic" />
 

@@ -33,7 +33,7 @@ public class PerfilFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private Button buttonLogOut, buttonBaixa;
+    private Button buttonLogOut, buttonBaixa, buttonEditProfile;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -77,6 +77,25 @@ public class PerfilFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
         buttonBaixa = view.findViewById(R.id.buttonBaixa);
         buttonLogOut = view.findViewById(R.id.buttonLogOut);
+        buttonEditProfile = view.findViewById(R.id.buttonEditProfile);
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("Preferences", 0);
+        String correo = prefs.getString("email", "");
+        String pass = prefs.getString("pass", "");
+        Log.i("TAG", "email = "+ correo + " pass = " + pass);
+        Bundle informa = new Bundle();
+        informa.putString("email", correo);
+        informa.putString("pass", pass);
+
+        buttonEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent();
+                i.setClass(getActivity(), EditProfile.class);
+                i.putExtras(informa);
+                getActivity().startActivity(i);
+            }
+        });
         buttonLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,10 +104,7 @@ public class PerfilFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
-        SharedPreferences prefs = getActivity().getSharedPreferences("Preferences", 0);
-        String correo = prefs.getString("email", "");
-        String pass = prefs.getString("pass", "");
-        Log.i("TAG", "email = "+ correo + " pass = " + pass);
+
         buttonBaixa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

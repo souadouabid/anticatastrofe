@@ -18,25 +18,25 @@
             android:id="@+id/titol"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Títol" />
+            android:text="@string/titol" />
 
         <EditText
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Descripció" />
+            android:text="@string/descripci" />
 
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancelar" />
+            android:text="@string/cancelar" />
 
         <Button
             android:id="@+id/btn_crea_etiq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crea Etiqueta" />
+            android:text="@string/crea_etiqueta" />
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="wrap_content"

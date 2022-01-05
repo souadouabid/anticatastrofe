@@ -99,6 +99,7 @@ public class MapsActivity extends FragmentActivity implements
     int idWeathercasa2;
     private double tempcasa;
     private double speedcasa;
+    LatLng co;
 
     MaterialCardView selectCard;
     TextView tvMarkers;
@@ -129,7 +130,10 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop-2
 
     public void onMapReady(GoogleMap map) {
         mMap = map;
@@ -268,8 +272,6 @@ public class MapsActivity extends FragmentActivity implements
 
 
         }
-
-
 
 
 
@@ -441,22 +443,28 @@ public class MapsActivity extends FragmentActivity implements
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng arg0) {
+                co = arg0;
                 if (agafartempscasa) {
                     mMap.clear();
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(arg0);
-                    mMap.animateCamera(CameraUpdateFactory.newLatLng(arg0));
-                    markerOptions.title("Temps Residencia:");
                     callWeatherService(arg0, false, true);
-                    markerOptions.snippet( evaluarIdWeather(idWeathercasa2));
 
-                    Marker marker = mMap.addMarker(markerOptions);
-                    marker.showInfoWindow();
 
                     agafartempscasa = false;
                 }
             }
         });
+    }
+    private void crearmarkercasa(int id){
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(co);
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(co));
+        markerOptions.title("Temps Residencia:");
+
+        markerOptions.snippet( evaluarIdWeather(id));
+
+        Marker marker = mMap.addMarker(markerOptions);
+        marker.showInfoWindow();
+
     }
     private String evaluarIdWeather(int id){
         if(id == 200 || id == 201 || id == 202 || id == 210 ||
@@ -597,33 +605,7 @@ public class MapsActivity extends FragmentActivity implements
     private void updateUI(JSONObject weather,boolean fromButton, boolean fromResidencia) {
         try {
             int idWeather = weather.getJSONArray("weather").getJSONObject(0).getInt("id");
-            double temp = weather.getJSONObject("main").getDouble("temp");
-            double speed = weather.getJSONObject("wind").getDouble("speed");
 
-            if(fromButton){
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-                builder.setPositiveButton("Aceptar", (dialog, which) -> {
-
-                });
-
-                String msg = "El clima Actual:";
-                msg+= "\nVelocidad del viento es: " +String.valueOf(speed)+" Km/h";
-                msg+= "\nTemperatura es: "+temp+" Cº";
-
-                builder.setMessage(msg)
-                        .setTitle("Clima actual");
-
-                AlertDialog dialog = builder.create();
-
-                dialog.show();
-                return;
-            }
-            if(fromResidencia){
-                idWeathercasa2 = idWeather;
-                return;
-
-            }
             if((idWeather == 200 || idWeather == 201 || idWeather == 202 || idWeather == 210 ||
                     idWeather == 211 || idWeather == 212 || idWeather == 221  ||
                     idWeather == 230 || idWeather == 231 || idWeather == 232)
@@ -678,6 +660,54 @@ public class MapsActivity extends FragmentActivity implements
             e.printStackTrace();
         }
     }
+    private void updateUIbuttonresidencia(JSONObject weather,boolean fromButton, boolean fromResidencia) {
+
+        try {
+            int idWeather3 = weather.getJSONArray("weather").getJSONObject(0).getInt("id");
+            double temp = weather.getJSONObject("main").getDouble("temp");
+            double speed = weather.getJSONObject("wind").getDouble("speed");
+
+            String b1;
+            if(fromButton || fromResidencia ){
+
+                idWeathercasa2 = idWeather3;
+                crearmarkercasa(idWeather3);
+                Log.d("weather4",String.valueOf(idWeathercasa2));
+
+                String clima = evaluarIdWeather(idWeather3);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+                });
+                if(fromButton){
+                    b1 = "El clima Actual de la seva posició és: ";
+                }
+                else {
+                    b1 = "El clima Actual de la seva residencia és: ";
+                }
+
+                String msg = clima ;
+                msg+= "\nVelocidad del viento es: " +String.valueOf(speed)+" Km/h";
+                msg+= "\nTemperatura es: "+temp+" Cº";
+
+                builder.setMessage(msg)
+                        .setTitle(b1);
+
+                AlertDialog dialog = builder.create();
+
+                dialog.show();
+                return;
+            }
+
+
+
+        } catch (JSONException e) {
+            Log.e("mapsActivity", e.toString());
+            e.printStackTrace();
+        }
+    }
+
 
     private void mostrarTempesta() {
         MapsActivity.DIALOG_IS_SHOWING = true;
@@ -775,20 +805,24 @@ public class MapsActivity extends FragmentActivity implements
         client.get(WEATHER_URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("WEATHER", response.toString());
-
-                updateUI(response,fromButton, fromResidencia);
+                Log.d("WEATHER3", response.toString());
+                if(fromButton || fromResidencia) {
+                    updateUIbuttonresidencia(response, fromButton, fromResidencia);
+                }
+                else {
+                    updateUI(response, fromButton, fromResidencia);
+                }
                 super.onSuccess(statusCode, headers, response);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d("WEATHER", responseString);
+                Log.d("WEATHER1", responseString);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("WEATHER", errorResponse.toString());
+                Log.d("WEATHER2", errorResponse.toString());
 
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }

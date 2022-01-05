@@ -130,10 +130,6 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> develop-2
 
     public void onMapReady(GoogleMap map) {
         mMap = map;

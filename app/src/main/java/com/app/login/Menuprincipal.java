@@ -5,22 +5,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
+import android.view.View;
 
-import com.app.register.Registro;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.login.databinding.ActivityMenuprincipalBinding;
+import com.google.android.material.navigation.NavigationView;
 
 public class Menuprincipal extends AppCompatActivity {
 
@@ -57,6 +53,16 @@ public class Menuprincipal extends AppCompatActivity {
                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
                 Log.i("TAG", "email = "+ email + " pass = " + pass);
+            }
+        });
+        binding.appBarMenuprincipal.btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle informa = new Bundle();
+                informa.putString("email", email);
+                Intent in = new Intent(Menuprincipal.this, chatApp.class);
+                in.putExtras(informa);
+                startActivity(in);
             }
         });
         DrawerLayout drawer = binding.drawerLayout;

@@ -20,7 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginEnd="80dp"
         android:layout_marginBottom="30dp"
         android:contentDescription="Obtener el clima"
         android:src="@drawable/thunderstorm_free_png_image"
@@ -104,7 +104,7 @@
         android:background="#588326"
         android:text="Mostrar temps residencia"
         android:translationX="30px"
-        android:translationY="1200px"
+        android:translationY="1500px"
         map:icon="@drawable/ic_home" />
 
 </RelativeLayout>

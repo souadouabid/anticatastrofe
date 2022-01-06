@@ -47,7 +47,7 @@ public class Notificacions extends AppCompatActivity {
                 Bundle info = getIntent().getExtras();
                 email = info.getString("email");
 
-                /*Comprovacion ver si pasan los datos correctamente entre activities*/
+                /*Comprobacion ver si pasan los datos correctamente entre activities*/
                 Log.i("TAG", "email = "+ email);
                 /**/
                 AlertDialog.Builder builder = new AlertDialog.Builder(Notificacions.this);

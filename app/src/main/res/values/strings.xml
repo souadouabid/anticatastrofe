@@ -1,18 +1,18 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">login</string>
-    <string name="User">Usuario</string>
-    <string name="password">Contraseña</string>
-    <string name="Entrar">Ingresar</string>
-    <string name="Registrar">Registrar</string>
+    <string name="User">User</string>
+    <string name="password">Passoword</string>
+    <string name="Entrar">Enter</string>
+    <string name="Registrar">Register</string>
     <string name="ajuda">helpicon</string>
-    <string name="help">Ajuda</string>
-    <string name="Registre">Registrar-se</string>
-    <string name="Nombre">Nom</string>
-    <string name="Telefono">Telefon</string>
-    <string name="Direccio">Direccio</string>
-    <string name="Poblacio">Poblacio</string>
-    <string name="RepeteixPassword">Repetir contraseña</string>
-    <string name="title_activity_menuprincipal">Menuprincipal</string>
+    <string name="help">Help</string>
+    <string name="Registre">Register</string>
+    <string name="Nombre">Name</string>
+    <string name="Telefono">Phone</string>
+    <string name="Direccio">Address</string>
+    <string name="Poblacio">City</string>
+    <string name="RepeteixPassword">Repeat Password</string>
+    <string name="title_activity_menuprincipal">PrincipalMenu</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -20,20 +20,70 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
+    <string name="menu_home">Principal menu</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_perfil">Perfil</string>
-    <string name="menu_ayuda">Ajuda</string>
-    <string name="menu_tips">Consells de supervivencia</string>
-    <string name="menu_logout">Tancar sessio</string>
-    <string name="Emergencia">Avis a Emergencies</string>
-    <string name="Mapa">Mapa</string>
+    <string name="menu_perfil">Profile</string>
+    <string name="menu_ayuda">Help</string>
+    <string name="menu_tips">Survival tips</string>
+    <string name="menu_logout">Log Out</string>
+    <string name="Emergencia">Call Emergencies</string>
+    <string name="Mapa">Map</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">MapsActivity</string>
-    <string name="DonarsedeBaixa">Donar-se de baixa</string>
-    <string name="selecciona_etiquetes">Selecciona etiquetes</string>
-    <string name="selecciona_etiquetes2">Selecciona etiquetes2</string>
-    <string name="selecciona_etiquetes1">Selecciona Etiquetes1</string>
+    <string name="DonarsedeBaixa" tools:ignore="DuplicateDefinition">Donar-se de baixa</string>
+    <string name="selecciona_etiquetes" translatable="false">Selecciona etiquetes</string>
+    <string name="selecciona_etiquetes2" translatable="false">Selecciona etiquetes2</string>
+    <string name="selecciona_etiquetes1" translatable="false">Selecciona Etiquetes1</string>
+    <string name="DeleteAccount" translatable="false">Delete Account</string>
+    <string name="log_out">Log Out</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="guardar">Save</string>
+    <string name="actualizar">Update</string>
+    <string name="blood_type">Blood Type</string>
+    <string name="comunitat_autonoma">State</string>
+    <string name="u_have_selected">\"You have selected: \"</string>
+    <string name="rioja">La Rioja</string>
+    <string name="Andalusia">Andalucía</string>
+    <string name="arago">Aragón</string>
+    <string name="asturies">Asturias</string>
+    <string name="cantabria">Cantabria</string>
+    <string name="castella_lleo">Castilla y León</string>
+    <string name="castella_manxa">Castilla - la Mancha</string>
+    <string name="cat">Cataluña</string>
+    <string name="ceuta">Ceuta</string>
+    <string name="madird">Comunidad de Madrid</string>
+    <string name="extremadura">Extremadura</string>
+    <string name="galicia">Galicia</string>
+    <string name="balears">Balearic Islands</string>
+    <string name="canaries">Canary Islands</string>
+    <string name="melilla">Melilla</string>
+    <string name="murcia">Murcia</string>
+    <string name="navarra">Navarra</string>
+    <string name="pais_basc">Basque Country</string>
+    <string name="valencia">Comunidad Valenciana</string>
+    <string name="email_usat">Email already used</string>
+    <string name="tlf_format">Wrong phone format</string>
+    <string name="fromat_mail">Wrong email format</string>
+    <string name="codi_postal">Postal Code</string>
+    <string name="pais">Country</string>
+    <string name="dd_mm_aaaa">AAAA/MM/DD</string>
+    <string name="ciutat">City</string>
+    <string name="carrer">Address</string>
+    <string name="email">Email</string>
+    <string name="obtindre_clima">Obtain weather</string>
+    <string name="satelit">Satelite</string>
+    <string name="crear_etiquetes">Create Markers</string>
+    <string name="amaga_etiquetes">Hide Markers</string>
+    <string name="ensenya_etiquetes">Show Markers</string>
+    <string name="titol">Title</string>
+    <string name="descripci">Description</string>
+    <string name="cancelar">Cancel</string>
+    <string name="crea_etiqueta">Create Marker</string>
+    <string name="notificacions">Notifications</string>
+    <string name="tots_els_camps">Please fill all the fields to complete your register</string>
+    <string name="les_contrasenyes_no_coincideixen">Passwords DO NOT match</string>
+    <string name="trucada_a_emergencia">Emergency Call</string>
+    <string name="alerta_per_tempesta">STORM ALERT</string>
 </resources>

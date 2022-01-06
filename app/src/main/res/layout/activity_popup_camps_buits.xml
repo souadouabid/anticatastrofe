@@ -19,7 +19,7 @@
         android:src="@drawable/ic_alerta"></ImageView>
 
     <TextView
-        android:text="Si us plau omple tots els camps per poder completar el vostre Registre"
+        android:text="@string/tots_els_camps"
         android:textStyle="bold"
         android:textSize="25dp"
         android:textAlignment="center"

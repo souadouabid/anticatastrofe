@@ -19,7 +19,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -61,7 +60,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MapsActivity extends FragmentActivity implements
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
@@ -72,12 +70,10 @@ public class MapsActivity extends FragmentActivity implements
     final String APP_ID = "6ba9413074ff7a43ed1598a11ad344e1";
     final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
 
-
     final long MIN_TIME =  3 * 1000;//
     final float MIN_DISTANCE = 1000;
     final int REQUEST_CODE = 101;
 
-    //la primera vez que se muestra el dialogo
     public static boolean DIALOG_IS_SHOWING = false;
 
     String Location_Provider = LocationManager.GPS_PROVIDER;
@@ -88,17 +84,15 @@ public class MapsActivity extends FragmentActivity implements
     private FusedLocationProviderClient client;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private Button mTypeBtn, mTypeBtn2, mButoninfo, activaEtiq, showEtiq, hideEtiq, tres;
+    private Button mTypeBtn, mTypeBtn2, activaEtiq, showEtiq, hideEtiq, tres;
     private FloatingActionButton mButtonWeather;
     private boolean activaMarkers;
     private JSONArray landmarks;
     private final List<Marker> mMarker = new ArrayList<Marker>();
     private Integer numMarkers;
     private boolean agafartempscasa;
-    String idWeathercasa;
     int idWeathercasa2;
-    private double tempcasa;
-    private double speedcasa;
+    LatLng co;
 
     MaterialCardView selectCard;
     TextView tvMarkers;
@@ -109,8 +103,8 @@ public class MapsActivity extends FragmentActivity implements
     //every x seconds execute task
     Handler handler = new Handler();
     Runnable runnable;
-    int delay =  30 * 1000;//cada x segundos se ejecutara la tarea
-    LatLng lastLocation = new LatLng(0,0);//la ultima ubicacion
+    int delay =  30 * 1000;
+    LatLng lastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,20 +124,15 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
-
     public void onMapReady(GoogleMap map) {
         mMap = map;
-
         agafartempscasa = false;
-        System.out.println("ola1");
-
         try {
             landmarks = Client.getAllLandmarks();
         } catch (Exception e) {
             e.printStackTrace();
         }
         JSONObject land = null;
-        System.out.println("2");
         numMarkers = landmarks.length();
 
         for(int i = 0; i < numMarkers; ++i){
@@ -275,7 +264,6 @@ public class MapsActivity extends FragmentActivity implements
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
-
             client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
@@ -441,22 +429,28 @@ public class MapsActivity extends FragmentActivity implements
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng arg0) {
+                co = arg0;
                 if (agafartempscasa) {
                     mMap.clear();
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(arg0);
-                    mMap.animateCamera(CameraUpdateFactory.newLatLng(arg0));
-                    markerOptions.title("Temps Residencia:");
                     callWeatherService(arg0, false, true);
-                    markerOptions.snippet( evaluarIdWeather(idWeathercasa2));
 
-                    Marker marker = mMap.addMarker(markerOptions);
-                    marker.showInfoWindow();
 
                     agafartempscasa = false;
                 }
             }
         });
+    }
+    private void crearmarkercasa(int id){
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(co);
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(co));
+        markerOptions.title("Temps Residencia:");
+
+        markerOptions.snippet( evaluarIdWeather(id));
+
+        Marker marker = mMap.addMarker(markerOptions);
+        marker.showInfoWindow();
+
     }
     private String evaluarIdWeather(int id){
         if(id == 200 || id == 201 || id == 202 || id == 210 ||
@@ -522,11 +516,8 @@ public class MapsActivity extends FragmentActivity implements
             return "Boira";
 
         }
-
-
-        return "No hi ha perill";
+        return "No hi ha Perill";
     }
-
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -543,9 +534,7 @@ public class MapsActivity extends FragmentActivity implements
         handler.postDelayed(runnable = new Runnable() {
             public void run() {
                 handler.postDelayed(runnable, delay);
-
-
-
+                // cada 30 segons es crida a comprovar el temps
                 if(lastLocation!=null && lastLocation.latitude!=0 && lastLocation.longitude!=0 && !DIALOG_IS_SHOWING){
                     callWeatherService(lastLocation,false, false);
                 }
@@ -553,7 +542,6 @@ public class MapsActivity extends FragmentActivity implements
         }, delay);
         super.onResume();
     }
-
 
     private void callWeatherService(LatLng location,boolean fromButton,  boolean fromResidencia){
         String Latitude = String.valueOf(location.latitude);
@@ -593,42 +581,14 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
-
     private void updateUI(JSONObject weather,boolean fromButton, boolean fromResidencia) {
         try {
             int idWeather = weather.getJSONArray("weather").getJSONObject(0).getInt("id");
-            double temp = weather.getJSONObject("main").getDouble("temp");
-            double speed = weather.getJSONObject("wind").getDouble("speed");
-
-            if(fromButton){
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-                builder.setPositiveButton("Aceptar", (dialog, which) -> {
-
-                });
-
-                String msg = "El clima Actual:";
-                msg+= "\nVelocidad del viento es: " +String.valueOf(speed)+" Km/h";
-                msg+= "\nTemperatura es: "+temp+" Cº";
-
-                builder.setMessage(msg)
-                        .setTitle("Clima actual");
-
-                AlertDialog dialog = builder.create();
-
-                dialog.show();
-                return;
-            }
-            if(fromResidencia){
-                idWeathercasa2 = idWeather;
-                return;
-
-            }
             if((idWeather == 200 || idWeather == 201 || idWeather == 202 || idWeather == 210 ||
                     idWeather == 211 || idWeather == 212 || idWeather == 221  ||
                     idWeather == 230 || idWeather == 231 || idWeather == 232)
                     && !MapsActivity.DIALOG_IS_SHOWING){
-                mostrarTempesta();
+                    mostrarTempesta();
 
             }
 
@@ -648,29 +608,52 @@ public class MapsActivity extends FragmentActivity implements
             }
 
 
-            /*
-            Log.d("mapsActivity", "entro al if");
+        } catch (JSONException e) {
+            Log.e("mapsActivity", e.toString());
+            e.printStackTrace();
+        }
+    }
+    private void updateUIbuttonresidencia(JSONObject weather,boolean fromButton, boolean fromResidencia) {
 
-            LayoutInflater inflater = (LayoutInflater)
-                    getSystemService(LAYOUT_INFLATER_SERVICE);
-            View popupView = inflater.inflate(R.layout.thunder_popup, null);
+        try {
+            int idWeather3 = weather.getJSONArray("weather").getJSONObject(0).getInt("id");
+            double temp = weather.getJSONObject("main").getDouble("temp");
+            double speed = weather.getJSONObject("wind").getDouble("speed");
 
-            // create the popup window
-            int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-            final PopupWindow popupWindow = new PopupWindow(popupView, width, height);
+            String b1;
+            if(fromButton || fromResidencia ){
 
-            popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-
-            popupView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    popupWindow.dismiss();
-                    return true;
+                idWeathercasa2 = idWeather3;
+                if(fromResidencia){
+                    crearmarkercasa(idWeather3);
                 }
-            });
 
-             */
+                String clima = evaluarIdWeather(idWeather3);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+                });
+                if(fromButton){
+                    b1 = "El clima Actual de la seva posició és: ";
+                }
+                else {
+                    b1 = "El clima Actual de la seva residencia és: ";
+                }
+
+                String msg = clima ;
+                msg+= "\nVelocidad del viento es: " +String.valueOf(speed)+" Km/h";
+                msg+= "\nTemperatura es: "+temp+" Cº";
+
+                builder.setMessage(msg)
+                        .setTitle(b1);
+
+                AlertDialog dialog = builder.create();
+
+                dialog.show();
+                return;
+            }
+
 
 
         } catch (JSONException e) {
@@ -678,6 +661,7 @@ public class MapsActivity extends FragmentActivity implements
             e.printStackTrace();
         }
     }
+
 
     private void mostrarTempesta() {
         MapsActivity.DIALOG_IS_SHOWING = true;
@@ -761,13 +745,6 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    private void mostraVent() {
-
-    }
-
-    private void mostrTemperaturaSotaZero() {
-
-    }
 
     private void requestWeather(RequestParams params,boolean fromButton,  boolean fromResidencia) {
         AsyncHttpClient client = new AsyncHttpClient();
@@ -775,20 +752,24 @@ public class MapsActivity extends FragmentActivity implements
         client.get(WEATHER_URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("WEATHER", response.toString());
-
-                updateUI(response,fromButton, fromResidencia);
+                Log.d("WEATHER3", response.toString());
+                if(fromButton || fromResidencia) {
+                    updateUIbuttonresidencia(response, fromButton, fromResidencia);
+                }
+                else {
+                    updateUI(response, fromButton, fromResidencia);
+                }
                 super.onSuccess(statusCode, headers, response);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d("WEATHER", responseString);
+                Log.d("WEATHER1", responseString);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("WEATHER", errorResponse.toString());
+                Log.d("WEATHER2", errorResponse.toString());
 
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
@@ -807,4 +788,8 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }

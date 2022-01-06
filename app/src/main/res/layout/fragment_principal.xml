@@ -32,7 +32,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="10dp"
-            android:text="Trucada a EMERGENCIA" />
+            android:text="@string/trucada_a_emergencia" />
 
     </LinearLayout>
 </FrameLayout>

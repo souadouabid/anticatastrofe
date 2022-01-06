@@ -20,9 +20,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="25dp"
         android:layout_marginBottom="30dp"
-        android:contentDescription="Obtener el clima"
+        android:contentDescription="@string/obtindre_clima"
         android:src="@drawable/thunderstorm_free_png_image"
         android:visibility="invisible" />
 
@@ -34,7 +34,7 @@
             android:id="@+id/btnsatelit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Satèlit"
+            android:text="@string/satelit"
             android:backgroundTint="@color/purple_500"
             android:textColor="@color/white"/>
 
@@ -42,8 +42,12 @@
             android:id="@+id/activaEtiqfals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crea Etiquetes" />
-
+            android:text="@string/crear_etiquetes" />
+        <Button
+            android:id="@+id/hideEtiq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/amaga_etiquetes" />
     </LinearLayout>
 
     <LinearLayout
@@ -63,8 +67,8 @@
             android:id="@+id/activaEtiq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/crear_etiquetes"
             android:backgroundTint="@color/purple_500"
-            android:text="Crea Etiquetes"
             android:textColor="@color/white" />
 
 
@@ -92,6 +96,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/ensenya_etiquetes"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true" />
     </LinearLayout>

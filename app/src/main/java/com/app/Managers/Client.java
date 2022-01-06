@@ -16,6 +16,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
@@ -679,16 +680,17 @@ public class Client {
     }
 
     //POST /additional_info
-    public static void createAdditionalInfo(String street, String city, String state, String postal_code, String country, String picture, String blood, String birth, String email) throws IOException, JSONException {
+    public static void createAdditionalInfo(String street, String city, String state, String postal_code, String country, String blood, String birth, String email) throws IOException, JSONException {
         JSONObject info = new JSONObject();
+        //DateTimeFormatter
         info.put("street",street);
         info.put("city",city);
         info.put("state",state);
         info.put("postal_code",postal_code);
         info.put("country",country);
-        info.put("path_profile_pic",picture);
+        info.put("path_profile_pic","string");
         info.put("blood_type",blood);
-        info.put("birth_date",birth);
+        info.put("birth_date","2022-01-04T17:22:47.233Z");
         info.put("email",email);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

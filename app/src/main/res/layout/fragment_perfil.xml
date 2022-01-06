@@ -9,28 +9,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="486dp" />
+            android:layout_height="304dp" />
 
+        <Button
+            android:id="@+id/buttonEditProfile"
+            android:layout_width="120dp"
+            android:layout_marginStart="146dp"
+            android:background="@android:color/transparent"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_profile" />
         <Button
             android:id="@+id/buttonLogOut"
             android:layout_width="120dp"
-            android:layout_marginLeft="146dp"
+            android:layout_marginStart="146dp"
             android:background="@android:color/transparent"
             android:textColor="@color/black"
-
             android:layout_height="wrap_content"
-            android:text="Log Out" />
+            android:text="@string/log_out" />
         <Button
             android:id="@+id/buttonBaixa"
             android:layout_width="120dp"
-            android:layout_marginLeft="146dp"
+            android:layout_marginStart="146dp"
             android:background="@android:color/transparent"
             android:textColor="@color/black"
-
             android:layout_height="wrap_content"
             android:text="@string/DonarsedeBaixa" />
 

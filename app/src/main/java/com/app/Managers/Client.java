@@ -506,11 +506,8 @@ public class Client {
         StrictMode.setThreadPolicy(policy);
 
         JSONObject json_landmark = new JSONObject();
-        JSONObject json_landmark_tag = getTag(email);
 
-        if (json_landmark_tag.length() == 0) {
-            createTag(email, "adreça d'interès", 0);
-        }
+        createTag(email, "adreça d'interès", 0);
 
         json_landmark.put("id", id);
         json_landmark.put("coordinate_x",coordinate_x);

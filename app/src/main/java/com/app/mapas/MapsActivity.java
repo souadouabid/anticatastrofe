@@ -1,7 +1,11 @@
 package com.app.mapas;
 
+import static com.app.Managers.Client.createNotification;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
@@ -16,6 +20,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -58,6 +63,7 @@ import cz.msebera.android.httpclient.Header;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements
@@ -136,8 +142,9 @@ public class MapsActivity extends FragmentActivity implements
         numMarkers = landmarks.length();
 
         for(int i = 0; i < numMarkers; ++i){
-            try {        System.out.println("33");
+            try {
                 land = landmarks.getJSONObject(i);
+                System.out.println(land);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -149,22 +156,12 @@ public class MapsActivity extends FragmentActivity implements
             Integer id = 0;
             String tag = null;
             String email = null;
-            System.out.println("44");
-
             try {
-                System.out.println("55");
-                System.out.println(land);
-
                 assert land != null;
-                System.out.println("66");
-
                 lat = land.getDouble("coordinate_x");
-                System.out.println("77");
-
             } catch (JSONException e) {
                 e.printStackTrace();
             };
-            System.out.println("88");
 
             try {
                 lon = land.getDouble("coordinate_y");
@@ -192,7 +189,6 @@ public class MapsActivity extends FragmentActivity implements
 
             try {
                 tag = land.getString("tag");
-                System.out.println(tag);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -206,11 +202,8 @@ public class MapsActivity extends FragmentActivity implements
             Float color = (((float)id % 10) * 60) % 360;
             Boolean marcat = false;
             assert tag != null;
-            System.out.println("ola");
 
             if (tag.equals("antena")) {
-                System.out.println("ola1antena");
-
                 Marker mark = mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(lat, lon))
                         .title(title)
@@ -220,11 +213,9 @@ public class MapsActivity extends FragmentActivity implements
                         .icon((BitmapDescriptorFactory.fromResource(R.drawable.antena)))
 
                 );
-                System.out.println("ola2");
 
                 marcat = true;
                 mMarker.add(mark);
-                System.out.println("ola3");
 
             }
 
@@ -287,7 +278,11 @@ public class MapsActivity extends FragmentActivity implements
                         params.put("lon", Longitude);
                         params.put("appid", APP_ID);
                         requestWeather(params,false, false);
-                        check_distance();
+                        try {
+                            check_distance();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
@@ -361,7 +356,7 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
     }
-    void check_distance() {
+    void check_distance() throws Exception {
         double distancia = 99999999;
         double distancia_min = 999999999;
         JSONObject landm = null;
@@ -408,6 +403,11 @@ public class MapsActivity extends FragmentActivity implements
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        boolean cobertura;
+        if (distancia_min <= 9000) cobertura = true;
+        else cobertura = false;
+
+        notificació_push_cobertura(cobertura);
 
         mostraDistancia(latitude, longitude, lastLocation.latitude, lastLocation.longitude, distancia_min);
     }
@@ -836,6 +836,22 @@ public class MapsActivity extends FragmentActivity implements
         dialog.show();
     }
 
+    private void notificació_push_cobertura(boolean cobertura) throws Exception {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
+                .setSmallIcon(R.drawable.ic_campanita)
+                .setContentTitle("Notificacion PUSH")
+                .setContentText("Test de aviso de riesgo");
+        NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+        manager.notify(0, builder.build());
+        //guardar  notificacion en la API
+
+        int id_l = (int) (new Date().getTime()/1000);
+        Client.createLandmarkPep(id_l, (float)lastLocation.latitude, (float)lastLocation.longitude, "titol", "desc", "notificacion");
+
+        if (cobertura) Client.createNotification(id_l, "Sí cobertura", "L'usuari es troba dins de la zona de cobertura");
+        else Client.createNotification(id_l, "No cobertura", "L'usuari es troba fora de la zona de cobertura");
+
+    }
 
     private void requestWeather(RequestParams params,boolean fromButton,  boolean fromResidencia) {
         AsyncHttpClient client = new AsyncHttpClient();

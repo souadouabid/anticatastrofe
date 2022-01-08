@@ -287,6 +287,7 @@ public class MapsActivity extends FragmentActivity implements
                         params.put("lon", Longitude);
                         params.put("appid", APP_ID);
                         requestWeather(params,false, false);
+                        check_distance();
                     }
                 }
 
@@ -359,7 +360,74 @@ public class MapsActivity extends FragmentActivity implements
                 showMarkersDialog();
             }
         });
+    }
+    void check_distance() {
+        double distancia = 99999999;
+        double distancia_min = 999999999;
+        JSONObject landm = null;
+        JSONObject land_proper = null;
+        for (int i = 0; i < landmarks.length(); ++i) {
 
+            try {
+                landm = landmarks.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            double lat = 0;
+            try {
+                lat = landm.getDouble("coordinate_x");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            double lon = 0;
+            try {
+                lon = landm.getDouble("coordinate_y");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            distancia = distance(lat, lon, lastLocation.latitude, lastLocation.longitude);
+            if (distancia < distancia_min) {
+                distancia_min = distancia;
+                land_proper = landm;
+            }
+        }
+
+        double latitude = 0;
+        try {
+            latitude = land_proper.getDouble("coordinate_x");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        double longitude = 0;
+        try {
+            longitude = land_proper.getDouble("coordinate_y");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mostraDistancia(latitude, longitude, lastLocation.latitude, lastLocation.longitude, distancia_min);
+    }
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515 * 1609.344;
+        return (dist);
+    }
+
+    /*::  This function converts decimal degrees to radians             :*/
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    /*::  This function converts radians to decimal degrees             :*/
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 
     private void showMarkersDialog() {
@@ -743,6 +811,29 @@ public class MapsActivity extends FragmentActivity implements
 
         dialog.show();
 
+    }
+
+    private void mostraDistancia(double lat1, double lon1, double lat2, double lon2, double distancia_min) {
+        MapsActivity.DIALOG_IS_SHOWING = true;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+            MapsActivity.DIALOG_IS_SHOWING = false;
+        });
+
+        lat1 = Math.round(lat1 * 10000d)/10000d;
+        lon1 = Math.round(lon1 * 10000d)/10000d;
+        lat2 = Math.round(lat2 * 10000d)/10000d;
+        lon2 = Math.round(lon2 * 10000d)/10000d;
+        distancia_min = Math.round(distancia_min * 100d)/100d;
+
+        builder.setMessage( "La nostre localització és " + lat2 + ", " + lon2 +
+                " \nL'antena més propera és a " + lat1 + " , " +  + lon1 +
+                " \ni està a " + distancia_min + " metres");
+        if (distancia_min <= 9000) builder.setTitle("Hi ha una antena aprop!");
+        else if (distancia_min > 9000) builder.setTitle(" No hi ha antenes aprop!");
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 

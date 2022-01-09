@@ -9,11 +9,13 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -62,6 +64,7 @@ import cz.msebera.android.httpclient.Header;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -99,6 +102,7 @@ public class MapsActivity extends FragmentActivity implements
     private boolean agafartempscasa;
     int idWeathercasa2;
     LatLng co;
+    private String mail;
 
     MaterialCardView selectCard;
     TextView tvMarkers;
@@ -126,6 +130,9 @@ public class MapsActivity extends FragmentActivity implements
         selectCard = findViewById(R.id.selectCard);
         tvMarkers = findViewById(R.id.tvMarkers);
         selectedMarkers = new boolean[markerArray.length];
+
+        SharedPreferences sp=getSharedPreferences("key", Context.MODE_PRIVATE);
+        mail = sp.getString("email", "android@gmail.com");
 
     }
 
@@ -233,7 +240,9 @@ public class MapsActivity extends FragmentActivity implements
                 mMarker.add(mark);
             }
 
-            if (!marcat & tag.equals(email)){
+
+            if (!marcat  &tag.equals(mail)){
+
                 Marker mark = mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(lat,lon))
                         .title(title)
@@ -246,6 +255,19 @@ public class MapsActivity extends FragmentActivity implements
                 mMarker.add(mark);
             }
 
+            if (!marcat ){
+
+                Marker mark = mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(lat,lon))
+                        .title(title)
+                        .snippet(desc)
+                        .visible(false)
+                        .alpha(0.9996f)
+                        .icon(BitmapDescriptorFactory.defaultMarker(color))
+                );
+                marcat = true;
+                mMarker.add(mark);
+            }
 
         }
 
@@ -369,47 +391,52 @@ public class MapsActivity extends FragmentActivity implements
                 e.printStackTrace();
             }
 
-            double lat = 0;
+            String tag = landm.getString("tag");
+            if (tag.equals("antena")) {
+
+                double lat = 0;
+                try {
+                    lat = landm.getDouble("coordinate_x");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                double lon = 0;
+                try {
+                    lon = landm.getDouble("coordinate_y");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                distancia = distance(lat, lon, lastLocation.latitude, lastLocation.longitude);
+                if (distancia < distancia_min) {
+                    distancia_min = distancia;
+                    land_proper = landm;
+                }
+            }
+        }
+
+            double latitude = 0;
             try {
-                lat = landm.getDouble("coordinate_x");
+                latitude = land_proper.getDouble("coordinate_x");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            double lon = 0;
+            double longitude = 0;
             try {
-                lon = landm.getDouble("coordinate_y");
+                longitude = land_proper.getDouble("coordinate_y");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            boolean cobertura;
+            if (distancia_min <= 9000) cobertura = true;
+            else cobertura = false;
 
-            distancia = distance(lat, lon, lastLocation.latitude, lastLocation.longitude);
-            if (distancia < distancia_min) {
-                distancia_min = distancia;
-                land_proper = landm;
-            }
-        }
+            notificació_push_cobertura(cobertura);
 
-        double latitude = 0;
-        try {
-            latitude = land_proper.getDouble("coordinate_x");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            mostraDistancia(latitude, longitude, lastLocation.latitude, lastLocation.longitude, distancia_min);
 
-        double longitude = 0;
-        try {
-            longitude = land_proper.getDouble("coordinate_y");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        boolean cobertura;
-        if (distancia_min <= 9000) cobertura = true;
-        else cobertura = false;
-
-        notificació_push_cobertura(cobertura);
-
-        mostraDistancia(latitude, longitude, lastLocation.latitude, lastLocation.longitude, distancia_min);
     }
     private double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
@@ -837,19 +864,19 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void notificació_push_cobertura(boolean cobertura) throws Exception {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
+     /*   NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
                 .setSmallIcon(R.drawable.ic_campanita)
                 .setContentTitle("Notificacion PUSH")
                 .setContentText("Test de aviso de riesgo");
         NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
-        manager.notify(0, builder.build());
+        manager.notify(0, builder.build());*/
         //guardar  notificacion en la API
 
         int id_l = (int) (new Date().getTime()/1000);
-        Client.createLandmarkPep(id_l, (float)lastLocation.latitude, (float)lastLocation.longitude, "titol", "desc", "notificacion");
+        Client.createLandmarkPep(id_l, (float)lastLocation.latitude, (float)lastLocation.longitude, "landmark_notificació", "zona de cobertura", "noti");
 
-        if (cobertura) Client.createNotification(id_l, "Sí cobertura", "L'usuari es troba dins de la zona de cobertura");
-        else Client.createNotification(id_l, "No cobertura", "L'usuari es troba fora de la zona de cobertura");
+        if (cobertura) Client.createNotification(id_l, "Sí cobertura", "L'usuari: " + mail+ " es troba dins de la zona de cobertura el " + new Date(((long)id_l)*1000L));
+        else Client.createNotification(id_l, "No cobertura",  "L'usuari: " + mail+ " es troba fora de la zona de cobertura el " + new Date(((long)id_l)*1000L));
 
     }
 

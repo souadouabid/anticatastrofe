@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/fondo"
-    tools:context=".MainActivity"
-    tools:ignore="MissingDefaultResource">
+    tools:context="com.app.mapas.ServeiActivity">
 
 
     <LinearLayout
-        android:layout_width="500dp"
-        android:layout_height="400dp"
+        android:layout_width="250dp"
+        android:layout_height="401dp"
         android:orientation="vertical"
-        android:translationX="300px"
-        android:translationY="200px">
+        tools:layout_editor_absoluteX="50dp"
+        tools:layout_editor_absoluteY="50dp"
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/textView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tag"
-            android:translationY="10px"/>
+            android:translationY="10px" />
 
         <EditText
             android:id="@+id/tag"
@@ -34,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/distance_max_int"
-            android:translationY="20px"/>
+            android:translationY="20px" />
 
         <EditText
             android:id="@+id/distance"
@@ -46,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/quantity_int"
-            android:translationY="20px"/>
+            android:translationY="20px" />
 
         <EditText
             android:id="@+id/quantity"
@@ -59,16 +57,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancelar"
-            android:translationY="20px"/>
+            android:translationY="20px" />
 
         <Button
             android:id="@+id/btn_busca_servei"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/search_services"
-            android:translationY="20px"/>
-
+            android:translationY="20px" />
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

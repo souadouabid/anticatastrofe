@@ -8,10 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.app.Managers.Client;
 import com.app.login.R;
-
 import org.json.JSONArray;
 
 
@@ -68,7 +66,7 @@ public class ServeiActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        }
+                    }
                 }
         );
 
@@ -78,7 +76,4 @@ public class ServeiActivity extends AppCompatActivity {
             }
         });
     }
-
 }
-
-

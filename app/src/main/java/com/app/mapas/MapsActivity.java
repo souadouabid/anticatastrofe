@@ -93,7 +93,7 @@ public class MapsActivity extends FragmentActivity implements
     private FusedLocationProviderClient client;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private Button mTypeBtn, mTypeBtn2, activaEtiq, showEtiq, hideEtiq, tres;
+    private Button mTypeBtn, mTypeBtn2, activaEtiq, Bservei, tres;
     private FloatingActionButton mButtonWeather;
     private boolean activaMarkers;
     private JSONArray landmarks;
@@ -367,6 +367,16 @@ public class MapsActivity extends FragmentActivity implements
             public void onClick(View v) {
                 activaMarkers = true;
             }
+        });
+
+        Bservei = (Button) findViewById(R.id.bserveis);
+        Bservei.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MapsActivity.this, ServeiActivity.class);
+                i.putExtra("lat",lastLocation.latitude);
+                i.putExtra("long",lastLocation.longitude);
+                startActivity(i);            }
         });
 
 

@@ -82,5 +82,12 @@
     <string name="les_contrasenyes_no_coincideixen">Las contraseñas NO coinciden</string>
     <string name="trucada_a_emergencia">Llamada a EMERGENCIA</string>
     <string name="alerta_per_tempesta">ALERTA POR TORMENTA</string>
+    <string name="mostrar_serveis">Mostrar serveis</string>
+    <string name="etiqueta">Etiqueta:</string>
+    <string name="tag">Tag:</string>
+    <string name="distance_max_int">Distance max: (int)</string>
+    <string name="quantity_int">Quantity: (int)</string>
+    <string name="busca_servei">Busca servei</string>
+    <string name="search_services">Search services</string>
 
 </resources>

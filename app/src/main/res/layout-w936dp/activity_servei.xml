@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/fondo"
+    tools:context=".MainActivity"
+    tools:ignore="MissingDefaultResource">
+
+
+    <LinearLayout
+        android:layout_width="500dp"
+        android:layout_height="400dp"
+        android:orientation="vertical"
+        android:translationX="300px"
+        android:translationY="200px">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tag"
+            android:translationY="10px"/>
+
+        <EditText
+            android:id="@+id/tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/distance_max_int"
+            android:translationY="20px"/>
+
+        <EditText
+            android:id="@+id/distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/quantity_int"
+            android:translationY="20px"/>
+
+        <EditText
+            android:id="@+id/quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancelar"
+            android:translationY="20px"/>
+
+        <Button
+            android:id="@+id/btn_busca_servei"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_services"
+            android:translationY="20px"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

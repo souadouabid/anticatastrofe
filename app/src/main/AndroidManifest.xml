@@ -42,6 +42,9 @@
             android:name="com.app.mapas.MarkerActivity"
             android:exported="false" />
         <activity
+            android:name="com.app.mapas.ServeiActivity"
+            android:exported="false" />
+        <activity
             android:name=".Notificacions"
             android:exported="true"
             android:theme="@style/AppTheme" />

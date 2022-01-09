@@ -14,9 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.app.Managers.Client;
 import com.app.mapas.MapsActivity;
 import com.app.login.R;
 import com.app.register.Registro;
+import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.

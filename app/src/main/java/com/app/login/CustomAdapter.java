@@ -51,8 +51,8 @@ public class CustomAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.listview_notificacion, null);
 
        ImageVievNoti = view.findViewById(R.id.imageViewNotificacion);
-       TextViewNombre = view.findViewById(R.id.textViewNombre);
-       TextViewDescripcion = view.findViewById(R.id.textViewDescripcion);
+       TextViewNombre = view.findViewById(R.id.MensajeOwner);
+       TextViewDescripcion = view.findViewById(R.id.mensajeSend);
 
        ImageVievNoti.setImageResource(n.imagen);
        TextViewNombre.setText(n.nombre);

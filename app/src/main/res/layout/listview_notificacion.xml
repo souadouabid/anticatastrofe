@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textViewNombre"
+            android:id="@+id/MensajeOwner"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="50"
@@ -28,7 +28,7 @@
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/textViewDescripcion"
+            android:id="@+id/mensajeSend"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="50"

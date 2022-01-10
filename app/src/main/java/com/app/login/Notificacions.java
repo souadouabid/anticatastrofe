@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +35,7 @@ public class Notificacions extends AppCompatActivity {
 
         ListViewNoti=findViewById(R.id.ListViewNotificacion);
 
-        adapter = new CustomAdapter(this,GetData());
+        adapter = new CustomAdapter(Notificacions.this,GetData());
         ListViewNoti.setAdapter(adapter);
 
         ListViewNoti.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,7 +57,7 @@ public class Notificacions extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
-                                    Client.deleteUserNotification(email, n.id);
+                                    Client.deleteUserNotification(email, n.getId());
                                     lst.remove(i);
                                     adapter.setLst(lst);
                                     adapter.notifyDataSetChanged();
@@ -85,7 +84,7 @@ public class Notificacions extends AppCompatActivity {
     }
 
 
-    private List<Notificacion> GetData(){
+    public List<Notificacion> GetData(){
         /*EXEMPLE DE NOTIFICACIONES. para comprobar si se borran!!
         */
         lst = new ArrayList<>();

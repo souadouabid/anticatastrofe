@@ -1,5 +1,4 @@
 package com.app.login;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,9 +53,9 @@ public class CustomAdapter extends BaseAdapter {
        TextViewNombre = view.findViewById(R.id.MensajeOwner);
        TextViewDescripcion = view.findViewById(R.id.mensajeSend);
 
-       ImageVievNoti.setImageResource(n.imagen);
-       TextViewNombre.setText(n.nombre);
-       TextViewDescripcion.setText(n.des);
+       ImageVievNoti.setImageResource(n.getImagen());
+       TextViewNombre.setText(n.getNombre());
+       TextViewDescripcion.setText(n.getDes());
 
         return view;
     }

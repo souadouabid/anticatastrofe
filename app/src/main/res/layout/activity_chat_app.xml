@@ -17,6 +17,7 @@
         app:layout_constraintBottom_toTopOf="@+id/TextMensaje"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/chat"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText

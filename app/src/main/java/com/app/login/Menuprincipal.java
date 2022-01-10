@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -69,6 +71,13 @@ public class Menuprincipal extends AppCompatActivity {
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        View nav = navigationView.getHeaderView(0);
+        TextView txtEmail = (TextView) nav.findViewById(R.id.tvEmail);
+        txtEmail.setText(email);
+        TextView nom = nav.findViewById(R.id.tvNom);
+        nom.setText("");
+        ImageView im = (ImageView) nav.findViewById(R.id.imageViewPersona);
+        im.setImageResource(R.drawable.ic_perfil);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 //cambio del param2 nav_gallery a nav_perfil
                  R.id.perfilFragment, R.id.principalFragment)

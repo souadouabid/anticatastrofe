@@ -37,10 +37,8 @@ public class chatApp extends AppCompatActivity {
         rvMensajes.setAdapter(mAdapter);
         rvMensajes.setHasFixedSize(true);
 
-        /*
-        * CONECTAR FIREBASE
-        */
-        FirebaseFirestore.getInstance().collection("Chat")
+        /*CONECTAR FIREBASE*/
+        FirebaseFirestore.getInstance().collection("chat")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -58,10 +56,14 @@ public class chatApp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (etMensaje.length() == 0) return;
+
+                Bundle informacion = getIntent().getExtras();
+                String email = informacion.getString("email");
                 MensajeO mensajeO = new MensajeO();
                 mensajeO.setMensaje(etMensaje.getText().toString());
-                mensajeO.setNombre("nombre");/////cambiar !!
-                FirebaseFirestore.getInstance().collection("Chat").add(mensajeO);
+                mensajeO.setNombre(email);
+                /*GUARDAR FIREBASE*/
+                FirebaseFirestore.getInstance().collection("chat").add(mensajeO);
                 etMensaje.setText("");
             }
         });

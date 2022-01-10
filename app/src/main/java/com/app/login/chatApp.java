@@ -9,6 +9,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +39,7 @@ public class chatApp extends AppCompatActivity {
 
         /*
         * CONECTAR FIREBASE
-        *
+        */
         FirebaseFirestore.getInstance().collection("Chat")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -46,7 +53,7 @@ public class chatApp extends AppCompatActivity {
                         }
                     }
                 });
-        * */
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,7 +61,7 @@ public class chatApp extends AppCompatActivity {
                 MensajeO mensajeO = new MensajeO();
                 mensajeO.setMensaje(etMensaje.getText().toString());
                 mensajeO.setNombre("nombre");/////cambiar !!
-
+                FirebaseFirestore.getInstance().collection("Chat").add(mensajeO);
                 etMensaje.setText("");
             }
         });

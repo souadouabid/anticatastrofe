@@ -82,5 +82,7 @@
     <string name="les_contrasenyes_no_coincideixen">Las contraseñas NO coinciden</string>
     <string name="trucada_a_emergencia">Llamada a EMERGENCIA</string>
     <string name="alerta_per_tempesta">ALERTA POR TORMENTA</string>
+    <string name="mostrar_previsio_de_temps">Mostrar previsio de temps</string>
+    <string name="mostrar_temps_residencia">Mostrar temps residencia</string>
 
 </resources>

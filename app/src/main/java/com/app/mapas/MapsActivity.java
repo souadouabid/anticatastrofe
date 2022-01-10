@@ -78,8 +78,8 @@ public class MapsActivity extends FragmentActivity implements
     final static String TAG = "MapsActivity";
     final String APP_ID = "6ba9413074ff7a43ed1598a11ad344e1";
     final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
-
-    final long MIN_TIME =  3 * 1000;//
+    final String WEATHER_URL_FORECAST = "https://api.openweathermap.org/data/2.5/forecast";
+    final long MIN_TIME =  3 * 1000;
     final float MIN_DISTANCE = 1000;
     final int REQUEST_CODE = 101;
 
@@ -93,7 +93,7 @@ public class MapsActivity extends FragmentActivity implements
     private FusedLocationProviderClient client;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private Button mTypeBtn, mTypeBtn2, activaEtiq, showEtiq, hideEtiq, tres;
+    private Button mTypeBtn, mTypeBtn2, activaEtiq, showEtiq, hideEtiq, tres, mButtonPrevisio;
     private FloatingActionButton mButtonWeather;
     private boolean activaMarkers;
     private JSONArray landmarks;
@@ -272,9 +272,6 @@ public class MapsActivity extends FragmentActivity implements
         }
 
 
-
-
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
             client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -298,6 +295,7 @@ public class MapsActivity extends FragmentActivity implements
                         RequestParams params = new RequestParams();
                         params.put("lat", Latitude);
                         params.put("lon", Longitude);
+                        params.put("units", "metric");
                         params.put("appid", APP_ID);
                         requestWeather(params,false, false);
                         try {
@@ -368,6 +366,41 @@ public class MapsActivity extends FragmentActivity implements
                 activaMarkers = true;
             }
         });
+        mButtonPrevisio = (Button) findViewById(R.id.previsio);
+        mButtonPrevisio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AsyncHttpClient client = new AsyncHttpClient();
+                RequestParams params = new RequestParams();
+                params.put("lat", 41.4036299);
+                params.put("lon", 2.1743558);
+                params.put("units", "metric");
+                params.put("cnt",2);
+                params.put("appid", APP_ID);
+                client.get(WEATHER_URL_FORECAST, params, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        Log.d("WEATHER3", response.toString());
+                        showprevisio(response);
+
+                        super.onSuccess(statusCode, headers, response);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Log.d("WEATHER1", responseString);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        Log.d("WEATHER2", errorResponse.toString());
+
+                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                    }
+                });
+
+            }
+        });
 
 
         selectCard.setOnClickListener(new View.OnClickListener() {
@@ -377,6 +410,48 @@ public class MapsActivity extends FragmentActivity implements
                 showMarkersDialog();
             }
         });
+    }
+    public void showprevisio(JSONObject resp){
+        try {
+            double temperaturapreviso, ventprevisio;
+            int idweatherprevisio;
+            String dataprevisio, ciutat;
+
+            temperaturapreviso = resp.getJSONArray("list").getJSONObject(1).getJSONObject("main").getDouble("temp");
+            idweatherprevisio = resp.getJSONArray("list").getJSONObject(1).getJSONArray("weather").getJSONObject(0).getInt("id");
+            ventprevisio = resp.getJSONArray("list").getJSONObject(1).getJSONObject("wind").getDouble("speed");
+            dataprevisio = resp.getJSONArray("list").getJSONObject(1).getString("dt_txt");
+            ciutat = resp.getJSONObject("city").getString("name");
+
+            MapsActivity.DIALOG_IS_SHOWING = true;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+                MapsActivity.DIALOG_IS_SHOWING = false;
+
+            });
+
+            String msg3 = "La previsio de temps per les " ;
+            msg3+= dataprevisio.substring(10,16);
+
+            msg3+= "\n és de: " +evaluarIdWeather(idweatherprevisio);
+            msg3+= "\n amb velocitat del vent : " + ventprevisio +" Km/h";
+            msg3+= "\ni temperatura de: "+temperaturapreviso+" Cº";
+
+            builder.setMessage(msg3)
+                    .setTitle("previsió a " + ciutat);
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
     void check_distance() throws Exception {
         double distancia = 99999999;

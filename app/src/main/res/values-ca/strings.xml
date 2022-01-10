@@ -82,4 +82,6 @@
     <string name="les_contrasenyes_no_coincideixen">Les contrassenyes NO coincideixen</string>
     <string name="trucada_a_emergencia">Trucada a EMERGÈNCIA</string>
     <string name="alerta_per_tempesta">ALERTA PER TEMPESTA</string>
+    <string name="mostrar_previsio_de_temps">Mostrar previsio de temps</string>
+    <string name="mostrar_temps_residencia">Mostrar temps residencia</string>
 </resources>

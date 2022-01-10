@@ -86,4 +86,6 @@
     <string name="les_contrasenyes_no_coincideixen">Passwords DO NOT match</string>
     <string name="trucada_a_emergencia">Emergency Call</string>
     <string name="alerta_per_tempesta">STORM ALERT</string>
+    <string name="mostrar_previsio_de_temps">Mostrar previsio de temps</string>
+    <string name="mostrar_temps_residencia">Mostrar temps residencia</string>
 </resources>

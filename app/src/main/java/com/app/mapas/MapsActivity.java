@@ -372,15 +372,15 @@ public class MapsActivity extends FragmentActivity implements
             public void onClick(View v) {
                 AsyncHttpClient client = new AsyncHttpClient();
                 RequestParams params = new RequestParams();
-                params.put("lat", 41.4036299);
-                params.put("lon", 2.1743558);
+                params.put("lat", lastLocation.latitude);
+                params.put("lon", lastLocation.longitude);
                 params.put("units", "metric");
                 params.put("cnt",2);
                 params.put("appid", APP_ID);
                 client.get(WEATHER_URL_FORECAST, params, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        Log.d("WEATHER3", response.toString());
+                        Log.d("WEATHER5", response.toString());
                         showprevisio(response);
 
                         super.onSuccess(statusCode, headers, response);
@@ -417,10 +417,10 @@ public class MapsActivity extends FragmentActivity implements
             int idweatherprevisio;
             String dataprevisio, ciutat;
 
-            temperaturapreviso = resp.getJSONArray("list").getJSONObject(1).getJSONObject("main").getDouble("temp");
-            idweatherprevisio = resp.getJSONArray("list").getJSONObject(1).getJSONArray("weather").getJSONObject(0).getInt("id");
-            ventprevisio = resp.getJSONArray("list").getJSONObject(1).getJSONObject("wind").getDouble("speed");
-            dataprevisio = resp.getJSONArray("list").getJSONObject(1).getString("dt_txt");
+            temperaturapreviso = resp.getJSONArray("list").getJSONObject(0).getJSONObject("main").getDouble("temp");
+            idweatherprevisio = resp.getJSONArray("list").getJSONObject(0).getJSONArray("weather").getJSONObject(0).getInt("id");
+            ventprevisio = resp.getJSONArray("list").getJSONObject(0).getJSONObject("wind").getDouble("speed");
+            dataprevisio = resp.getJSONArray("list").getJSONObject(0).getString("dt_txt");
             ciutat = resp.getJSONObject("city").getString("name");
 
             MapsActivity.DIALOG_IS_SHOWING = true;
@@ -436,8 +436,8 @@ public class MapsActivity extends FragmentActivity implements
             String msg3 = "La previsio de temps per les " ;
             msg3+= dataprevisio.substring(10,16);
 
-            msg3+= "\n és de: " +evaluarIdWeather(idweatherprevisio);
-            msg3+= "\n amb velocitat del vent : " + ventprevisio +" Km/h";
+            msg3+= "\nés de: " +evaluarIdWeather(idweatherprevisio);
+            msg3+= "\namb velocitat del vent : " + ventprevisio +" Km/h";
             msg3+= "\ni temperatura de: "+temperaturapreviso+" Cº";
 
             builder.setMessage(msg3)
@@ -789,7 +789,7 @@ public class MapsActivity extends FragmentActivity implements
             int idWeather3 = weather.getJSONArray("weather").getJSONObject(0).getInt("id");
             double temp = weather.getJSONObject("main").getDouble("temp");
             double speed = weather.getJSONObject("wind").getDouble("speed");
-
+            String nomubicacio = weather.getString("name");
             String b1;
             if(fromButton || fromResidencia ){
 
@@ -805,10 +805,10 @@ public class MapsActivity extends FragmentActivity implements
 
                 });
                 if(fromButton){
-                    b1 = "El clima Actual de la seva posició és: ";
+                    b1 = "El clima Actual de la seva posició: "+nomubicacio +", és: ";
                 }
                 else {
-                    b1 = "El clima Actual de la seva residencia és: ";
+                    b1 = "El clima Actual de la seva residencia en: "+nomubicacio+" és: ";
                 }
 
                 String msg = clima ;
@@ -961,7 +961,7 @@ public class MapsActivity extends FragmentActivity implements
         client.get(WEATHER_URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("WEATHER3", response.toString());
+                Log.d("WEATHER6", response.toString());
                 if(fromButton || fromResidencia) {
                     updateUIbuttonresidencia(response, fromButton, fromResidencia);
                 }

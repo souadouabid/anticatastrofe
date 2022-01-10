@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+
 import com.app.Managers.Client;
 import com.app.register.Registro;
 import org.json.JSONException;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         EditText TextLogin = (EditText) findViewById(R.id.editTextUser);
         EditText Textpassword = (EditText) findViewById(R.id.editTextPassword);
-
+        ImageButton ayuda = (ImageButton) findViewById(R.id.imageButtonHelp);
 
 
 
@@ -79,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
         ButtonRegistrar.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 startActivity(new Intent(MainActivity.this, Registro.class));
+            }
+        });
+
+        ayuda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, popupPassword.class));
             }
         });
     }

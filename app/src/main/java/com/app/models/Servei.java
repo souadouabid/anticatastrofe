@@ -9,7 +9,7 @@ public class Servei {
     String name;
     String icon;
     String author;
-    Integer distance;
+    String distance;
     Integer ownerId;
     JSONArray tags;
     String tag;
@@ -53,11 +53,11 @@ public class Servei {
         this.author = author;
     }
 
-    public Number getDistance(double distance) {
-        return this.distance;
+    public String getDistance() {
+        return distance;
     }
 
-    public void setDistance(Integer distance) {
+    public void setDistance(String distance) {
         this.distance = distance;
     }
 
@@ -92,15 +92,5 @@ public class Servei {
     public void setPhotos(String[] photos) {
         this.photos = photos;
     }
-
-    public Object getDistance(String distance) {
-        Integer search_distance = Integer.parseInt(distance);
-        return search_distance;
-    }
-
-    public Object getDistance() {
-        return distance;
-    }
-
 
 }

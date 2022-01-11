@@ -49,6 +49,12 @@
             android:textColor="@android:color/black"
             android:textSize="14sp"/>
 
-
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:gravity="start"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

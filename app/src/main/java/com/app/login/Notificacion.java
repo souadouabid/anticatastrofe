@@ -1,10 +1,10 @@
 package com.app.login;
 
 public class Notificacion {
-    public int id;
-    public int imagen;
-    public String nombre;
-    public String des;
+    private int id;
+    private int imagen;
+    private String nombre;
+    private String des;
 
     public Notificacion(int id, int imagen, String nombre, String des) {
         this.id = id;

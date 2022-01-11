@@ -8,8 +8,8 @@
 
 
     <LinearLayout
-        android:layout_width="250dp"
-        android:layout_height="401dp"
+        android:layout_width="300dp"
+        android:layout_height="451dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="50dp"
         tools:layout_editor_absoluteY="50dp"
@@ -66,6 +66,11 @@
             android:text="@string/search_services"
             android:translationY="20px" />
 
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:translationY="50px"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

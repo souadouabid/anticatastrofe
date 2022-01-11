@@ -66,6 +66,20 @@
             android:textSize="14sp"/>
 
         <TextView
+            android:id="@+id/textLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/location"
+            android:translationY="10px" />
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:gravity="start"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"/>
+
+        <TextView
             android:id="@+id/textDistance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

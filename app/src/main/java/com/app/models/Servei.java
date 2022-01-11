@@ -10,6 +10,15 @@ public class Servei {
     String author;
     String distance;
     String photo;
+    String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public Integer getId() {
         return id;

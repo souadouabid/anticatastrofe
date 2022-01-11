@@ -182,14 +182,15 @@ public class ServeiActivity extends AppCompatActivity {
                             //hem de separar-ho per ";" i canviar les ',' per '.'
                             // i finalment calculem la distància de les coordenades del servei amb les nostres
 
+                            location = location.replace(',', '.');
                             String[] tokens=location.split(";");
-                            String lat_aux = tokens[0].replace(',', '.');
-                            String lon_aux = tokens[1].replace(',', '.');
-                            double lat = parseDouble(lat_aux);
-                            double lon = parseDouble(lon_aux);
+                            double lat = parseDouble(tokens[0]);
+                            double lon = parseDouble(tokens[1]);
                             distance = MapsActivity.distance(lat, lon, latitude, longitude);
                             distance /= 1000;
                             distance = Math.round(distance * 100d)/100d;
+
+                            location = location.replace(';', ',');
 
                             Servei s = new Servei();
                             s.setId(id);
@@ -198,6 +199,7 @@ public class ServeiActivity extends AppCompatActivity {
                             s.setIcon(icon);
                             s.setDistance(distance.toString());
                             s.setPhoto(photo);
+                            s.setLocation(location);
                             arrayList.add(s);
                         }
                         set_adapter();

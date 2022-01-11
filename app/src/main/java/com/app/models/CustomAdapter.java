@@ -50,6 +50,7 @@ public class CustomAdapter extends BaseAdapter {
         ImageView icon;
         TextView author;
         TextView distance;
+        TextView location;
         ImageView photo;
 
         id = (TextView) convertView.findViewById(R.id.id);
@@ -57,6 +58,7 @@ public class CustomAdapter extends BaseAdapter {
         icon = (ImageView) convertView.findViewById(R.id.icon);
         author = (TextView) convertView.findViewById(R.id.author);
         distance = (TextView) convertView.findViewById(R.id.distance);
+        location = (TextView) convertView.findViewById(R.id.location);
         photo = (ImageView) convertView.findViewById(R.id.photo);
 
 
@@ -64,6 +66,7 @@ public class CustomAdapter extends BaseAdapter {
         name.setText(arrayList.get(position).getName());
         author.setText(arrayList.get(position).getAuthor());
         distance.setText(arrayList.get(position).getDistance());
+        location.setText(arrayList.get(position).getLocation());
 
         String imageString = arrayList.get(position).getIcon();
         byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);

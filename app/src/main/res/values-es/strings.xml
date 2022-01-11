@@ -95,5 +95,6 @@
     <string name="author">Author:</string>
     <string name="distance_meters">Distance (meters)</string>
     <string name="distance_km">Distance (Km)</string>
+    <string name="location">Location:</string>
 
 </resources>

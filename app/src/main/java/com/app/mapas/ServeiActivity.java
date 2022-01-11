@@ -150,8 +150,9 @@ public class ServeiActivity extends AppCompatActivity {
                             s.setId(id);
                             s.setLocation(location);
                             s.setName(name);
-                            s.setIcon(icon);
                             s.setAuthor(author);
+
+                            s.setIcon(icon);
                             //s.setDistance(((int) distance));
                             arrayList.add(s);
                             System.out.println("ola1");

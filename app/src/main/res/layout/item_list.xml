@@ -33,10 +33,10 @@
             android:textColor="@android:color/black"
             android:textSize="14sp"/>
 
-        <TextView
+        <ImageView
             android:id="@+id/icon"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="100dp"
             android:gravity="start"
             android:textColor="@android:color/black"
             android:textSize="14sp"/>

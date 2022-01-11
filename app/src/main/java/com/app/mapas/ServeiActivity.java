@@ -81,11 +81,51 @@ public class ServeiActivity extends AppCompatActivity {
                         String dist = TextDistance.getText().toString();
                         String quant = TextQuantity.getText().toString();
 
-                        double search_distance = Integer.parseInt(dist);
-                        int search_quantity = Integer.parseInt(quant);
+                        double search_distance = 0;
+                        boolean distance_exist = false;
+                        if (!dist.equals("")){
+                            search_distance = Integer.parseInt(dist);
+                            distance_exist = true;
+                        }
+
+                        int search_quantity = 0;
+                        boolean quantity_exist = false;
+                        if (!quant.equals("")){
+                            search_quantity = Integer.parseInt(dist);
+                            quantity_exist = true;
+                        }
+
+                        JSONObject json_parameters = new JSONObject();
+
+                        if (!tag.equals("")) {
+                            try {
+                                json_parameters.put("tags", tag);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (distance_exist) {
+                            try {
+                                json_parameters.put("distance",search_distance);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (quantity_exist) {
+                            try {
+                                json_parameters.put("quantity",search_quantity);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        try {
+                            json_parameters.put("location",location_user);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                         try {
-                            serveis = Client.doGetRequestS(location_user, tag, search_quantity, search_distance);
+                            serveis = Client.doGetRequestS(json_parameters);
                             System.out.println("serveisss");
                             System.out.println(serveis);
                         } catch (Exception e) {

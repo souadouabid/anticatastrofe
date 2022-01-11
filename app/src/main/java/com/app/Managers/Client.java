@@ -778,17 +778,11 @@ public class Client {
         return "false";
     }
 
-    public static JSONArray doGetRequestS(String location, String tags, Integer quantity, Double distance) throws IOException, JSONException {
+    public static JSONArray doGetRequestS(JSONObject json_parameters) throws IOException, JSONException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         StringBuilder query = new StringBuilder("?");
-        //JSONObject json_parameters = {"tags": "covid", "distance": 10000};
-        JSONObject json_parameters = new JSONObject();
 
-        json_parameters.put("tags", tags);
-        json_parameters.put("distance",distance);
-        json_parameters.put("quantity",quantity);
-        json_parameters.put("location",location);
 
         if(json_parameters != null) {
             Iterator<String> keys = json_parameters.keys();

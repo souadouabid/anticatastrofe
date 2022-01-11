@@ -10,6 +10,12 @@
         android:padding="5dp">
 
         <TextView
+            android:id="@+id/textId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/id"
+            android:translationY="10px" />
+        <TextView
             android:id="@+id/id"
             android:layout_width="match_parent"
             android:layout_height="25dp"
@@ -18,13 +24,11 @@
             android:textSize="14sp"/>
 
         <TextView
-            android:id="@+id/location"
+            android:id="@+id/textName"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:gravity="start"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"/>
-
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:translationY="10px" />
         <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -33,6 +37,12 @@
             android:textColor="@android:color/black"
             android:textSize="14sp"/>
 
+        <TextView
+            android:id="@+id/textIcon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/icon"
+            android:translationY="10px" />
         <ImageView
             android:id="@+id/icon"
             android:layout_width="match_parent"
@@ -42,6 +52,12 @@
             android:textSize="14sp"/>
 
         <TextView
+            android:id="@+id/textAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/author"
+            android:translationY="10px" />
+        <TextView
             android:id="@+id/author"
             android:layout_width="match_parent"
             android:layout_height="25dp"
@@ -50,6 +66,12 @@
             android:textSize="14sp"/>
 
         <TextView
+            android:id="@+id/textDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/distance_km"
+            android:translationY="10px" />
+        <TextView
             android:id="@+id/distance"
             android:layout_width="match_parent"
             android:layout_height="25dp"
@@ -57,6 +79,12 @@
             android:textColor="@android:color/black"
             android:textSize="14sp"/>
 
+        <TextView
+            android:id="@+id/textPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Photo:"
+            android:translationY="10px" />
         <ImageView
             android:id="@+id/photo"
             android:layout_width="match_parent"
@@ -64,5 +92,11 @@
             android:gravity="start"
             android:textColor="@android:color/black"
             android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/Space"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text=""
+            android:translationY="10px" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

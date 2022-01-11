@@ -46,7 +46,6 @@ public class CustomAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list, parent, false);
         }
         TextView id;
-        TextView location;
         TextView name;
         ImageView icon;
         TextView author;
@@ -54,7 +53,6 @@ public class CustomAdapter extends BaseAdapter {
         ImageView photo;
 
         id = (TextView) convertView.findViewById(R.id.id);
-        location = (TextView) convertView.findViewById(R.id.location);
         name = (TextView) convertView.findViewById(R.id.name);
         icon = (ImageView) convertView.findViewById(R.id.icon);
         author = (TextView) convertView.findViewById(R.id.author);
@@ -63,7 +61,6 @@ public class CustomAdapter extends BaseAdapter {
 
 
         id.setText(arrayList.get(position).getId().toString());
-        location.setText(arrayList.get(position).getLocation());
         name.setText(arrayList.get(position).getName());
         author.setText(arrayList.get(position).getAuthor());
         distance.setText(arrayList.get(position).getDistance());

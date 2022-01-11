@@ -204,13 +204,14 @@ public class ServeiActivity extends AppCompatActivity {
                             double lat = parseDouble(lat_aux);
                             double lon = parseDouble(lon_aux);
                             distance = MapsActivity.distance(lat, lon, latitude, longitude);
+                            distance /= 1000;
+                            distance = Math.round(distance * 100d)/100d;
                             System.out.println("ey");
 
                             System.out.println(distance);
 
                             Servei s = new Servei();
                             s.setId(id);
-                            s.setLocation(location);
                             s.setName(name);
                             s.setAuthor(author);
                             s.setIcon(icon);

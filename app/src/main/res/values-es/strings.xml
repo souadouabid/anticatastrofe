@@ -89,5 +89,11 @@
     <string name="quantity_int">Quantity: (int)</string>
     <string name="busca_servei">Busca servei</string>
     <string name="search_services">Search services</string>
+    <string name="id">Id:</string>
+    <string name="name">Name:</string>
+    <string name="icon">Icon:</string>
+    <string name="author">Author:</string>
+    <string name="distance_meters">Distance (meters)</string>
+    <string name="distance_km">Distance (Km)</string>
 
 </resources>

@@ -1,8 +1,6 @@
 package com.app.mapas;
 
 import static java.lang.Double.parseDouble;
-import static java.lang.Float.parseFloat;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +20,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 
 public class ServeiActivity extends AppCompatActivity {
@@ -42,7 +39,6 @@ public class ServeiActivity extends AppCompatActivity {
     String name;
     String icon;
     String author;
-    //String distance;
     Double distance;
     String photo;
 
@@ -126,8 +122,6 @@ public class ServeiActivity extends AppCompatActivity {
 
                         try {
                             serveis = Client.doGetRequestS(json_parameters);
-                            System.out.println("serveisss");
-                            System.out.println(serveis);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -139,7 +133,6 @@ public class ServeiActivity extends AppCompatActivity {
                         for (int i = 0; i < num_serveis; ++i) {
                             try {
                                 servei = serveis.getJSONObject(i);
-                                System.out.println(servei);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -185,18 +178,9 @@ public class ServeiActivity extends AppCompatActivity {
                             }
 
 
-                            System.out.println(id);
-                            System.out.println(location);
-                            System.out.println(name);
-                            System.out.println(icon);
-                            System.out.println(author);
-                            System.out.println(location);
-                            System.out.println(photo);
-
                             //location està amb el format "41,946591;2,2422739"
                             //hem de separar-ho per ";" i canviar les ',' per '.'
                             // i finalment calculem la distància de les coordenades del servei amb les nostres
-                            System.out.println("ey0");
 
                             String[] tokens=location.split(";");
                             String lat_aux = tokens[0].replace(',', '.');
@@ -206,9 +190,6 @@ public class ServeiActivity extends AppCompatActivity {
                             distance = MapsActivity.distance(lat, lon, latitude, longitude);
                             distance /= 1000;
                             distance = Math.round(distance * 100d)/100d;
-                            System.out.println("ey");
-
-                            System.out.println(distance);
 
                             Servei s = new Servei();
                             s.setId(id);
@@ -218,14 +199,8 @@ public class ServeiActivity extends AppCompatActivity {
                             s.setDistance(distance.toString());
                             s.setPhoto(photo);
                             arrayList.add(s);
-                            System.out.println("ola1");
-
                         }
-                        System.out.println("ola2");
-
                         set_adapter();
-                        System.out.println("ola3");
-
                     }
                 }
         );
@@ -238,15 +213,8 @@ public class ServeiActivity extends AppCompatActivity {
     }
 
     private void set_adapter() {
-        System.out.println("ola21");
-
         CustomAdapter adapter = new CustomAdapter(this, arrayList);
-        System.out.println("ola22");
-        System.out.println(arrayList);
-
         listView.setAdapter(adapter);
-        System.out.println("ola23");
-
     }
 
 }

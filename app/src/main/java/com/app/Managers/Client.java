@@ -740,44 +740,6 @@ public class Client {
         //getPerson("abc");
     }
 
-    public static String GetServei(LatLng location, String tags, Integer quantity, Double distance) throws IOException, JSONException {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        URL u = new URL("http://54.89.126.119/api/posts/offers?tags=covid&distance=100000000&quantity=1&location=1,2848136;6,1101575");
-        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-        conn.addRequestProperty("api-key", "wRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
-        JSONArray serveis;
-
-        conn.setRequestMethod("GET");
-
-        //conn.setRequestProperty("email",email);
-        //conn.setRequestProperty("introduced_password", password);
-        try {
-            conn.connect();
-            int status = conn.getResponseCode();
-
-            switch (status) {
-                case 200:
-                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line + "\n");
-                    }
-                    br.close();
-                    Integer length = sb.length();
-                    String aux = sb.substring(18, length - 3);
-                    return aux;
-            }
-
-        } catch (IOException e) {
-            return "false";
-        }
-
-        return "false";
-    }
-
     public static JSONArray doGetRequestS(JSONObject json_parameters) throws IOException, JSONException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -791,18 +753,15 @@ public class Client {
                 String value = json_parameters.getString(key);
                 query.append(String.format("%1$s=%2$s", key, value));
                 if (i < json_parameters.length()-1) query.append("&");
-                //conn.setRequestProperty(key, value);
             }
         }
-        String url = "http://54.89.126.119/api/posts/offers"; //tags=covid&distance=100000000&quantity=1&location=1,2848136;6,1101575";
+        String url = "http://54.89.126.119/api/posts/offers";
         URL u;
         if (json_parameters != null) u = new URL(url + query);
         else u = new URL(url);
         HttpURLConnection conn = (HttpURLConnection) u.openConnection();
         conn.addRequestProperty("api-key", "wRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
         conn.setRequestMethod("GET");
-
-        //parameters
 
         try {
             conn.connect();
@@ -823,7 +782,7 @@ public class Client {
                 default:
                     JSONArray jsonArray1 = new JSONArray();
                     JSONObject obj = new JSONObject();
-                    obj.put("login_success","false"); //No hauria de ser aixi, pero es una tirita
+                    obj.put("login_success","false");
                     jsonArray1.put(obj);
                     return jsonArray1;
             }

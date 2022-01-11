@@ -5,14 +5,10 @@ import org.json.JSONArray;
 public class Servei {
 
     Integer id;
-    String location;
     String name;
     String icon;
     String author;
     String distance;
-    Integer ownerId;
-    JSONArray tags;
-    String tag;
     String photo;
 
     public Integer getId() {
@@ -31,14 +27,6 @@ public class Servei {
         this.id = id;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public String getName() {
         return name;
     }
@@ -54,9 +42,11 @@ public class Servei {
     public void setIcon(String icon) {
         this.icon = icon;
     }
+
     public String getAuthor() {
         return author;
     }
+
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -68,30 +58,5 @@ public class Servei {
     public void setDistance(String distance) {
         this.distance = distance;
     }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public JSONArray getTags() {
-        return tags;
-    }
-
-    public void setTags(JSONArray tags) {
-        this.tags = tags;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
 
 }

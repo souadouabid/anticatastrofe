@@ -24,6 +24,9 @@
         android:theme="@style/Theme.Login"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".MenuAdmin"
+            android:exported="false" />
+        <activity
             android:name=".EditProfile"
             android:exported="false" />
         <!--

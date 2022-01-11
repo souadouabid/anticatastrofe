@@ -635,6 +635,19 @@ public class Client {
         throw new JSONException("user_not_found");
     }
 
+    public static Boolean isAdmin(String email) throws IOException, JSONException {
+        JSONArray users = getAdmins();
+        for (int i = 0; i < users.length(); ++i) {
+            JSONArray innerArray = users.optJSONArray(i);
+            for (int j = 0; j < innerArray.length(); j++) {
+                JSONObject json;
+                json = innerArray.getJSONObject(j);
+                if(json.getString("email").equals(email)) return true;
+            }
+        }
+        return false;
+    }
+
     //POST /admin
     public static void createAdmin(String name, String regionality, Integer phone_num, String email, String password) throws IOException, JSONException, NoSuchAlgorithmException {
         JSONObject json_user = new JSONObject();

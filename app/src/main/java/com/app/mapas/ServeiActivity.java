@@ -44,7 +44,7 @@ public class ServeiActivity extends AppCompatActivity {
     String author;
     //String distance;
     Double distance;
-    String[] photos;
+    String photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +132,6 @@ public class ServeiActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-
                         JSONObject servei = null;
                         num_serveis = serveis.length();
                         arrayList = new ArrayList<>();
@@ -170,12 +169,29 @@ public class ServeiActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
+                            JSONArray photos = null;
+                            try {
+                                photos = servei.getJSONArray("photos");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            if (photos.length()>0) {
+                                try {
+                                    photo = (String) photos.get(0);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+
                             System.out.println(id);
                             System.out.println(location);
                             System.out.println(name);
                             System.out.println(icon);
                             System.out.println(author);
                             System.out.println(location);
+                            System.out.println(photo);
 
                             //location està amb el format "41,946591;2,2422739"
                             //hem de separar-ho per ";" i canviar les ',' per '.'
@@ -199,6 +215,7 @@ public class ServeiActivity extends AppCompatActivity {
                             s.setAuthor(author);
                             s.setIcon(icon);
                             s.setDistance(distance.toString());
+                            s.setPhoto(photo);
                             arrayList.add(s);
                             System.out.println("ola1");
 

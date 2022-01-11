@@ -13,10 +13,18 @@ public class Servei {
     Integer ownerId;
     JSONArray tags;
     String tag;
-    String[] photos;
+    String photo;
 
     public Integer getId() {
         return id;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public void setId(Integer id) {
@@ -85,12 +93,5 @@ public class Servei {
         this.tag = tag;
     }
 
-    public String[] getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(String[] photos) {
-        this.photos = photos;
-    }
 
 }

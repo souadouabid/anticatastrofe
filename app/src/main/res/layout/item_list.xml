@@ -56,5 +56,13 @@
             android:gravity="start"
             android:textColor="@android:color/black"
             android:textSize="14sp"/>
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="start"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

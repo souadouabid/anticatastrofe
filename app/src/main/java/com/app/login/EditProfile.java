@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,13 +21,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.app.Managers.Validators;
+import com.app.register.Registro;
 import com.google.android.material.snackbar.Snackbar;
 
 public class EditProfile extends AppCompatActivity {
 
     private Spinner spinnerSang, spinnerCA;
     private String ComAut, Sang;
-
+    private String email, pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -34,7 +36,8 @@ public class EditProfile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile2);
 
         Bundle informacion = this.getIntent().getExtras();
-        String email = informacion.getString("email");
+        email = informacion.getString("email");
+        pass = informacion.getString("pass");
 
         spinnerSang= (Spinner) findViewById(R.id.SpinnerSang);
         spinnerCA= (Spinner) findViewById(R.id.SpinnerCA);
@@ -43,7 +46,6 @@ public class EditProfile extends AppCompatActivity {
         EditText TextCiutat = (EditText) findViewById(R.id.editTextCiutat);
         EditText TextCP = (EditText) findViewById(R.id.editTextCP);
         EditText TextPais = (EditText) findViewById(R.id.editTextPais);
-        EditText TextDataN = (EditText) findViewById(R.id.editTextTextDataN);
 
         ArrayList<String> tipusSang = new ArrayList<>();
         tipusSang.add(getString(R.string.blood_type));
@@ -77,7 +79,6 @@ public class EditProfile extends AppCompatActivity {
         CA.add(getString(R.string.pais_basc));
         CA.add(getString(R.string.valencia));
         CA.add(getString(R.string.rioja));
-        System.out.println(CA);
 
         ArrayAdapter<String> adp = new ArrayAdapter<>(EditProfile.this, android.R.layout.simple_spinner_dropdown_item, tipusSang);
         spinnerSang.setAdapter(adp);
@@ -122,23 +123,31 @@ public class EditProfile extends AppCompatActivity {
                 view -> {
                     if (TextCarrer.getText().toString().isEmpty() || TextCP.getText().toString().isEmpty() ||
                             TextCiutat.getText().toString().isEmpty() || TextPais.getText().toString().isEmpty()
-                            || TextDataN.getText().toString().isEmpty() || Sang.equals(getString(R.string.blood_type)) || ComAut.equals(getString(R.string.comunitat_autonoma))) {
+                            || Sang.equals(getString(R.string.blood_type)) || ComAut.equals(getString(R.string.comunitat_autonoma))) {
 
                         startActivity(new Intent(EditProfile.this, popupCampsBuits.class));
                     }
 
                     else {
                         try {
+                            if (Client.hasAdditionalInfo(email)) {
+                                Client.deleteAdditionalInfo(email);
+                            }
+
                             String carrer = TextCarrer.getText().toString();
                             String ciutat = TextCiutat.getText().toString();
                             String CP = TextCP.getText().toString();
-                            String pais= TextPais.getText().toString();
-                            String dataN = TextDataN.getText().toString();
-                            Client.createAdditionalInfo(carrer, ciutat, ComAut, CP, pais, Sang, dataN, email);
+                            String pais = TextPais.getText().toString();
+                            Client.Additionalinfo(carrer, ciutat, ComAut, CP, pais, Sang, email);
 
-                            Intent i = new Intent(EditProfile.this, PerfilFragment.class);
+                            Intent i = new Intent(EditProfile.this, Menuprincipal.class);
+                            i.putExtras(informacion);
                             startActivity(i);
-                        } catch (IOException | JSONException e) {
+                        }
+                        catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }

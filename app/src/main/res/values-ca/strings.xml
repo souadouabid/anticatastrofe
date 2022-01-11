@@ -84,4 +84,5 @@
     <string name="alerta_per_tempesta">ALERTA PER TEMPESTA</string>
     <string name="mostrar_previsio_de_temps">Mostrar previsio de temps</string>
     <string name="mostrar_temps_residencia">Mostrar temps residencia</string>
+    <string name="btnHelp">Consells d us d Aplicació </string>
 </resources>

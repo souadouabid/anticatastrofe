@@ -81,12 +81,13 @@
         android:layout_weight="20"
 
         >
+
         <ImageButton
             android:id="@+id/imageButtonHelp"
             android:layout_width="45dp"
             android:layout_height="48dp"
             android:layout_margin="5dp"
-            tools:srcCompat="@drawable/ic_ayuda" />
+            android:background="@android:drawable/ic_menu_help" />
     </LinearLayout>
 
     <TextView

@@ -84,5 +84,6 @@
     <string name="alerta_per_tempesta">ALERTA POR TORMENTA</string>
     <string name="mostrar_previsio_de_temps">Mostrar previsio de temps</string>
     <string name="mostrar_temps_residencia">Mostrar temps residencia</string>
+    <string name="btnHelp">Consejos de uso de la Aplicación</string>
 
 </resources>

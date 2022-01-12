@@ -86,12 +86,12 @@
     <string name="les_contrasenyes_no_coincideixen">Passwords DO NOT match</string>
     <string name="trucada_a_emergencia">Emergency Call</string>
     <string name="alerta_per_tempesta">STORM ALERT</string>
-    <string name="mostrar_serveis">Mostrar serveis</string>
-    <string name="etiqueta">Etiqueta:</string>
+    <string name="mostrar_serveis">Show services</string>
+    <string name="etiqueta">Tag:</string>
     <string name="tag">Tag:</string>
     <string name="distance_max_int">Distance max: (int)</string>
     <string name="quantity_int">Quantity: (int)</string>
-    <string name="busca_servei">Busca servei</string>
+    <string name="busca_servei">Search service</string>
     <string name="search_services">Search services</string>
     <string name="id">Id:</string>
     <string name="name">Name:</string>
@@ -100,8 +100,8 @@
     <string name="distance_meters">Distance (meters)</string>
     <string name="distance_km">Distance (Km)</string>
     <string name="location">Location:</string>
-    <string name="mostrar_previsio_de_temps">Mostrar previsio de temps</string>
-    <string name="mostrar_temps_residencia">Mostrar temps residencia</string>
+    <string name="mostrar_previsio_de_temps">Show weather prediction</string>
+    <string name="mostrar_temps_residencia">Show home weather</string>
     <string name="bloodType">Blood Type: </string>
     <string name="conutry">Country: </string>
     <string name="codipostal">Postal Code: </string>

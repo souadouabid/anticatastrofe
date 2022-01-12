@@ -88,14 +88,14 @@
     <string name="distance_max_int">Distance max: (int)</string>
     <string name="quantity_int">Quantity: (int)</string>
     <string name="busca_servei">Busca servei</string>
-    <string name="search_services">Search services</string>
+    <string name="search_services">Busca serveis</string>
     <string name="id">Id:</string>
-    <string name="name">Name:</string>
-    <string name="icon">Icon:</string>
-    <string name="author">Author:</string>
-    <string name="distance_meters">Distance (meters)</string>
-    <string name="distance_km">Distance (Km)</string>
-    <string name="location">Location:</string>
+    <string name="name">Nom:</string>
+    <string name="icon">Icona:</string>
+    <string name="author">Autor:</string>
+    <string name="distance_meters">Distancia (metres)</string>
+    <string name="distance_km">Distancia (Km)</string>
+    <string name="location">Localització:</string>
     <string name="mostrar_previsio_de_temps">Mostrar previsio de temps</string>
     <string name="mostrar_temps_residencia">Mostrar temps residencia</string>
     <string name="bloodType">Tipus Sang: </string>
@@ -104,5 +104,5 @@
     <string name="cmoaut">Com. Autònoma: </string>
     <string name="city">Ciutat: </string>
     <string name="street">Carrer: </string>
-    <string name="btnHelp">Consells d us d Aplicació </string>
+    <string name="btnHelp">Consells d'us d Aplicació </string>
 </resources>

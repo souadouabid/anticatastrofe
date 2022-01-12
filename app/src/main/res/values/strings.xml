@@ -88,4 +88,5 @@
     <string name="alerta_per_tempesta">STORM ALERT</string>
     <string name="mostrar_previsio_de_temps">Mostrar previsio de temps</string>
     <string name="mostrar_temps_residencia">Mostrar temps residencia</string>
+    <string name="btnHelp">Application usage tips</string>
 </resources>

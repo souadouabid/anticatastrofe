@@ -78,8 +78,8 @@ public class MapsActivity extends FragmentActivity implements
     final static String TAG = "MapsActivity";
     final String APP_ID = "6ba9413074ff7a43ed1598a11ad344e1";
     final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
-
-    final long MIN_TIME =  3 * 1000;//
+    final String WEATHER_URL_FORECAST = "https://api.openweathermap.org/data/2.5/forecast";
+    final long MIN_TIME =  3 * 1000;
     final float MIN_DISTANCE = 1000;
     final int REQUEST_CODE = 101;
 
@@ -93,7 +93,7 @@ public class MapsActivity extends FragmentActivity implements
     private FusedLocationProviderClient client;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private Button mTypeBtn, mTypeBtn2, activaEtiq, Bservei, tres;
+    private Button mTypeBtn, mTypeBtn2, activaEtiq, showEtiq, hideEtiq, tres, mButtonPrevisio, Bservei;
     private FloatingActionButton mButtonWeather;
     private boolean activaMarkers;
     private JSONArray landmarks;
@@ -272,9 +272,6 @@ public class MapsActivity extends FragmentActivity implements
         }
 
 
-
-
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
             client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -298,6 +295,7 @@ public class MapsActivity extends FragmentActivity implements
                         RequestParams params = new RequestParams();
                         params.put("lat", Latitude);
                         params.put("lon", Longitude);
+                        params.put("units", "metric");
                         params.put("appid", APP_ID);
                         requestWeather(params,false, false);
                         try {
@@ -368,6 +366,13 @@ public class MapsActivity extends FragmentActivity implements
                 activaMarkers = true;
             }
         });
+        mButtonPrevisio = (Button) findViewById(R.id.previsio);
+        mButtonPrevisio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                evaluarPerillPrevisio(true);
+            }
+        });
 
         Bservei = (Button) findViewById(R.id.bserveis);
         Bservei.setOnClickListener(new View.OnClickListener() {
@@ -387,6 +392,84 @@ public class MapsActivity extends FragmentActivity implements
                 showMarkersDialog();
             }
         });
+    }
+    private void evaluarPerillPrevisio(Boolean fromb){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("lat", lastLocation.latitude);
+        params.put("lon", lastLocation.longitude);
+        params.put("units", "metric");
+        params.put("cnt",2);
+        params.put("appid", APP_ID);
+        client.get(WEATHER_URL_FORECAST, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("WEATHER8", response.toString());
+                if (fromb) {
+                    showprevisio(response);
+                }
+                else {
+                    perillprevisio(response);
+                }
+
+
+                super.onSuccess(statusCode, headers, response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("WEATHER1", responseString);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("WEATHER2", errorResponse.toString());
+
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+    }
+    public void showprevisio(JSONObject resp){
+        try {
+            double temperaturapreviso, ventprevisio;
+            int idweatherprevisio;
+            String dataprevisio, ciutat;
+
+            temperaturapreviso = resp.getJSONArray("list").getJSONObject(0).getJSONObject("main").getDouble("temp");
+            idweatherprevisio = resp.getJSONArray("list").getJSONObject(0).getJSONArray("weather").getJSONObject(0).getInt("id");
+            ventprevisio = resp.getJSONArray("list").getJSONObject(0).getJSONObject("wind").getDouble("speed");
+            dataprevisio = resp.getJSONArray("list").getJSONObject(0).getString("dt_txt");
+            ciutat = resp.getJSONObject("city").getString("name");
+
+            MapsActivity.DIALOG_IS_SHOWING = true;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+                MapsActivity.DIALOG_IS_SHOWING = false;
+
+            });
+
+            String msg3 = "La previsio de temps per les " ;
+            msg3+= dataprevisio.substring(10,16);
+
+            msg3+= "\nés de: " +evaluarIdWeather(idweatherprevisio);
+            msg3+= "\namb velocitat del vent : " + ventprevisio +" Km/h";
+            msg3+= "\ni temperatura de: "+temperaturapreviso+" Cº";
+
+            builder.setMessage(msg3)
+                    .setTitle("previsió a " + ciutat);
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
     void check_distance() throws Exception {
         double distancia = 99999999;
@@ -426,26 +509,26 @@ public class MapsActivity extends FragmentActivity implements
             }
         }
 
-            double latitude = 0;
-            try {
-                latitude = land_proper.getDouble("coordinate_x");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        double latitude = 0;
+        try {
+            latitude = land_proper.getDouble("coordinate_x");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-            double longitude = 0;
-            try {
-                longitude = land_proper.getDouble("coordinate_y");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            boolean cobertura;
-            if (distancia_min <= 9000) cobertura = true;
-            else cobertura = false;
+        double longitude = 0;
+        try {
+            longitude = land_proper.getDouble("coordinate_y");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        boolean cobertura;
+        if (distancia_min <= 9000) cobertura = true;
+        else cobertura = false;
 
-            notificació_push_cobertura(cobertura);
+        notificació_push_cobertura(cobertura);
 
-            mostraDistancia(latitude, longitude, lastLocation.latitude, lastLocation.longitude, distancia_min);
+        mostraDistancia(latitude, longitude, lastLocation.latitude, lastLocation.longitude, distancia_min);
 
     }
     public static double distance(double lat1, double lon1, double lat2, double lon2) {
@@ -642,6 +725,8 @@ public class MapsActivity extends FragmentActivity implements
                 // cada 30 segons es crida a comprovar el temps
                 if(lastLocation!=null && lastLocation.latitude!=0 && lastLocation.longitude!=0 && !DIALOG_IS_SHOWING){
                     callWeatherService(lastLocation,false, false);
+                    evaluarPerillPrevisio(false);
+
                 }
             }
         }, delay);
@@ -693,7 +778,7 @@ public class MapsActivity extends FragmentActivity implements
                     idWeather == 211 || idWeather == 212 || idWeather == 221  ||
                     idWeather == 230 || idWeather == 231 || idWeather == 232)
                     && !MapsActivity.DIALOG_IS_SHOWING){
-                    mostrarTempesta();
+                mostrarTempesta();
 
             }
 
@@ -718,13 +803,46 @@ public class MapsActivity extends FragmentActivity implements
             e.printStackTrace();
         }
     }
+    private void perillprevisio(JSONObject weather) {
+        try {
+            int idWeather;
+            String dataprevisio, ciutat;
+
+            idWeather = weather.getJSONArray("list").getJSONObject(0).getJSONArray("weather").getJSONObject(0).getInt("id");
+            dataprevisio = weather.getJSONArray("list").getJSONObject(0).getString("dt_txt");
+            ciutat = weather.getJSONObject("city").getString("name");
+            if((idWeather == 200 || idWeather == 201 || idWeather == 202 || idWeather == 210 ||
+                    idWeather == 211 || idWeather == 212 || idWeather == 221  ||
+                    idWeather == 230 || idWeather == 231 || idWeather == 232)
+                    && !MapsActivity.DIALOG_IS_SHOWING){
+                mostrarTempestaprevisio(dataprevisio, ciutat);
+
+            }
+
+            if((idWeather == 502 || idWeather == 503 || idWeather == 504 || idWeather == 521 ||
+                    idWeather == 522 )  && !MapsActivity.DIALOG_IS_SHOWING){
+                plujafortaprevisio(dataprevisio, ciutat);
+
+            }
+            if((idWeather == 602 || idWeather == 611 || idWeather == 613 || idWeather == 621 ||
+                    idWeather == 622 )  && !MapsActivity.DIALOG_IS_SHOWING){
+                neufortaprevisio(dataprevisio, ciutat);
+
+            }
+
+
+        } catch (JSONException e) {
+            Log.e("mapsActivity", e.toString());
+            e.printStackTrace();
+        }
+    }
     private void updateUIbuttonresidencia(JSONObject weather,boolean fromButton, boolean fromResidencia) {
 
         try {
             int idWeather3 = weather.getJSONArray("weather").getJSONObject(0).getInt("id");
             double temp = weather.getJSONObject("main").getDouble("temp");
             double speed = weather.getJSONObject("wind").getDouble("speed");
-
+            String nomubicacio = weather.getString("name");
             String b1;
             if(fromButton || fromResidencia ){
 
@@ -740,15 +858,15 @@ public class MapsActivity extends FragmentActivity implements
 
                 });
                 if(fromButton){
-                    b1 = "El clima Actual de la seva posició és: ";
+                    b1 = "El clima Actual de la seva posició: "+nomubicacio +", és: ";
                 }
                 else {
-                    b1 = "El clima Actual de la seva residencia és: ";
+                    b1 = "El clima Actual de la seva residencia en: "+nomubicacio+" és: ";
                 }
 
                 String msg = clima ;
-                msg+= "\nVelocidad del viento es: " +String.valueOf(speed)+" Km/h";
-                msg+= "\nTemperatura es: "+temp+" Cº";
+                msg+= "\nVelocitat del vent és: " +String.valueOf(speed)+" Km/h";
+                msg+= "\nTemperatura és: "+temp+" Cº";
 
                 builder.setMessage(msg)
                         .setTitle(b1);
@@ -780,6 +898,73 @@ public class MapsActivity extends FragmentActivity implements
         });
 
         builder.setMessage("ALERTA TEMPESTA IMNINET!!")
+                .setTitle("ALERTA");
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+
+    }
+    private void mostrarTempestaprevisio(String data, String nom) {
+        MapsActivity.DIALOG_IS_SHOWING = true;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+            MapsActivity.DIALOG_IS_SHOWING = false;
+
+        });
+        String msg = "ALERTA TEMPESTA FORTA IMNINET!!";
+        msg+= "\nA les: "+data.substring(10,16)+ " a: "+nom;
+        msg+= ".\nEs produirà una tempesta forta!";
+        msg+= "\nBusqui refugi!";
+        builder.setMessage(msg)
+                .setTitle("ALERTA");
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+
+    }
+    private void plujafortaprevisio(String data, String nom) {
+        MapsActivity.DIALOG_IS_SHOWING = true;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+            MapsActivity.DIALOG_IS_SHOWING = false;
+
+        });
+        String msg = "ALERTA PLUJA FORTA IMNINET!!";
+        msg+= "\nA les: "+data.substring(10,16)+ " a: "+nom;
+        msg+= ".\nEs produirà una pluja forta!";
+        msg+= "\nBusqui refugi!";
+        builder.setMessage(msg)
+                .setTitle("ALERTA");
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+
+    }
+
+    private void neufortaprevisio(String data, String nom) {
+        MapsActivity.DIALOG_IS_SHOWING = true;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+            MapsActivity.DIALOG_IS_SHOWING = false;
+
+        });
+        String msg = "ALERTA NEU FORTA IMNINET!!";
+        msg+= "\nA les: "+data.substring(10,16)+ " a: "+nom;
+        msg+= ".\nEs produirà una nevada forta!";
+        msg+= "\nBusqui refugi!";
+        builder.setMessage(msg)
                 .setTitle("ALERTA");
 
         AlertDialog dialog = builder.create();
@@ -896,7 +1081,7 @@ public class MapsActivity extends FragmentActivity implements
         client.get(WEATHER_URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("WEATHER3", response.toString());
+                Log.d("WEATHER6", response.toString());
                 if(fromButton || fromResidencia) {
                     updateUIbuttonresidencia(response, fromButton, fromResidencia);
                 }

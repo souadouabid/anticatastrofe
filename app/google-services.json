@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "470964498325",
-    "project_id": "login-c0c1b",
-    "storage_bucket": "login-c0c1b.appspot.com"
+    "project_number": "819809445295",
+    "project_id": "anticatastrofe-f1308",
+    "storage_bucket": "anticatastrofe-f1308.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:470964498325:android:ebbe4d415bc9a1e31bd09c",
+        "mobilesdk_app_id": "1:819809445295:android:e19f741c08181cb3083b5a",
         "android_client_info": {
           "package_name": "com.app.login"
         }
       },
       "oauth_client": [
         {
-          "client_id": "470964498325-bq0h211cv0cptrujdcvfna4tu0lb425r.apps.googleusercontent.com",
+          "client_id": "819809445295-tecba4k5gva22rg76jr4btj0ldvjm11l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA9rzmHW5zyoqszx7VzFk1MNL6oFkuY_go"
+          "current_key": "AIzaSyCefAQufB8Vs06hsbGIWBqmBk8Aoy3D1dc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "470964498325-bq0h211cv0cptrujdcvfna4tu0lb425r.apps.googleusercontent.com",
+              "client_id": "819809445295-tecba4k5gva22rg76jr4btj0ldvjm11l.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -96,4 +96,13 @@
     <string name="distance_meters">Distance (meters)</string>
     <string name="distance_km">Distance (Km)</string>
     <string name="location">Location:</string>
+    <string name="mostrar_previsio_de_temps">Mostrar previsio de temps</string>
+    <string name="mostrar_temps_residencia">Mostrar temps residencia</string>
+    <string name="bloodType">Tipus Sang: </string>
+    <string name="conutry">País: </string>
+    <string name="codipostal">Codi Postal: </string>
+    <string name="cmoaut">Com. Autònoma: </string>
+    <string name="city">Ciutat: </string>
+    <string name="street">Carrer: </string>
+    <string name="btnHelp">Consells d us d Aplicació </string>
 </resources>

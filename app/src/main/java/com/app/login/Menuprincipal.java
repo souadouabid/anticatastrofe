@@ -5,22 +5,30 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 
-import com.app.register.Registro;
-import com.google.android.material.snackbar.Snackbar;
+import android.widget.TextView;
+import com.app.Managers.Client;
 import com.google.android.material.navigation.NavigationView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.login.databinding.ActivityMenuprincipalBinding;
+import com.google.android.material.navigation.NavigationView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class Menuprincipal extends AppCompatActivity {
 
@@ -30,9 +38,24 @@ public class Menuprincipal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+        /*
+        setContentView(R.layout.nav_header_menuprincipal);
+        TextView tv = (TextView)findViewById(R.id.nomUsuari);
+        tv.setText("Welcome to Tutlane");
+*/
         Bundle informacion = this.getIntent().getExtras();
         email = informacion.getString("email");
         pass = informacion.getString("pass");
+
+
+
+
+        /*setContentView(R.layout.nav_header_menuprincipal);
+        TextView nomUsuari = (TextView) findViewById(R.id.nomUsuari);
+        nomUsuari.setText("hola");*/
 
         binding = ActivityMenuprincipalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -52,20 +75,89 @@ public class Menuprincipal extends AppCompatActivity {
                 Intent in = new Intent(Menuprincipal.this, Notificacions.class);
                 in.putExtras(informa);
                 startActivity(in);
-                //startActivity(new Intent(Menuprincipal.this, Notificacions.class));
-                /*
-               Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-                Log.i("TAG", "email = "+ email + " pass = " + pass);
+                Log.i("TAG", "email = " + email + " pass = " + pass);
+            }
+        });
+        binding.appBarMenuprincipal.btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle informa = new Bundle();
+                informa.putString("email", email);
+                Intent in = new Intent(Menuprincipal.this, chatApp.class);
+                in.putExtras(informa);
+                startActivity(in);
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.nomUsuari);
+        TextView navUserEmail = (TextView) headerView.findViewById(R.id.emailUsuari);
+        TextView navUserStreet = (TextView) headerView.findViewById(R.id.streetUsuari);
+        TextView navUserCity = (TextView) headerView.findViewById(R.id.CityUsuari);
+        TextView navUserState = (TextView) headerView.findViewById(R.id.stateUsuari);
+        TextView navUserCP = (TextView) headerView.findViewById(R.id.CPUsuari);
+        TextView navUserCountry = (TextView) headerView.findViewById(R.id.countryUsuari);
+        TextView navUserBlood = (TextView) headerView.findViewById(R.id.BloodUsuari);
+
+
+        JSONObject usuari = null;
+        String nom = null;
+        String street = "";
+        String city = "";
+        String CP = "";
+        String country = "";
+        String blood = "";
+        String state = "";
+        try {
+            usuari = Client.getPerson(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            nom = usuari.getString("name");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONObject usuariAI = null;
+
+        try {
+            if (Client.hasAdditionalInfo(email)) {
+                usuariAI = Client.getAdditionalInfo(email);
+                street = usuariAI.getString("street");
+                city = usuariAI.getString("city");
+                state = usuariAI.getString("state");
+                CP = usuariAI.getString("postal_code");
+                country = usuariAI.getString("country");
+                blood = usuariAI.getString("blood_type");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        navUserEmail.setText(email);
+        navUsername.setText(nom);
+        navUserStreet.setText(getString(R.string.street)+street);
+        navUserCity.setText(getString(R.string.city)+city);
+        navUserState.setText(getString(R.string.cmoaut)+state);
+        navUserCP.setText(getString(R.string.codipostal)+CP);
+        navUserCountry.setText(getString(R.string.conutry)+country);
+        navUserBlood.setText(getString(R.string.bloodType)+blood);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        View nav = navigationView.getHeaderView(0);
+        TextView txtEmail = (TextView) nav.findViewById(R.id.emailUsuari);
+        txtEmail.setText(email);
+        TextView nomUsuari = nav.findViewById(R.id.nomUsuari);
+        nomUsuari.setText(nom);
+        ImageView im = (ImageView) nav.findViewById(R.id.imageViewPersona);
+        im.setImageResource(R.drawable.ic_perfil);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 //cambio del param2 nav_gallery a nav_perfil
-                 R.id.perfilFragment, R.id.principalFragment)
+                R.id.perfilFragment, R.id.principalFragment)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_menuprincipal);

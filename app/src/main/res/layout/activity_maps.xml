@@ -20,7 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginEnd="80dp"
         android:layout_marginBottom="30dp"
         android:contentDescription="@string/obtindre_clima"
         android:src="@drawable/thunderstorm_free_png_image"
@@ -105,22 +105,33 @@
         android:id="@+id/bresidencia"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:background="#588326"
         android:text="Mostrar temps residencia"
         android:translationX="30px"
-        android:translationY="1500px"
+        android:translationY="1600px"
+        map:icon="@drawable/ic_home" />
+
+    <Button
+        android:id="@+id/previsio"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="#588326"
+        android:text="@string/mostrar_previsio_de_temps"
+        android:translationX="30px"
+        android:translationY="1450px"
         map:icon="@drawable/ic_home" />
 
     <Button
         android:id="@+id/bserveis"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:background="#588326"
         android:text="@string/mostrar_serveis"
         android:translationX="30px"
-        android:translationY="1250px"
+        android:translationY="1300px"
         map:icon="@drawable/ic_home" />
 
 </RelativeLayout>

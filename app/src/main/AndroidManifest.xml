@@ -26,8 +26,10 @@
         <activity
 
             android:name="com.app.mapas.ServeiActivity"
-            android:name=".Ayuda"
             android:exported="true" />
+        <activity
+        android:name=".Ayuda"
+        android:exported="true"/>
         <activity
             android:name=".MenuAdmin"
             android:exported="false" />

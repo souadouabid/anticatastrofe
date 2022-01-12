@@ -93,7 +93,7 @@ public class PrincipalFragment extends Fragment {
             public void onClick(View view) {
                 /*numero de nuestro admin :v */
                 Intent dialIntent = new Intent(Intent.ACTION_DIAL);
-                dialIntent.setData(Uri.parse("tel:" + "123456789"));
+                dialIntent.setData(Uri.parse("tel:" + "112"));
                 startActivity(dialIntent);
             }
         });

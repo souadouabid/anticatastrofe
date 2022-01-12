@@ -28,6 +28,8 @@ import com.app.login.databinding.ActivityMenuprincipalBinding;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 public class Menuprincipal extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -81,10 +83,22 @@ public class Menuprincipal extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = (TextView) headerView.findViewById(R.id.nomUsuari);
         TextView navUserEmail = (TextView) headerView.findViewById(R.id.emailUsuari);
+        TextView navUserStreet = (TextView) headerView.findViewById(R.id.streetUsuari);
+        TextView navUserCity = (TextView) headerView.findViewById(R.id.CityUsuari);
+        TextView navUserState = (TextView) headerView.findViewById(R.id.stateUsuari);
+        TextView navUserCP = (TextView) headerView.findViewById(R.id.CPUsuari);
+        TextView navUserCountry = (TextView) headerView.findViewById(R.id.countryUsuari);
+        TextView navUserBlood = (TextView) headerView.findViewById(R.id.BloodUsuari);
 
 
         JSONObject usuari = null;
         String nom = null;
+        String street = "";
+        String city = "";
+        String CP = "";
+        String country = "";
+        String blood = "";
+        String state = "";
         try {
             usuari = Client.getPerson(email);
         } catch (Exception e) {
@@ -96,8 +110,32 @@ public class Menuprincipal extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        JSONObject usuariAI = null;
+
+        try {
+            if (Client.hasAdditionalInfo(email)) {
+                usuariAI = Client.getAdditionalInfo(email);
+                street = usuariAI.getString("street");
+                city = usuariAI.getString("city");
+                state = usuariAI.getString("state");
+                CP = usuariAI.getString("postal_code");
+                country = usuariAI.getString("country");
+                blood = usuariAI.getString("blood_type");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         navUserEmail.setText(email);
         navUsername.setText(nom);
+        navUserStreet.setText(getString(R.string.street)+street);
+        navUserCity.setText(getString(R.string.city)+city);
+        navUserState.setText(getString(R.string.cmoaut)+state);
+        navUserCP.setText(getString(R.string.codipostal)+CP);
+        navUserCountry.setText(getString(R.string.conutry)+country);
+        navUserBlood.setText(getString(R.string.bloodType)+blood);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(

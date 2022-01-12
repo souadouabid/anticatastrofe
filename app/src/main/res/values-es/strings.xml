@@ -84,5 +84,11 @@
     <string name="alerta_per_tempesta">ALERTA POR TORMENTA</string>
     <string name="mostrar_previsio_de_temps">Mostrar previsio de temps</string>
     <string name="mostrar_temps_residencia">Mostrar temps residencia</string>
+    <string name="bloodType">Tipo Sangre: </string>
+    <string name="conutry">País: </string>
+    <string name="codipostal">Código Postal: </string>
+    <string name="cmoaut">Com. Autónoma: </string>
+    <string name="city">Ciudad: </string>
+    <string name="street">Calle: </string>
 
 </resources>

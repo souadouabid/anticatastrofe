@@ -32,7 +32,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">MapsActivity</string>
-    <string name="DonarsedeBaixa" tools:ignore="DuplicateDefinition">Donar-se de baixa</string>
+    <string name="DonarsedeBaixa" tools:ignore="DuplicateDefinition">Delete account</string>
     <string name="selecciona_etiquetes" translatable="false">Selecciona etiquetes</string>
     <string name="selecciona_etiquetes2" translatable="false">Selecciona etiquetes2</string>
     <string name="selecciona_etiquetes1" translatable="false">Selecciona Etiquetes1</string>

@@ -4,6 +4,7 @@ package com.app.Managers;
 import android.os.StrictMode;
 
 
+import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +44,7 @@ public class Client {
     private static String url_additional_info = "http://10.4.41.38:8080/aditional_info";
     private static String url_message = "http://10.4.41.38:8080/message";
     private static String url_message_cord = "http://10.4.41.38:8080/messageWithCoordinates";
+    private static String url_serveis = "http://10.4.41.38:8080/messageWithCoordinates";
 
     private static int doPostRequestJson(JSONObject json, String url) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -164,6 +166,10 @@ public class Client {
         }
         return null;
     }
+
+
+
+
 
     private static JSONArray doGetRequest(String url, JSONObject json_parameters) throws IOException, JSONException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -781,5 +787,62 @@ public class Client {
         //getUserPassword("a","a");
         //CreateUser("holahola",123,"aaaaaaadsa","asdasfdfa");
         //getPerson("abc");
+    }
+
+    public static JSONArray doGetRequestS(JSONObject json_parameters) throws IOException, JSONException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        StringBuilder query = new StringBuilder("?");
+
+
+        if(json_parameters != null) {
+            Iterator<String> keys = json_parameters.keys();
+            for (int i = 0; i < json_parameters.length(); i++) {
+                String key = keys.next();
+                String value = json_parameters.getString(key);
+                query.append(String.format("%1$s=%2$s", key, value));
+                if (i < json_parameters.length()-1) query.append("&");
+            }
+        }
+        String url = "http://54.89.126.119/api/posts/offers";
+        URL u;
+        if (json_parameters != null) u = new URL(url + query);
+        else u = new URL(url);
+        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+        conn.addRequestProperty("api-key", "wRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
+        conn.setRequestMethod("GET");
+
+        try {
+            conn.connect();
+            int status = conn.getResponseCode();
+
+            switch (status) {
+                case 200:
+                case 201:
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line+"\n");
+                    }
+                    br.close();
+                    JSONArray jsonArray =  new JSONArray(sb.toString());
+                    return jsonArray;
+                default:
+                    JSONArray jsonArray1 = new JSONArray();
+                    JSONObject obj = new JSONObject();
+                    obj.put("login_success","false");
+                    jsonArray1.put(obj);
+                    return jsonArray1;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

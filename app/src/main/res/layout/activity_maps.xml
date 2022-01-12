@@ -107,20 +107,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#588326"
-        android:text="@string/mostrar_temps_residencia"
+        android:text="Mostrar temps residencia"
         android:translationX="30px"
         android:translationY="1500px"
         map:icon="@drawable/ic_home" />
 
     <Button
-        android:id="@+id/previsio"
+        android:id="@+id/bserveis"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#588326"
-        android:text="@string/mostrar_previsio_de_temps"
+        android:text="@string/mostrar_serveis"
         android:translationX="30px"
-        android:translationY="1300px"
+        android:translationY="1250px"
         map:icon="@drawable/ic_home" />
 
 </RelativeLayout>

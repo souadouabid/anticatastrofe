@@ -24,6 +24,8 @@
         android:theme="@style/Theme.Login"
         android:usesCleartextTraffic="true" >
         <activity
+
+            android:name="com.app.mapas.ServeiActivity"
             android:name=".Ayuda"
             android:exported="true" />
         <activity

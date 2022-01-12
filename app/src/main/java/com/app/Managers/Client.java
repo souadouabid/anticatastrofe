@@ -688,9 +688,8 @@ public class Client {
     public static JSONObject getAdditionalInfo(String email) throws JSONException, IOException {
         JSONArray users = getAdditionalInfos();
         for (int i = 0; i < users.length(); ++i) {
-            JSONObject json = (JSONObject) users.get(i);
-            String email_json = (String) json.get("email");
-            if (email_json.equals(email)) return json;
+            JSONObject json = users.getJSONObject(i);
+            if (json.getString("email").equals(email)) return json;
         }
         throw new JSONException("user_not_found");
     }

@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.app.Managers.Client;
 import com.app.register.Registro;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -22,6 +25,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.login.databinding.ActivityMenuprincipalBinding;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Menuprincipal extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -30,9 +36,24 @@ public class Menuprincipal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+        /*
+        setContentView(R.layout.nav_header_menuprincipal);
+        TextView tv = (TextView)findViewById(R.id.nomUsuari);
+        tv.setText("Welcome to Tutlane");
+*/
         Bundle informacion = this.getIntent().getExtras();
         email = informacion.getString("email");
         pass = informacion.getString("pass");
+
+
+
+
+        /*setContentView(R.layout.nav_header_menuprincipal);
+        TextView nomUsuari = (TextView) findViewById(R.id.nomUsuari);
+        nomUsuari.setText("hola");*/
 
         binding = ActivityMenuprincipalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -52,20 +73,36 @@ public class Menuprincipal extends AppCompatActivity {
                 Intent in = new Intent(Menuprincipal.this, Notificacions.class);
                 in.putExtras(informa);
                 startActivity(in);
-                //startActivity(new Intent(Menuprincipal.this, Notificacions.class));
-                /*
-               Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-                Log.i("TAG", "email = "+ email + " pass = " + pass);
+                Log.i("TAG", "email = " + email + " pass = " + pass);
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.nomUsuari);
+        TextView navUserEmail = (TextView) headerView.findViewById(R.id.emailUsuari);
+
+
+        JSONObject usuari = null;
+        String nom = null;
+        try {
+            usuari = Client.getPerson(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            nom = usuari.getString("name");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        navUserEmail.setText(email);
+        navUsername.setText(nom);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 //cambio del param2 nav_gallery a nav_perfil
-                 R.id.perfilFragment, R.id.principalFragment)
+                R.id.perfilFragment, R.id.principalFragment)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_menuprincipal);

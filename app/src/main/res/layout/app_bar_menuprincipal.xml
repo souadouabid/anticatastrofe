@@ -20,7 +20,9 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_menuprincipal" />
+    <include
+        android:id="@+id/include2"
+        layout="@layout/content_menuprincipal" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -30,5 +32,17 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_marginBottom="5dp"
+        android:layout_margin="10dp"
+        android:src="@android:drawable/sym_action_chat"
+        app:layout_anchor="@+id/include2"
+        app:layout_anchorGravity="start|bottom"
+        app:maxImageSize="24dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

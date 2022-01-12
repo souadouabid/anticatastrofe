@@ -499,26 +499,26 @@ public class MapsActivity extends FragmentActivity implements
             }
         }
 
-            double latitude = 0;
-            try {
-                latitude = land_proper.getDouble("coordinate_x");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        double latitude = 0;
+        try {
+            latitude = land_proper.getDouble("coordinate_x");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-            double longitude = 0;
-            try {
-                longitude = land_proper.getDouble("coordinate_y");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            boolean cobertura;
-            if (distancia_min <= 9000) cobertura = true;
-            else cobertura = false;
+        double longitude = 0;
+        try {
+            longitude = land_proper.getDouble("coordinate_y");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        boolean cobertura;
+        if (distancia_min <= 9000) cobertura = true;
+        else cobertura = false;
 
-            notificació_push_cobertura(cobertura);
+        notificació_push_cobertura(cobertura);
 
-            mostraDistancia(latitude, longitude, lastLocation.latitude, lastLocation.longitude, distancia_min);
+        mostraDistancia(latitude, longitude, lastLocation.latitude, lastLocation.longitude, distancia_min);
 
     }
     private double distance(double lat1, double lon1, double lat2, double lon2) {
@@ -768,7 +768,7 @@ public class MapsActivity extends FragmentActivity implements
                     idWeather == 211 || idWeather == 212 || idWeather == 221  ||
                     idWeather == 230 || idWeather == 231 || idWeather == 232)
                     && !MapsActivity.DIALOG_IS_SHOWING){
-                    mostrarTempesta();
+                mostrarTempesta();
 
             }
 

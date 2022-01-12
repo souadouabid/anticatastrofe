@@ -94,4 +94,6 @@
     <string name="cmoaut">State: </string>
     <string name="city">City: </string>
     <string name="street">Street: </string>
+    <string name="btnHelp">Application usage tips</string>
+  
 </resources>

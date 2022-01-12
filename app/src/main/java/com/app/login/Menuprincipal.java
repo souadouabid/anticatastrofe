@@ -5,25 +5,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
-import android.widget.LinearLayout;
+
+import android.widget.TextView;
+import com.app.Managers.Client;
+import com.google.android.material.navigation.NavigationView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.Managers.Client;
-import com.app.register.Registro;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.login.databinding.ActivityMenuprincipalBinding;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,6 +76,16 @@ public class Menuprincipal extends AppCompatActivity {
                 in.putExtras(informa);
                 startActivity(in);
                 Log.i("TAG", "email = " + email + " pass = " + pass);
+            }
+        });
+        binding.appBarMenuprincipal.btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle informa = new Bundle();
+                informa.putString("email", email);
+                Intent in = new Intent(Menuprincipal.this, chatApp.class);
+                in.putExtras(informa);
+                startActivity(in);
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
@@ -138,6 +148,13 @@ public class Menuprincipal extends AppCompatActivity {
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        View nav = navigationView.getHeaderView(0);
+        TextView txtEmail = (TextView) nav.findViewById(R.id.tvEmail);
+        txtEmail.setText(email);
+        TextView nom = nav.findViewById(R.id.tvNom);
+        nom.setText("");
+        ImageView im = (ImageView) nav.findViewById(R.id.imageViewPersona);
+        im.setImageResource(R.drawable.ic_perfil);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 //cambio del param2 nav_gallery a nav_perfil
                 R.id.perfilFragment, R.id.principalFragment)

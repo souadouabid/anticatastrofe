@@ -90,5 +90,6 @@
     <string name="cmoaut">Com. Autónoma: </string>
     <string name="city">Ciudad: </string>
     <string name="street">Calle: </string>
+    <string name="btnHelp">Consejos de uso de la Aplicación</string>
 
 </resources>

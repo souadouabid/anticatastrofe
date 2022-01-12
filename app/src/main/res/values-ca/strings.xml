@@ -90,4 +90,5 @@
     <string name="cmoaut">Com. Autònoma: </string>
     <string name="city">Ciutat: </string>
     <string name="street">Carrer: </string>
+    <string name="btnHelp">Consells d us d Aplicació </string>
 </resources>

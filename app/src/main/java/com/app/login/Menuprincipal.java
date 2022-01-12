@@ -149,10 +149,10 @@ public class Menuprincipal extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         View nav = navigationView.getHeaderView(0);
-        TextView txtEmail = (TextView) nav.findViewById(R.id.tvEmail);
+        TextView txtEmail = (TextView) nav.findViewById(R.id.emailUsuari);
         txtEmail.setText(email);
-        TextView nom = nav.findViewById(R.id.tvNom);
-        nom.setText("");
+        TextView nomUsuari = nav.findViewById(R.id.nomUsuari);
+        nomUsuari.setText(nom);
         ImageView im = (ImageView) nav.findViewById(R.id.imageViewPersona);
         im.setImageResource(R.drawable.ic_perfil);
         mAppBarConfiguration = new AppBarConfiguration.Builder(

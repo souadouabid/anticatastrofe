@@ -3,6 +3,7 @@ package com.app.Managers;
 
 import android.os.StrictMode;
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +23,14 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+
+import cz.msebera.android.httpclient.HttpResponse;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 
 public class Client {
 
@@ -31,7 +40,7 @@ public class Client {
     private static String url_notification = "http://10.4.41.38:8080/notification";
     private static String url_landmark = "http://10.4.41.38:8080/landmark";
     private static String url_admin = "http://10.4.41.38:8080/admin";
-    private static String url_additional_info = "http://10.4.41.38:8080/additional_info";
+    private static String url_additional_info = "http://10.4.41.38:8080/aditional_info";
     private static String url_message = "http://10.4.41.38:8080/message";
     private static String url_message_cord = "http://10.4.41.38:8080/messageWithCoordinates";
 
@@ -634,6 +643,16 @@ public class Client {
         }
         throw new JSONException("user_not_found");
     }
+    
+    public static Boolean isAdmin(String email) throws IOException, JSONException {
+        JSONArray users = getAdmins();
+        for (int i = 0; i < users.length(); ++i) {
+            JSONObject innerArray = users.getJSONObject(i);
+            if(innerArray.getString("email").equals(email)) return true;
+        }
+        return false;
+    }
+    
 
     //POST /admin
     public static void createAdmin(String name, String regionality, Integer phone_num, String email, String password) throws IOException, JSONException, NoSuchAlgorithmException {
@@ -669,11 +688,19 @@ public class Client {
     public static JSONObject getAdditionalInfo(String email) throws JSONException, IOException {
         JSONArray users = getAdditionalInfos();
         for (int i = 0; i < users.length(); ++i) {
-            JSONObject json = (JSONObject) users.get(i);
-            String email_json = (String) json.get("email");
-            if (email_json.equals(email)) return json;
+            JSONObject json = users.getJSONObject(i);
+            if (json.getString("email").equals(email)) return json;
         }
         throw new JSONException("user_not_found");
+    }
+
+    public static Boolean hasAdditionalInfo(String email) throws JSONException, IOException {
+        JSONArray users = getAdditionalInfos();
+        for (int i = 0; i < users.length(); ++i) {
+            JSONObject json = users.getJSONObject(i);
+            if (json.getString("email").equals(email)) return true;
+        }
+        return false;
     }
 
     //POST /additional_info
@@ -693,6 +720,29 @@ public class Client {
         StrictMode.setThreadPolicy(policy);
         doPostRequestJson(info,url_additional_info);
     }
+    
+    public static void Additionalinfo(String street, String city, String state, String postal_code, String country, String blood, String email) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, "{\"street\":\""+street+"\",\"city\":\""+city+"\",\"state\":\""+state+"\",\"postal_code\":\""+postal_code+"\",\"country\":\""+country+"\",\"path_profile_pic\":\"string\",\"blood_type\":\""+blood+"\",\"birth_date\":\"2022-01-11T18:21:55.001Z\",\"email\":\""+email+"\"}");
+        Request request = new Request.Builder()
+                .url("http://10.4.41.38:8080/aditional_info")
+                .method("POST", body)
+                .addHeader("accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     public static JSONArray getUserNotifications(String email) throws Exception {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

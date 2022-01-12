@@ -13,12 +13,16 @@ import android.widget.ImageButton;
 
 import com.app.Managers.Client;
 import com.app.register.Registro;
+import org.json.JSONException;
+import java.io.IOException;
+import com.app.inicio.Inicio;
 import com.google.android.material.snackbar.Snackbar;
 
 
 
 public class MainActivity extends AppCompatActivity {
 
+    private Boolean is_admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,24 +43,41 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         try {
-                            if (Client.userPasswordMatch(TextLogin.getText().toString(),Textpassword.getText().toString())){
-                                Bundle informa = new Bundle();
-                                informa.putString("email", TextLogin.getText().toString());
-                                informa.putString("pass", Textpassword.getText().toString());
+                            is_admin = Client.isAdmin(TextLogin.getText().toString());
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                                SharedPreferences sp=getSharedPreferences("key", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor ed=sp.edit();
-                                ed.putString("email", TextLogin.getText().toString());
-                                ed.commit();
-
-                                Intent i = new Intent(MainActivity.this, Menuprincipal.class);
-                                i.putExtras(informa);
-                                startActivity(i);
-                               // startActivity(new Intent(MainActivity.this, Menuprincipal.class));
+                        try {
+                            if (is_admin) {
+                                if (Client.userPasswordMatch(TextLogin.getText().toString(), Textpassword.getText().toString())) {
+                                    Intent i = new Intent(MainActivity.this, MenuAdmin.class);
+                                    startActivity(i);
+                                } else {
+                                    Snackbar mySnackbar = Snackbar.make(view, "Wrong email or password", 1600);
+                                    mySnackbar.show();
+                                }
                             }
+
                             else {
-                                Snackbar mySnackbar = Snackbar.make(view, "Wrong email or password", 1600);
-                                mySnackbar.show();
+                                if (Client.userPasswordMatch(TextLogin.getText().toString(), Textpassword.getText().toString())) {
+                                    Bundle informa = new Bundle();
+                                    informa.putString("email", TextLogin.getText().toString());
+                                    informa.putString("pass", Textpassword.getText().toString());
+
+                                    SharedPreferences sp = getSharedPreferences("key", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor ed = sp.edit();
+                                    ed.putString("email", TextLogin.getText().toString());
+                                    ed.commit();
+
+                                    Intent i = new Intent(MainActivity.this, Menuprincipal.class);
+                                    i.putExtras(informa);
+                                    startActivity(i);
+                                    // startActivity(new Intent(MainActivity.this, Menuprincipal.class));
+                                } else {
+                                    Snackbar mySnackbar = Snackbar.make(view, "Wrong email or password", 1600);
+                                    mySnackbar.show();
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

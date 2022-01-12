@@ -88,5 +88,12 @@
     <string name="alerta_per_tempesta">STORM ALERT</string>
     <string name="mostrar_previsio_de_temps">Mostrar previsio de temps</string>
     <string name="mostrar_temps_residencia">Mostrar temps residencia</string>
+    <string name="bloodType">Blood Type: </string>
+    <string name="conutry">Country: </string>
+    <string name="codipostal">Postal Code: </string>
+    <string name="cmoaut">State: </string>
+    <string name="city">City: </string>
+    <string name="street">Street: </string>
     <string name="btnHelp">Application usage tips</string>
+  
 </resources>

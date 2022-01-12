@@ -27,6 +27,9 @@
             android:name=".Ayuda"
             android:exported="true" />
         <activity
+            android:name=".MenuAdmin"
+            android:exported="false" />
+        <activity
             android:name=".EditProfile"
             android:exported="false" />
         <activity

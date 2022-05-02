@@ -8,8 +8,8 @@ app ANTICATASTROFE Funcional con VPN de la upc
 Autores:
   - Souad Ouabid
   - Oscar Cañabate
-  - Ruben
-  - Joan 
+  - Ruben Montagut
+  - Joan Mateu
   - Josep Gascon
   - Adam Lazaro
   
